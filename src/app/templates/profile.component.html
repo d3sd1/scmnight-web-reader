@@ -1,0 +1,77 @@
+<div class="main-content section container">
+    <div class="row">
+        <mz-card
+            class="center-align"
+            [hoverable]="true">
+            <mz-card-title>
+                {{'profile.cardtitle' | translate}}
+            </mz-card-title>
+            <mz-card-content>
+                <mz-input-container>
+                    <i mz-icon-mdi mz-input-prefix
+                       [icon]="'email'">
+                </i>
+                <input mz-input
+                       [label]="user.firstname"
+                       [validate]="true"
+                       length="150"
+                       type="email"
+                       value="">
+            </mz-input-container>
+            <form class="col s12 center-align">
+                <div class="input-field col s12 m12 l6">
+                    <input name="first_name" type="text" class="validate" value="">
+                    <label>Nombre</label>
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input name="last_name" type="text" class="validate" value="{{user.lastname}}">
+                    <label>Apellidos</label>
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input name="email" type="email" class="validate" value="{{user.email}}">
+                    <label>Email</label>
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input name="password" type="password" class="validate">
+                    <label>Contraseña</label>
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input id="email" type="email" class="validate">
+                    <label>Dirección</label>
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input id="email" type="email" class="validate">
+                    <label>Teléfono</label>
+                </div>
+                <div class="input-field col s12 m12 l4">
+                    <input disabled type="text" class="validate">
+                    <label>Rango</label>
+                </div>
+                <div class="input-field col s12 m12 l4">
+                    <input name="lang" class="validate">
+                    <label>Idioma</label>
+                </div>
+                <div class="input-field col s12 m12 l4">
+                    <input disabled type="text">
+                    <label>Dni</label>
+                </div>
+            </form>
+        </mz-card-content>
+        <mz-card-action>
+            <button mz-button [large]="true">
+                    button
+        </button>
+    </mz-card-action>
+</mz-card>
+</div>
+</div>
+<a materialize="dropdown"  class="dropdown-button" href="javascript:void(0)" data-activates="dropdown-lang" data-beloworigin="true">
+    <i class="material-icons white-text">translate</i>
+    <span class="info-circle red accent-2">3</span>
+</a>
+<ul id="dropdown-lang" class="dropdown-content collection">
+    <li *ngFor="let lang of languages" class="collection-item avatar {{lang == this.translate.getDefaultLang() ? 'lang-selected':''}}" [attr.data-menulang]="lang" changeMenuLanguage>
+        <img src="/assets/img/langs/{{ lang }}.png" alt="" class="circle avatar">
+        <span class="title langname">{{ 'langs.' + lang | translate }}</span>
+    </li>
+</ul>

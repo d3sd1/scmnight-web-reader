@@ -1,0 +1,30 @@
+<div class="login-container valign-wrapper">
+    <div class="row mb-10">
+        <div class="login-box col s12 m10 l12">
+            <form (ngSubmit)="finalRecoverAccount()" #finalRecoverAccountForm="ngForm">
+                <div class="row">
+                    <mz-input-container class="col s12 m12">
+                        <i mz-icon-mdi mz-input-prefix [icon]="'qrcode'"></i>
+                        <input mz-input
+                               [label]="'recover.code' | translate"
+                               [validate]="true"
+                               [(ngModel)]="code"
+                               name="code"
+                               #codeField="ngModel"
+                               type="text"
+                               autocomplete="off"
+                               required />
+                    </mz-input-container>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <button class="col s8 m12 offset-s2" mz-button [large]="true" type="submit">{{ 'recover.submit' | translate }}</button>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <a routerLink="/login" class="logged-out sublink">{{'recover.loginback' | translate}}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="login-container valign-wrapper">
+    <div class="row mb-10">
+        <div class="login-box col s12 m10 l12">
+            <form (ngSubmit)="submitSignInForm()" #signInForm="ngForm">
+                <div class="row">
+                    <mz-input-container class="col s12 m12">
+                        <i mz-icon-mdi mz-input-prefix [icon]="'account-card-details'"></i>
+                        <input mz-input
+                               [label]="'login.dni' | translate"
+                               [validate]="true"
+                               [(ngModel)]="user.dni"
+                               name="login"
+                               #login="ngModel"
+                               type="text"
+                               autocomplete="off"
+                               required />
+                    </mz-input-container>
+                    <mz-input-container class="col s12 m12">
+                        <i mz-icon-mdi mz-input-prefix [icon]="'lock'"></i>
+                        <input mz-input
+                               [label]="'login.password' | translate"
+                               [validate]="true"
+                               [(ngModel)]="user.password"
+                               name="password"
+                               #password="ngModel"
+                               type="password"
+                               required />
+                    </mz-input-container>
+                </div>
+                <div class="row mb-20">
+                    <mz-checkbox-container class="col s12">
+                        <input mz-checkbox
+                               [label]="'login.extsess' | translate"
+                               [filledIn]="false"
+                               checked
+                               name="extendedSession"
+                               id="extendedSession"
+                               [(ngModel)]="extendedSession"
+                               type="checkbox">
+                    </mz-checkbox-container>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <button class="col s8 m12 offset-s2" mz-button [large]="true" type="submit">{{ 'login.submit' | translate }}</button>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <a routerLink="/recover" class="logged-out sublink">{{'login.passforgot' | translate}}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

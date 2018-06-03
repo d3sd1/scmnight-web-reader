@@ -1,0 +1,67 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "SCM App consumers"
+    },
+    "apps": [
+        {
+            "root": "src",
+            "baseHref": "/",
+            "osx": {
+                "outputDirectory": "dist/mac"
+            },
+            "win": {
+                "outputDirectory": "dist/win"
+            },
+            "assets": [
+                "assets",
+                "favicon.ico",
+                "langs"
+            ],
+            "index": "index.html",
+            "main": "main.ts",
+            "polyfills": "polyfills.ts",
+            "test": "test.ts",
+            "tsconfig": "../tsconfig.json",
+            "testTsconfig": "tsconfig.spec.json",
+            "prefix": "app",
+            "styles": [
+                "../node_modules/materialize-css/dist/css/materialize.min.css",
+                "./assets/css/main.css",
+                "./assets/css/tables.css",
+                "../node_modules/@swimlane/ngx-datatable/release/index.css",
+                "../node_modules/@swimlane/ngx-datatable/release/themes/material.css",
+                "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+                "../node_modules/mdi/css/materialdesignicons.min.css"
+            ],
+            "scripts": [
+                "../node_modules/jquery/dist/jquery.js",
+                "../node_modules/materialize-css/dist/js/materialize.js",
+                "./assets/js/autobahn.min.js"
+            ],
+            "environmentSource": "environments/environment.ts",
+            "environments": {
+                "dev": "environments/environment.ts",
+                "prod": "environments/environment.prod.ts"
+            }
+        }
+    ],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "component": {
+        }
+    },
+    "warnings": {
+        "typescriptMismatch": false
+    }
+}
