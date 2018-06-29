@@ -1,66 +1,68 @@
 <div class="main-content section">
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="row">
-                <div class="input-field col s6">
-                    <select materialize="material_select" (change)="setRows($event)">
-                        <option value="10" selected>10 Clientes por página</option>
-                        <option value="25">25 Clientes por página</option>
-                        <option value="50">50 Clientes por página</option>
-                    </select>
-                    <label>Clientes por página</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" class="validate" (keyup)='onSearch($event)'>
-                    <label for="first_name">Buscar</label>
-                </div>
-            </div>
-
-            <ngx-datatable
-                class="material"
-                [rows]="rows"
-                [columnMode]="'force'"
-                [headerHeight]="50"
-                [footerHeight]="50"
-                [rowHeight]="'auto'"
-                [externalPaging]="true"
-                [count]="page.totalElements"
-                [offset]="page.pageNumber"
-                [limit]="page.size"
-                (page)='setPage($event)'
-                [externalSorting]="true"
-                [loadingIndicator]="loading"
-                [trackByProp]="'updated'"
-                (sort)="onSort($event)">
-
-
-                <ngx-datatable-column name="DNI" prop="user.dni">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Nombre" prop="user.firstname">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Apellidos" prop="user.lastname">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Fecha" prop="date">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value | timeAgo}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Tipo de ficha" prop="type">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <span class="client-entrance-{{value.toLowerCase()}}">{{'clientsTable.type.' + value | translate}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-
-            </ngx-datatable>
+  <div class="row">
+    <div class="col s12 m12">
+      <div class="row">
+        <mz-select-container class="col s6">
+          <select mz-select
+                  [placeholder]="'Usuarios por página'"
+                  (change)="setRows($event)">
+            <option value="10" selected>10 Usuarios por página</option>
+            <option value="25">25 Usuarios por página</option>
+            <option value="50">50 Usuarios por página</option>
+          </select>
+        </mz-select-container>
+        <div class="input-field col s6">
+          <input type="text" class="validate" (keyup)='onSearch($event)'>
+          <label>Buscar</label>
         </div>
+      </div>
+
+      <ngx-datatable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'
+        [externalSorting]="true"
+        [loadingIndicator]="loading"
+        [trackByProp]="'updated'"
+        (sort)="onSort($event)">
+
+
+        <ngx-datatable-column name="DNI" prop="user.dni">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Nombre" prop="user.firstname">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Apellidos" prop="user.lastname">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Fecha" prop="date">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value | timeAgo}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Tipo de ficha" prop="type">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span
+              class="client-entrance-{{value.name.toLowerCase()}}">{{'clientsTable.type.' + value.name | translate}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
     </div>
+  </div>
 </div>

@@ -36,10 +36,10 @@ export class UsersTotalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.ws.unsubscribe("scm/users");
+      this.ws.unsubscribe("scm/users_entrances");
     }
     ngAfterViewInit() {
-        this.ws.subscribe("scm/users", this.onUserJoin.bind(this));
+      this.ws.subscribe("scm/users_entrances", this.onUserJoin.bind(this));
     }
     onUserJoin(uri: any, data: any) {
         this.rows.unshift(deserialize(UserEntrance, JSON.parse(data)));

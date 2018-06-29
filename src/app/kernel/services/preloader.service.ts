@@ -10,4 +10,8 @@ export class PreloaderService {
     {
         $("#preloader").fadeOut(transitionTime);
     }
+
+  changeText(text: string) {
+    $("#preloader > h1").text(text);
+  }
 }

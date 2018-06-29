@@ -11,7 +11,7 @@ import {deserialize} from 'json-typescript-mapper';
 export class ConfigMock {
     constructor(private api: ApiService) {}
     public getAllConfigs(page: TablePage): Observable<TablePagedData<Config>> {
-        return this.api.post("config/table/all", page).map(resp => this.getPagedConfigs(resp, page));
+      return this.api.post("rest/config/table/all", page).map(resp => this.getPagedConfigs(resp, page));
     }
 
     private getPagedConfigs(response: TableClientsMockResponse, page: TablePage): TablePagedData<Config> {

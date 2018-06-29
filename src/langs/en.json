@@ -152,20 +152,6 @@
                 "desc": "Algo ha salido mal mientras se cambiaba tu menú."
             }
         },
-        "ws": {
-            "error_offline": {
-                "title": "Error en tiempo real",
-                "desc": "El servidor de tiempo real se encuentra inaccesible."
-            },
-            "error": {
-                "title": "Error de tiempo real",
-                "desc": "Error general."
-            },
-            "reconnect": {
-                "title": "Reconexión a tiempo real",
-                "desc": "Se ha logrado reconectar al servidor."
-            }
-        },
         "geolocation": {
             "error_notsupported": {
                 "title": "Geolocalización no soportada",
@@ -198,7 +184,7 @@
         "/dashboard/marketing/events": "Eventos",
         "/dashboard/marketing/parties": "Fiestas",
         "/dashboard/config": "Configuración",
-        "/dashboard/profile": "Mi perfil", 
+      "/dashboard/profile": "Mi perfil",
         "/dashboard/user/logout": "Desconectar",
         "/dashboard/user/profile": "Mi perfil"
     },

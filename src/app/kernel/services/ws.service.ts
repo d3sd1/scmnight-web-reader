@@ -57,13 +57,13 @@ export class WsService {
                     this.ws.connecting = true;
                     this.ws.lastReconTime = new Date();
                     var con = WS_CONNECT.connect();
-                    
+
                     con.on("socket/connect", (sess: any) => {
                         if (!this.ws.firstLoad && this.ws.connected == false) {
                             this.notify.remove();
                             this.notify.info(
-                                this.translate.get("notifications")["value"]["ws"]["reconnect"]["title"],
-                                this.translate.get("notifications")["value"]["ws"]["reconnect"]["desc"]
+                              "",
+                              this.translate.get("ws.reconnect")["value"]
                             );
                         }
                         else {
@@ -79,8 +79,8 @@ export class WsService {
                         this.ws.firstLoad = false;
                         this.ws.connecting = false;
                         this.notify.warn(
-                            this.translate.get("notifications")["value"]["ws"]["error_offline"]["title"],
-                            this.translate.get("notifications")["value"]["ws"]["error_offline"]["desc"],
+                          "",
+                          this.translate.get("ws.disconnected")["value"],
                             {
                                 preventDuplicates: true,
                                 timeOut: 0,

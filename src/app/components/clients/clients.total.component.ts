@@ -22,10 +22,10 @@ export class ClientsTotalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.ws.unsubscribe("scm/clients");
+      this.ws.unsubscribe("scm/clients_entrances");
     }
     ngAfterViewInit() {
-        this.ws.subscribe("scm/clients", this.onClientJoin.bind(this));
+      this.ws.subscribe("scm/clients_entrances", this.onClientJoin.bind(this));
     }
     onClientJoin(uri: any, data: any) {
         this.rows.unshift(deserialize(ClientEntrance, JSON.parse(data)));
@@ -55,6 +55,7 @@ export class ClientsTotalComponent implements OnInit, AfterViewInit, OnDestroy {
             this.page = pagedData.page;
             this.rows = pagedData.data;
             this.loading = false;
+          console.log(this.rows);
         });
     }
     setRows(event: Object) {

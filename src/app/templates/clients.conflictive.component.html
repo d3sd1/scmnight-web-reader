@@ -34,33 +34,54 @@
         [trackByProp]="'updated'"
         (sort)="onSort($event)">
 
-        <ngx-datatable-column name="DNI" prop="client.dni">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            <b>{{value}}</b>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Nombre" prop="client.name">
+
+        <ngx-datatable-column name="Identificador" prop="dni">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Apellidos" prop="client.surname1">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{row.client.surname1}} {{row.client.surname2}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="VIP" prop="vip">
+        <ngx-datatable-column name="Nombre" prop="name">
           <ng-template let-value="value" ngx-datatable-cell-template>
-            <span [ngClass]="{'client-vip': value, 'client-notvip': !value}">{{ 'clientsTable.vip.' + value | translate }}</span>
+            {{value}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Fecha de entrada" prop="date">
+        <ngx-datatable-column name="Apellidos" prop="[surname1,surname2]">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{value | timeAgo}}
+            {{row.surname1}} {{row.surname2}}
           </ng-template>
         </ngx-datatable-column>
-
+        <ngx-datatable-column name="Edad" prop="birthdate">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value | age}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mz-button (click)="checkConflictive(row)">Conflictividad</button>
+          </ng-template>
+        </ngx-datatable-column>
       </ngx-datatable>
     </div>
   </div>
 </div>
+<mz-modal #editConflictivity [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true" [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Revisión de conflictividad</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <mz-checkbox-container *ngFor="let conflictiveReason of conflictiveReasons">
+      <input mz-checkbox
+             [label]="conflictiveReason.name"
+             [id]="'conflictive-' + conflictiveReason.id"
+             [filledIn]="true"
+             [checked]="conflictiveReason.checked"
+             (change)="changeConflictStatus(conflictiveReason.id,conflictiveReason.checked)"
+             type="checkbox">
+    </mz-checkbox-container>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="setConflictive()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>

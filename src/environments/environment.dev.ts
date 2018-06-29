@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    baseUrl: 'http://api.localhost/rest/',
+  baseUrl: 'http://localhost/',
     availableLangs: ["es", "en"],
     socket: {
         secure: false,

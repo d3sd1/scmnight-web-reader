@@ -14,15 +14,15 @@ export class UsersMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<User>> {
-        return this.api.post("users/table/all", page).map(resp => this.getPagedUser(resp, page));
+      return this.api.post("rest/users/table/all", page).map(resp => this.getPagedUser(resp, page));
     }
 
     public getRoomResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-        return this.api.post("users/table/room", page).map(resp => this.getPagedUserEntrance(resp, page));
+      return this.api.post("rest/users/table/room", page).map(resp => this.getPagedUserEntrance(resp, page));
     }
 
     public getHistoricalResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-        return this.api.post("users/table/historical", page).map(resp => this.getPagedUserEntrance(resp, page));
+      return this.api.post("rest/users/table/historical", page).map(resp => this.getPagedUserEntrance(resp, page));
     }
 
     private getPagedUser(response: TableClientsMockResponse, page: TablePage): TablePagedData<User> {
@@ -38,6 +38,7 @@ export class UsersMock {
         return pagedData;
     }
     private getPagedUserEntrance(response: TableClientsMockResponse, page: TablePage): TablePagedData<UserEntrance> {
+      console.log(response);
         let pagedData = new TablePagedData<UserEntrance>();
         page.totalElements = response.totalRows;
         page.totalPages = Math.ceil(page.totalElements / page.size);

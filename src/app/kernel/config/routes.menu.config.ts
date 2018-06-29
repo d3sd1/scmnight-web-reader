@@ -13,195 +13,198 @@ import {ConfigComponent} from '../../components/config.component';
 
 /* Services */
 import {LoggedInService} from '../services/logged-in.service';
+import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
 
 export const MenuRoutes: Routes = [
-    {
-        path: '',
-        redirectTo: 'start',
-        pathMatch: 'full',
-        data: {
-            validRanks: [5, 4, 3, 2, 1],
-            hidden: true
-        }
-    },
-    {
-        path: 'user',
-        data: {
-            icon: "account",
-            validRanks: [5, 4, 3, 2, 1],
-            isProfileText: true
-        },
-        children: [
-            {
-                path: 'profile',
-                component: ProfileComponent,
-                data: {
-                    validRanks: [5, 4, 3, 2, 1]
-                },
-            },
-            {
-                path: 'logout',
-                component: LogoutComponent,
-                canActivate: [LoggedInService],
-                data: {
-                    validRanks: [5, 4, 3, 2, 1]
-                },
-            }
-        ]
-    },
-    {
-        path: 'start',
-        component: DashboardComponent,
-        data: {
-            icon: "home",
-            validRanks: [5, 4, 3, 2, 1]
-        },
-    },
-    {
-        path: 'users',
-        data: {
-            icon: "account-multiple",
-            validRanks: [5, 4, 3, 2, 1]
-        },
-        children: [
-            {
-                path: 'manage',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3, 2, 1]
-                },
-            },
-            {
-                path: 'room',
-                component: UsersRoomComponent,
-                data: {
-                    validRanks: [5, 4, 3, 2, 1]
-                },
-            },
-            {
-                path: 'all',
-                component: UsersTotalComponent,
-                data: {
-                    validRanks: [5, 4, 3, 2, 1]
-                },
-            }
-        ]
-    },
-    {
-        path: 'room',
-        data: {
-            icon: "camera-front",
-            validRanks: [5, 4, 3]
-        },
-        children: [
-            {
-                path: 'bar',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            },
-            {
-                path: 'stage',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            },
-            {
-                path: 'reserved',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            }
-        ]
-    },
-    {
-        path: 'clients',
-        data: {
-            icon: "human-male-female",
-            validRanks: [5, 4],
-            hidden: false
-        },
-        children: [
-            {
-                path: 'room',
-                component: ClientsRoomComponent,
-                data: {
-                    validRanks: [5, 4]
-                }
-            },
-            {
-                path: 'all',
-                component: ClientsTotalComponent,
-                data: {
-                    validRanks: [5, 4]
-                }
-            }
-        ]
-    },
-
-    {
-        path: 'monetization',
-        component: UsersManageComponent,
-        data: {
-            icon: "currency-usd",
-            validRanks: [5, 4, 3]
-        }
-    },
-    {
-        path: 'stock',
-        component: UsersManageComponent,
-        data: {
-            icon: "food-fork-drink",
-            validRanks: [5, 4, 3]
-        }
-    },
-    {
-        path: 'stats',
-        component: UsersManageComponent,
-        data: {
-            icon: "chart-areaspline",
-            validRanks: [5, 4, 3]
-        }
-    },
-    {
-        path: 'marketing',
-        data: {
-            icon: "chart-line",
-            validRanks: [5, 4, 3]
-        },
-        children: [
-            {
-                path: 'promos',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            },
-            {
-                path: 'events',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            },
-            {
-                path: 'parties',
-                component: UsersManageComponent,
-                data: {
-                    validRanks: [5, 4, 3]
-                }
-            }
-        ]
-    },
-    {
-        path: 'config',
-        component: ConfigComponent,
-        data: {
-            icon: "settings",
-            validRanks: [5]
-        }
+  {
+    path: '',
+    redirectTo: 'start',
+    pathMatch: 'full',
+    data: {
+      hidden: true
     }
+  },
+  {
+    path: 'user',
+    data: {
+      icon: "account",
+      isProfileText: true
+    },
+    children: [
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: {
+          requiredPermission: "MANAGE_PROFILE"
+        },
+      },
+      {
+        path: 'logout',
+        component: LogoutComponent,
+        canActivate: [LoggedInService],
+        data: {
+          requiredPermission: "LOGOUT"
+        },
+      }
+    ]
+  },
+  {
+    path: 'start',
+    component: DashboardComponent,
+    data: {
+      icon: "home",
+      requiredPermission: "VIEW_DASHBOARD"
+    },
+  },
+  {
+    path: 'users',
+    data: {
+      icon: "account-multiple"
+    },
+    children: [
+      {
+        path: 'manage',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_USERS"
+        },
+      },
+      {
+        path: 'room',
+        component: UsersRoomComponent,
+        data: {
+          requiredPermission: "VIEW_ROOM_USERS"
+        },
+      },
+      {
+        path: 'all',
+        component: UsersTotalComponent,
+        data: {
+          requiredPermission: "VIEW_ALL_USERS"
+        },
+      }
+    ]
+  },
+  {
+    path: 'room',
+    data: {
+      icon: "camera-front",
+    },
+    children: [
+      {
+        path: 'bar',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_ROOM_BAR"
+        }
+      },
+      {
+        path: 'stage',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_ROOM_STAGE"
+        }
+      },
+      {
+        path: 'reserved',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_ROOM_RESERVED"
+        }
+      }
+    ]
+  },
+  {
+    path: 'clients',
+    data: {
+      icon: "human-male-female",
+      validRanks: [5, 4],
+      hidden: false
+    },
+    children: [
+      {
+        path: 'conflictive',
+        component: ClientsConflictiveComponent,
+        data: {
+          requiredPermission: "SET_USER_CONFLICTIVE"
+        }
+      },
+      {
+        path: 'room',
+        component: ClientsRoomComponent,
+        data: {
+          requiredPermission: "VIEW_ROOM_CLIENTS"
+        }
+      },
+      {
+        path: 'all',
+        component: ClientsTotalComponent,
+        data: {
+          requiredPermission: "VIEW_ALL_CLIENTS"
+        }
+      }
+    ]
+  },
+
+  {
+    path: 'monetization',
+    component: UsersManageComponent,
+    data: {
+      icon: "currency-usd",
+      requiredPermission: "VIEW_MONETIZATION"
+    }
+  },
+  {
+    path: 'stock',
+    component: UsersManageComponent,
+    data: {
+      icon: "food-fork-drink",
+      requiredPermission: "MANAGE_STOCK"
+    }
+  },
+  {
+    path: 'stats',
+    component: UsersManageComponent,
+    data: {
+      icon: "chart-areaspline",
+      requiredPermission: "VIEW_STATS"
+    }
+  },
+  {
+    path: 'marketing',
+    data: {
+      icon: "chart-line",
+    },
+    children: [
+      {
+        path: 'promos',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_MARKETING_PROMOS"
+        }
+      },
+      {
+        path: 'events',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_MARKETING_EVENTS"
+        }
+      },
+      {
+        path: 'parties',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_MARKETING_PARTIES"
+        }
+      }
+    ]
+  },
+  {
+    path: 'config',
+    component: ConfigComponent,
+    data: {
+      icon: "settings",
+      requiredPermission: "MANAGE_CONFIG"
+    }
+  }
 ];

@@ -20,27 +20,27 @@ export class ClientsRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.page.pageNumber = 0;
         this.page.size = 10;
     }
-    
+
     ngOnInit(): void {
         this.loading = true;
         this.setPage({offset: 0});
     }
 
     ngOnDestroy(): void {
-        this.ws.unsubscribe("scm/clients");
+      this.ws.unsubscribe("scm/clients_entrances");
     }
     ngAfterViewInit() {
-        this.ws.subscribe("scm/clients", this.onClientJoin.bind(this));
+      this.ws.subscribe("scm/clients_entrances", this.onClientJoin.bind(this));
     }
     onClientJoin(uri: any, data: any) {
         let entrance = deserialize(ClientEntrance, JSON.parse(data));
-        if (entrance.type == "LEAVE")
+      if (entrance.type.name == "LEAVE")
         {
             let userIndex: number = this.rows.findIndex(x => x.client.dni === entrance.client.dni)
             this.rows.splice(userIndex, 1);
             this.page.totalElements--;
         }
-        else if (entrance.type == "JOIN" || entrance.type == "FORCED_ACCESS")
+      else if (entrance.type.name == "JOIN" || entrance.type.name == "FORCED_ACCESS")
         {
             this.rows.unshift(entrance);
             this.page.totalElements++;

@@ -1,77 +1,148 @@
 <div class="main-content section container">
-    <div class="row">
-        <mz-card
-            class="center-align"
-            [hoverable]="true">
-            <mz-card-title>
-                {{'profile.cardtitle' | translate}}
-            </mz-card-title>
-            <mz-card-content>
-                <mz-input-container>
-                    <i mz-icon-mdi mz-input-prefix
-                       [icon]="'email'">
-                </i>
-                <input mz-input
-                       [label]="user.firstname"
-                       [validate]="true"
-                       length="150"
-                       type="email"
-                       value="">
-            </mz-input-container>
-            <form class="col s12 center-align">
-                <div class="input-field col s12 m12 l6">
-                    <input name="first_name" type="text" class="validate" value="">
-                    <label>Nombre</label>
-                </div>
-                <div class="input-field col s12 m12 l6">
-                    <input name="last_name" type="text" class="validate" value="{{user.lastname}}">
-                    <label>Apellidos</label>
-                </div>
-                <div class="input-field col s12 m12 l6">
-                    <input name="email" type="email" class="validate" value="{{user.email}}">
-                    <label>Email</label>
-                </div>
-                <div class="input-field col s12 m12 l6">
-                    <input name="password" type="password" class="validate">
-                    <label>Contraseña</label>
-                </div>
-                <div class="input-field col s12 m12 l6">
-                    <input id="email" type="email" class="validate">
-                    <label>Dirección</label>
-                </div>
-                <div class="input-field col s12 m12 l6">
-                    <input id="email" type="email" class="validate">
-                    <label>Teléfono</label>
-                </div>
-                <div class="input-field col s12 m12 l4">
-                    <input disabled type="text" class="validate">
-                    <label>Rango</label>
-                </div>
-                <div class="input-field col s12 m12 l4">
-                    <input name="lang" class="validate">
-                    <label>Idioma</label>
-                </div>
-                <div class="input-field col s12 m12 l4">
-                    <input disabled type="text">
-                    <label>Dni</label>
-                </div>
-            </form>
-        </mz-card-content>
-        <mz-card-action>
-            <button mz-button [large]="true">
-                    button
+  <div class="row">
+    <mz-card
+      class="center-align black-text"
+      [hoverable]="true">
+      <mz-card-title>
+        {{'profile.cardtitle' | translate}}
+      </mz-card-title>
+      <mz-card-content>
+        <div class="row">
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'account-card-details'">
+            </i>
+            <input mz-input
+                   [label]="'DNI'"
+                   [value]="user.dni"
+                   [validate]="false"
+                   type="text"
+                   disabled>
+          </mz-input-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'account-box'">
+            </i>
+            <input mz-input
+                   [label]="'Nombre'"
+                   [(ngModel)]="user.firstname"
+                   [value]="user.firstname"
+                   [validate]="false"
+                   type="text"
+                   disabled>
+          </mz-input-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'account-box-outline'">
+            </i>
+            <input mz-input
+                   [label]="'Apellidos'"
+                   [(ngModel)]="user.lastname"
+                   [value]="user.lastname"
+                   [validate]="false"
+                   type="text"
+                   disabled>
+          </mz-input-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'email'">
+            </i>
+            <input mz-input
+                   [name]="'prof-email'"
+                   [(ngModel)]="user.email"
+                   [label]="'Email'"
+                   [value]="user.email"
+                   [validate]="true"
+                   type="email">
+          </mz-input-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'map-marker'">
+            </i>
+            <input mz-input
+                   [name]="'prof-address'"
+                   [label]="'Dirección'"
+                   [(ngModel)]="user.address"
+                   [value]="user.address"
+                   [validate]="true"
+                   type="text">
+          </mz-input-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'phone'">
+            </i>
+            <input mz-input
+                   [name]="'prof-telephone'"
+                   [label]="'Teléfono'"
+                   [(ngModel)]="user.telephone"
+                   [value]="user.telephone"
+                   [validate]="true"
+                   type="tel">
+          </mz-input-container>
+
+          <mz-select-container class="col s12 m6 l4">
+            <select mz-select
+                    [name]="'prof-lang'"
+                    [label]="'Idioma'"
+                    [(ngModel)]="user.langcode"
+                    [placeholder]="'Escoge tu idioma'"
+            >
+              <option *ngFor="let lang of languages" data-icon="assets/img/langs/lang.png" class="left circle"
+                      changeMenuLanguage
+                      [selected]="user.langcode ? 'selected':'null'"
+                      [attr.data-menulang]="lang">{{ 'langs.' + lang | translate }}
+              </option>
+            </select>
+          </mz-select-container>
+          <mz-input-container class="col s12 m6 l4">
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'lock-outline'">
+            </i>
+            <input mz-input
+                   [name]="'prof-pass'"
+                   [(ngModel)]="user.password"
+                   [label]="'Contraseña actual'"
+                   [validate]="true"
+                   type="password">
+          </mz-input-container>
+          <mz-switch-container class="col s12 m6 l4">
+            <input mz-switch
+                   [(ngModel)]="showPasswordChanger"
+                   [on]="'Cambiar contraseña'"
+                   [off]="'Mantener contraseña'"
+                   type="checkbox">
+          </mz-switch-container>
+
+          <mz-input-container class="col s12 m6" *ngIf="showPasswordChanger" [@enterAnimation]>
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'lock'">
+            </i>
+            <input mz-input
+                   [name]="'prof-pass'"
+                   [(ngModel)]="newPass1"
+                   [label]="'Nueva contraseña'"
+                   [validate]="true"
+                   type="password">
+          </mz-input-container>
+          <mz-input-container class="col s12 m6" *ngIf="showPasswordChanger" [@enterAnimation]>
+            <i mz-icon-mdi mz-input-prefix
+               [icon]="'lock-open'">
+            </i>
+            <input mz-input
+                   [name]="'prof-pass2'"
+                   [(ngModel)]="newPass2"
+                   [label]="'Repite la nueva contraseña'"
+                   [validate]="true"
+                   type="password">
+          </mz-input-container>
+
+        </div>
+      </mz-card-content>
+      <mz-card-action>
+        <button mz-button [large]="true" (click)="submitProfile()">
+          Actualizar perfil
         </button>
-    </mz-card-action>
-</mz-card>
+      </mz-card-action>
+    </mz-card>
+  </div>
 </div>
-</div>
-<a materialize="dropdown"  class="dropdown-button" href="javascript:void(0)" data-activates="dropdown-lang" data-beloworigin="true">
-    <i class="material-icons white-text">translate</i>
-    <span class="info-circle red accent-2">3</span>
-</a>
-<ul id="dropdown-lang" class="dropdown-content collection">
-    <li *ngFor="let lang of languages" class="collection-item avatar {{lang == this.translate.getDefaultLang() ? 'lang-selected':''}}" [attr.data-menulang]="lang" changeMenuLanguage>
-        <img src="/assets/img/langs/{{ lang }}.png" alt="" class="circle avatar">
-        <span class="title langname">{{ 'langs.' + lang | translate }}</span>
-    </li>
-</ul>

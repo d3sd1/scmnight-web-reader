@@ -1,12 +1,13 @@
 export class MenuOptionData {
     icon:string;
-    validRanks:number[];
+  requiredPermission: string;
     hidden:boolean = false;
     isProfileText:boolean = false;
-    constructor(icon,validRanks,hidden = false, isProfileText = false)
+
+  constructor(icon, requiredPermission, hidden = false, isProfileText = false)
     {
         this.icon = icon;
-        this.validRanks = validRanks;
+      this.requiredPermission = requiredPermission;
         this.hidden = hidden;
         this.isProfileText = isProfileText;
     }

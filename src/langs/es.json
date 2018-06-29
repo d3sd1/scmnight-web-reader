@@ -1,139 +1,209 @@
 {
-    "ranks": {
-        "1": "RRPP",
-        "2": "Camarero",
-        "3": "Seguridad",
-        "4": "Staff & Directivos",
-        "5": "Jefe"
+  "dashboard": {
+    "userschart": {
+      "users": "Trabajadores",
+      "time": "Hora",
+      "nodata": "Actualmente no se encuentran accesos por parte de los trabajadores. Aún así, cuando comiencen las entradas, este mensaje se disipará."
     },
-    "config": {
-        "api_rate_limit_interval_s": "Intervalo (en segundos) para el máximo de llamadas al servidor",
-        "api_rate_limit_rate": "Máximo de llamadas al servidor durante el intervalo",
-        "disco_name": "Nombre de la discoteca",
-        "maxPersonsInRoom": "Aforo máximo",
-        "recover_code_seconds_expire": "Segundos para la expiración del código de recuperación de la cuenta"
+    "clientschart": {
+      "users": "Clientes",
+      "time": "Hora",
+      "nodata": "Actualmente no se encuentran accesos por parte de los clientes. Aún así, cuando comiencen las entradas, este mensaje se disipará."
     },
-    "time_ago": {
-        "few_seconds_ago": "Hace unos segundos",
-        "a_minute_ago": "Hace un minuto",
-        "x_minutes_ago": "Hace {{minutes}} minutos",
-        "an_hour_ago": "Hace una hora",
-        "x_hours_ago": "Hace {{hours}} horas",
-        "a_day_ago": "Hace un día",
-        "x_days_ago": "Hace {{days}} días",
-        "a_month_ago": "Hace un mes",
-        "x_months_ago": "Hace {{months}} meses",
-        "a_year_ago": "Hace un año",
-        "x_years_ago": "Hace {{years}} años"
-    },
-    "api_notifications": {
-        "RECOVER_EMAIL_SENT": "El email de recuperación ha sido enviado al correo de la cuenta.",
-        "RECOVER_ACCOUNT_SUCCESS": "La recuperación de cuenta fue satisfactoria.",
-        "": ""
-    },
-    "nav": {
-        "/dashboard/start": "Inicio",
-        "/dashboard/room": "Control Sala",
-        "/dashboard/room/bar": "Barras",
-        "/dashboard/room/stage": "Seguridad",
-        "/dashboard/room/reserved": "Reservados",
-        "/dashboard/users": "Control de personal",
-        "/dashboard/users/manage": "Modificar personal",
-        "/dashboard/users/room": "Actualmente en la sala",
-        "/dashboard/users/all": "Histórico de accesos",
-        "/dashboard/clients": "Clientes",
-        "/dashboard/clients/room": "Actualmente en la sala",
-        "/dashboard/clients/all": "Histórico de accesos",
-        "/dashboard/monetization": "Caja",
-        "/dashboard/stock": "Inventario",
-        "/dashboard/stats": "Estadísticas",
-        "/dashboard/marketing": "Marketing",
-        "/dashboard/marketing/promos": "Promociones",
-        "/dashboard/marketing/events": "Eventos",
-        "/dashboard/marketing/parties": "Fiestas",
-        "/dashboard/config": "Configuración",
-        "/dashboard/profile": "Mi perfil", 
-        "/dashboard/user/logout": "Desconectar",
-        "/dashboard/user/profile": "Mi perfil"
-    },
-    "langs": {
-        "es": "Español",
-        "en": "Inglés"
-    },
-    "page_titles": {
-        "/dashboard/start": "Panel de control",
-        "/dashboard/users": "Usuarios del panel",
-        "/dashboard/users/total": "Histórico de trabajadores",
-        "/dashboard/users/room": "Trabajadores en sala",
-        "/dashboard/users/manage": "Editor de trabajadores",
-        "/dashboard/clients/room": "Clientes en sala",
-        "/dashboard/clients/all": "Histórico de clientes",
-        "/dashboard/profile": "Mi perfil",
-        "/dashboard/config": "Configuración",
-        "/login": "Conexión",
-        "/error/generic": "Ha ocurrido un error",
-        "/error/401": "Ha ocurrido un error",
-        "/error/404": "Página no encontrada",
-        "/recover/code": "Código de recuperación",
-        "/recover": "Recuperación de acceso",
-        "/dashboard/user/profile": "Perfil de usuario",
-        "/dashboard/user/logout": "Desconectando...",
-        "_prefix": "SCM -",
-        "_notitle": "Página sin título"
-    },
-    "login": {
-        "dni": "DNI",
-        "password": "Contraseña",
-        "extsess": "Sesión de 60 minutos",
-        "passforgot": "¿Contraseña olvidada?",
-        "submit": "Conectar"
-    },
-    "recover": {
-        "propietary": "Es mi cuenta",
-        "loginback": "Volver a conexión",
-        "dni": "DNI de la cuenta",
-        "submit": "Recuperar",
-        "code": "Código de recuperación",
-        "codeNotSent": "¿No has recibido el código?"
-    },
-    "clientsTable": {
-        "vip": {
-            "false": "No",
-            "true": "Sí"
-        },
-        "type": {
-            "NULL": "No definido",
-            "DENIED_CONFLICTIVE": "Denegada por conflictividad",
-            "DENIED_FULL": "Denegada por sala llena",
-            "FORCED_ACCESS": "Entrada forzada",
-            "JOIN": "Acceso correcto",
-            "LEAVE": "Salida correcta"
-        }
-    },
-    "profile": {
-        "cardtitle": "Configuración de perfil"
-    },
-    "errorPages": {
-        "generic": {
-            "title": "Ha ocurrido un error",
-            "desc": "¡Vaya! Parece que algo ha salido mal."
-        },
-        "000": {
-            "title": "Servidor desconectado",
-            "desc": "Ha ocurrido un error al conectar con el servidor local."
-        },
-        "401": {
-            "title": "No tienes permisos",
-            "desc": "La página solicitada excede tus permisos de tu perfil."
-        },
-        "404": {
-            "title": "¡Página no encontrada!",
-            "desc": "La página solicitada no fue encontrada en nuestro portal."
-        },
-        "406": {
-            "title": "Desconexión por seguridad",
-            "desc": "Te has conectado desde otro dispositivo y se ha cerrado la sesión actual."
-        },
-        "back": "Volver atrás"
+    "charts": {
+      "loading": "Cargando gráficas..."
     }
+  },
+  "preloader": {
+    "loadinguser": "Cargando usuario...",
+    "userloaded": "¡Usuario cargado!",
+    "loading": "Cargando..."
+  },
+  "ranks": {
+    "1": "RRPP",
+    "2": "Camarero",
+    "3": "Seguridad",
+    "4": "Staff & Directivos",
+    "5": "Jefe"
+  },
+  "config": {
+    "api_rate_limit_interval_s": "Intervalo (en segundos) para el máximo de llamadas al servidor",
+    "api_rate_limit_rate": "Máximo de llamadas al servidor durante el intervalo",
+    "disco_name": "Nombre de la discoteca",
+    "maxPersonsInRoom": "Aforo máximo",
+    "recover_code_seconds_expire": "Segundos para la expiración del código de recuperación de la cuenta"
+  },
+  "time_ago": {
+    "few_seconds_ago": "Hace unos segundos",
+    "a_minute_ago": "Hace un minuto",
+    "x_minutes_ago": "Hace {{minutes}} minutos",
+    "an_hour_ago": "Hace una hora",
+    "x_hours_ago": "Hace {{hours}} horas",
+    "a_day_ago": "Hace un día",
+    "x_days_ago": "Hace {{days}} días",
+    "a_month_ago": "Hace un mes",
+    "x_months_ago": "Hace {{months}} meses",
+    "a_year_ago": "Hace un año",
+    "x_years_ago": "Hace {{years}} años"
+  },
+  "age": {
+    "few_seconds": "Unos segundos",
+    "a_minute": "Un minuto",
+    "x_minutes": "{{minutes}} minutos",
+    "an_hour": "Una hora",
+    "x_hours": "{{hours}} horas",
+    "a_day": "Un día",
+    "x_days": "{{days}} días",
+    "a_month": "Un mes",
+    "x_months": "{{months}} meses",
+    "a_year": "Un año",
+    "x_years": "{{years}} años"
+  },
+  "notifications": {
+    "GEOLOCATION_DENIED": "Has denegado la geolocalización.",
+    "GEOLOCATION_UNSUPPORTED": "Geolocalización no soportada.",
+    "SERVER_ERROR": "Geolocalización no soportada.",
+    "CONNECTED_OTHERWHERE": "Te has conectado desde otro dispositivo.",
+    "SESSION_EXPIRED": "La sesión ha expirado."
+  },
+  "api_notifications": {
+    "RECOVER_EMAIL_SENT": "El email de recuperación ha sido enviado al correo de la cuenta.",
+    "RECOVER_ACCOUNT_SUCCESS": "La recuperación de cuenta fue satisfactoria.",
+    "INCORRECT_LOGIN": "La conexión no fue satisfactoria.",
+    "LOGIN_SUCCESS": "Conexión satisfactoria.",
+    "NO_USER_PROVIDED": "Por favor, introduce el usuario a recuperar.",
+    "CONFIG_UPDATED": "Configuración actualizada.",
+    "NO_RECOVER_FOUND": "No se ha encontrado una recuperación válida.",
+    "RECOVER_CODE_EXPIRED": "El código de recuperación expiró.",
+    "NO_CONFIG_FOUND": "No se ha encontrado una configuración válida.",
+    "INCORRECT_USER": "Usuario incorrecto.",
+    "INVALID_TOKEN": "La sesión es inválida.",
+    "EXPIRED_TOKEN": "La sesión ha expirado.",
+    "AUTH_HEADER_REQUIRED": "La petición no solucionó las cabeceras correctametne.",
+    "CONNECTED_OTHER_PC": "Te has conectado desde otro dispositivo.",
+    "REST_PERMISSIONS_CHECK": "Ha ocurrido un error al revisar los permisos.",
+    "REST_PERMISSIONS_NOT_CONFIGURED": "No se han configurado permisos en el servidor. Por favor, contacta con SCM.",
+    "EMAIL_SEND_ERROR": "Error al enviar email.",
+    "USER_PERMISSIONS_INMUTABLE": "No se pueden modificar los permisos del usuario ya que es inmutable.",
+    "PROFILE_EDIT_SUCCESS": "Perfil editado correctamente.",
+    "NEW_PASSWORDS_DOESNT_MATCH": "Las nuevas contraseñas no coinciden.",
+    "PASSWORD_DOESNT_MATCH": "La contraseña actual no es correcta.",
+    "USER_NOT_FOUND": "Usuario no encontrado.",
+    "BANS_UPDATED": "Conflictividad actualizada.",
+    "USER_EDIT_SUCCESS": "Usuario editado correctamente.",
+    "USER_ADD_SUCCESS": "Usuario añadido correctamente.",
+    "USER_DEL_SUCCESS": "Usuario eliminado correctamente.",
+    "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
+  },
+  "ws": {
+    "disconnected": "El servidor en tiempo real está desconectado.",
+    "reconnect": "Servidor en tiempo real reconectado."
+  },
+  "nav": {
+    "/dashboard/start": "Inicio",
+    "/dashboard/room": "Sala",
+    "/dashboard/room/bar": "Barras",
+    "/dashboard/room/stage": "Seguridad",
+    "/dashboard/room/reserved": "Reservados",
+    "/dashboard/users": "Personal",
+    "/dashboard/users/manage": "Modificar personal",
+    "/dashboard/users/room": "Actualmente en la sala",
+    "/dashboard/users/all": "Histórico de accesos",
+    "/dashboard/clients": "Clientes",
+    "/dashboard/clients/room": "Actualmente en la sala",
+    "/dashboard/clients/conflictive": "Conflictivos",
+    "/dashboard/clients/all": "Histórico de accesos",
+    "/dashboard/monetization": "Caja",
+    "/dashboard/stock": "Inventario",
+    "/dashboard/stats": "Estadísticas",
+    "/dashboard/marketing": "Marketing",
+    "/dashboard/marketing/promos": "Promociones",
+    "/dashboard/marketing/events": "Eventos",
+    "/dashboard/marketing/parties": "Fiestas",
+    "/dashboard/config": "Configuración",
+    "/dashboard/profile": "Mi perfil",
+    "/dashboard/user/logout": "Desconectar",
+    "/dashboard/user/profile": "Mi perfil"
+  },
+  "langs": {
+    "es": "Español",
+    "en": "Inglés"
+  },
+  "page_titles": {
+    "/dashboard/start": "Panel de control",
+    "/dashboard/users": "Usuarios del panel",
+    "/dashboard/users/total": "Histórico de trabajadores",
+    "/dashboard/users/room": "Trabajadores en sala",
+    "/dashboard/users/manage": "Editor de trabajadores",
+    "/dashboard/clients/room": "Clientes en sala",
+    "/dashboard/clients/all": "Histórico de clientes",
+    "/dashboard/clients/conflictive": "Clientes conflictivos",
+    "/dashboard/profile": "Mi perfil",
+    "/dashboard/config": "Configuración",
+    "/login": "Conexión",
+    "/error/generic": "Ha ocurrido un error",
+    "/error/401": "Ha ocurrido un error",
+    "/error/404": "Página no encontrada",
+    "/recover/code": "Código de recuperación",
+    "/recover": "Recuperación de acceso",
+    "/dashboard/user/profile": "Perfil de usuario",
+    "/dashboard/user/logout": "Desconectando...",
+    "_prefix": "SCM -",
+    "_notitle": "Página sin título"
+  },
+  "login": {
+    "dni": "DNI",
+    "password": "Contraseña",
+    "extsess": "Sesión de 60 minutos",
+    "passforgot": "¿Contraseña olvidada?",
+    "submit": "Conectar"
+  },
+  "recover": {
+    "propietary": "Es mi cuenta",
+    "loginback": "Volver a conexión",
+    "dni": "DNI de la cuenta",
+    "submit": "Recuperar",
+    "code": "Código de recuperación",
+    "codeNotSent": "¿No has recibido el código?"
+  },
+  "clientsTable": {
+    "vip": {
+      "false": "No",
+      "true": "Sí"
+    },
+    "type": {
+      "NULL": "No definido",
+      "DENIED_CONFLICTIVE": "Denegada por conflictividad",
+      "DENIED_FULL": "Denegada por sala llena",
+      "FORCED_ACCESS": "Entrada forzada",
+      "JOIN": "Acceso correcto",
+      "LEAVE": "Salida correcta"
+    }
+  },
+  "profile": {
+    "cardtitle": "Configuración de perfil"
+  },
+  "errorPages": {
+    "generic": {
+      "title": "Ha ocurrido un error",
+      "desc": "¡Vaya! Parece que algo ha salido mal."
+    },
+    "000": {
+      "title": "Servidor desconectado",
+      "desc": "Ha ocurrido un error al conectar con el servidor local."
+    },
+    "401": {
+      "title": "No tienes permisos",
+      "desc": "La página solicitada excede tus permisos de tu perfil."
+    },
+    "404": {
+      "title": "¡Página no encontrada!",
+      "desc": "La página solicitada no fue encontrada en nuestro portal."
+    },
+    "406": {
+      "title": "Desconexión por seguridad",
+      "desc": "Te has conectado desde otro dispositivo y se ha cerrado la sesión actual."
+    },
+    "back": "Volver atrás"
+  }
 }

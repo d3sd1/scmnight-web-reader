@@ -81,14 +81,13 @@
         </ul>
     </header>
     <mz-navbar [navbarClass]="'menu'" class="hide-on-large-only">
-        <a href="#" class="brand-logo center">Logo</a>
+      <a routerLink="/" class="brand-logo center">Logo</a>
         <mz-navbar-item-container [align]="'left'">
             <mz-navbar-item><button mz-button [flat]="true" id="openMobileMenu" class="white-text"><i mz-icon-mdi [icon]="'menu'"></i></button></mz-navbar-item>
         </mz-navbar-item-container>
     </mz-navbar>
     <main class="col s12 m12 l10 no-padding offset-l2">
         <section>
-            <div class="divider"></div>
             <router-outlet></router-outlet>
         </section>
         <div class="clearfix"></div>

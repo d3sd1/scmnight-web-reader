@@ -21,11 +21,12 @@ export class WsAuthService {
             myToken = localStorage.getItem(ApiOptions.tokenParameter);
         logoutUsers.forEach((logoutToken) => {
             if (logoutToken["token"] === myToken) {
-                this.router.navigate(['dashboard/logout']);
-                this.notify.warn(
-                    this.translate.get("notifications")["value"]["logout"]["error_logged_otherwhere"]["title"],
-                    this.translate.get("notifications")["value"]["logout"]["error_logged_otherwhere"]["desc"]
-                );
+              localStorage.clear();
+              this.router.navigate(['error/406']);
+              this.notify.warn(
+                "",
+                this.translate.get("notifications.CONNECTED_OTHERWHERE")["value"]
+              );
             }
         });
     }

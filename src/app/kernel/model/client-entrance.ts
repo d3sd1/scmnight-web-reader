@@ -1,5 +1,6 @@
 import {JsonProperty,ICustomConverter} from 'json-typescript-mapper';
 import {User} from './user';
+import {EntranceType} from "./entrance-type";
 const dateConverter: ICustomConverter = {
     fromJson(data: any): any {
         return new Date(data);
@@ -16,5 +17,5 @@ export class ClientEntrance {
     @JsonProperty({customConverter: dateConverter})
     date: Date = null;
     vip: string = null;
-    type: string = null;
+  type: EntranceType = null;
 }

@@ -1,4 +1,4 @@
-import {NgModule,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DashboardComponent} from '../../components/dashboard.component';
@@ -24,48 +24,70 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 
 
-import {MzButtonModule, MzInputModule, MzIconMdiModule, MzSidenavModule, MzCollapsibleModule, MzNavbarModule, MzProgressModule, MzCardModule} from 'ng2-materialize';
+import {
+  MzButtonModule,
+  MzInputModule,
+  MzIconMdiModule,
+  MzSidenavModule,
+  MzCollapsibleModule,
+  MzNavbarModule,
+  MzProgressModule,
+  MzCardModule,
+  MzSelectModule, MzSwitchModule, MzModalModule, MzDropdownModule, MzValidationModule, MzCheckboxModule
+} from 'ng2-materialize';
+import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
+import {AgePipe} from "../directives/age.pipe";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        LanguageModule,
-        RouterModule,
-        NgxDatatableModule,
-        NgxChartsModule,
-        FormsModule,
-        BrowserModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MzButtonModule,
-        MzIconMdiModule,
-        MzSidenavModule,
-        MzInputModule,
-        MzCollapsibleModule,
-        MzNavbarModule,
-        MzProgressModule,
-        MzCardModule
-    ],
-    declarations: [
-        NavbarComponent,
-        DashboardComponent,
-        UsersManageComponent,
-        LogoutComponent,
-        ProfileComponent,
-        ClientsTotalComponent,
-        ClientsRoomComponent,
-        UsersTotalComponent,
-        UsersRoomComponent,
-        ConfigComponent,
-        ChangeLanguageDirective,
-        DefaultProfileImageDirective,
-        TimeAgoPipe
-    ],
-    exports: [
-        ChangeLanguageDirective,
-        DefaultProfileImageDirective
-    ],
-    providers: [SessionSingleton]
+  imports: [
+    CommonModule,
+    LanguageModule,
+    RouterModule,
+    NgxDatatableModule,
+    NgxChartsModule,
+    FormsModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MzButtonModule,
+    MzIconMdiModule,
+    MzIconMdiModule,
+    MzSidenavModule,
+    MzInputModule,
+    MzCollapsibleModule,
+    MzNavbarModule,
+    MzProgressModule,
+    MzCardModule,
+    MzSwitchModule,
+    MzModalModule,
+    MzDropdownModule,
+    MzValidationModule,
+    MzSelectModule,
+    MzCheckboxModule
+  ],
+  declarations: [
+    NavbarComponent,
+    DashboardComponent,
+    UsersManageComponent,
+    LogoutComponent,
+    ProfileComponent,
+    ClientsTotalComponent,
+    ClientsRoomComponent,
+    UsersTotalComponent,
+    UsersRoomComponent,
+    ClientsConflictiveComponent,
+    ConfigComponent,
+    ChangeLanguageDirective,
+    DefaultProfileImageDirective,
+    TimeAgoPipe,
+    AgePipe
+  ],
+  exports: [
+    ChangeLanguageDirective,
+    DefaultProfileImageDirective
+  ],
+  providers: [SessionSingleton]
 })
 
-export class LoggedInModule {}
+export class LoggedInModule {
+}

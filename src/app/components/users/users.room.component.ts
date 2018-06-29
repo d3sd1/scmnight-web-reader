@@ -29,7 +29,7 @@ export class UsersRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     errorHandler(error: any): void {
-        console.log(error)
+      console.error(error)
     }
 
     ngOnInit(): void {
@@ -38,20 +38,20 @@ export class UsersRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.ws.unsubscribe("scm/users");
+      this.ws.unsubscribe("scm/users_entrances");
     }
     ngAfterViewInit() {
-        this.ws.subscribe("scm/users", this.onUserJoin.bind(this));
+      this.ws.subscribe("scm/users_entrances", this.onUserJoin.bind(this));
     }
     onUserJoin(uri: any, data: any) {
         let entrance = deserialize(UserEntrance, JSON.parse(data));
-        if (entrance.type == "LEAVE")
+      if (entrance.type.name == "LEAVE")
         {
             let userIndex: number = this.rows.findIndex(x => x.user.dni === entrance.user.dni)
             this.rows.splice(userIndex, 1);
             this.page.totalElements--;
         }
-        else if (entrance.type == "JOIN" || entrance.type == "FORCED_ACCESS")
+      else if (entrance.type.name == "JOIN" || entrance.type.name == "FORCED_ACCESS")
         {
             this.rows.unshift(entrance);
             this.page.totalElements++;

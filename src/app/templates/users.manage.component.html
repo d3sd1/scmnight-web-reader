@@ -1,142 +1,207 @@
 <div class="main-content section">
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="row">
-                <div class="input-field col s5">
-                    <select materialize="material_select" (change)="setRows($event)">
-                        <option value="10" selected>10 Usuarios por página</option>
-                        <option value="25">25 Usuarios por página</option>
-                        <option value="50">50 Usuarios por página</option>
-                    </select>
-                    <label>Clientes por página</label>
-                </div>
-                <div class="input-field col s5">
-                    <input type="text" class="validate" (keyup)='onSearch($event)'>
-                    <label for="first_name">Buscar</label>
-                </div>
-                <div class="input-field col s2">
-                    <a class="waves-effect waves-light btn col s12 modal-trigger" href="#manageUser" (click)="addUserModal()"><i class="material-icons left">add_circle</i>Añadir</a>
-                </div>
-            </div>
-
-            <ngx-datatable 
-                class="material"
-                [rows]="rows"
-                [columnMode]="'force'"
-                [headerHeight]="50"
-                [footerHeight]="50"
-                [rowHeight]="'auto'"
-                [externalPaging]="true"
-                [count]="page.totalElements"
-                [offset]="page.pageNumber"
-                [limit]="page.size"
-                (page)='setPage($event)'
-                [externalSorting]="true"
-                [loadingIndicator]="loading"
-                [trackByProp]="'updated'"
-                (sort)="onSort($event)">
-
-                <ngx-datatable-column name="Email" prop="email">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Nombre" prop="firstname">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Apellidos" prop="lastname">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Rango" prop="rank">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{ 'ranks.' + value | translate }}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="DNI" prop="dni">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Teléfono" prop="telephone">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Dirección" prop="address">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        {{value}}
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <a materialize="dropdown" class='dropdown-button btn' href='#' [attr.data-activates]="'manage-user-' + row.dni">Opciones</a>
-                        <ul id='manage-user-{{row.dni}}' class='dropdown-content'>
-                            <li><a href="#manageUser" (click)="editUserModal(row)" class="modal-trigger"><i class="material-icons">swap_vertical_circle</i>Editar</a></li>
-                            <li><a href="#deleteUser" (click)="delUserModal(row)" class="modal-trigger"><i class="material-icons">remove_circle</i>Eliminar</a></li>
-                        </ul>
-                    </ng-template>
-                </ngx-datatable-column>
-
-            </ngx-datatable>
+  <div class="row">
+    <div class="col s12 m12">
+      <div class="row">
+        <mz-select-container class="col s5">
+          <select mz-select
+                  [placeholder]="'Usuarios por página'"
+                  (change)="setRows($event)">
+            <option value="10" selected>10 Usuarios por página</option>
+            <option value="25">25 Usuarios por página</option>
+            <option value="50">50 Usuarios por página</option>
+          </select>
+        </mz-select-container>
+        <div class="input-field col s5">
+          <input type="text" class="validate" (keyup)='onSearch($event)'>
+          <label>Buscar</label>
         </div>
+        <div class="input-field col s2">
+          <button mz-button (click)="addUserModal()">Añadir</button>
+        </div>
+      </div>
+
+      <ngx-datatable
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'
+        [externalSorting]="true"
+        [loadingIndicator]="loading"
+        [trackByProp]="'updated'"
+        (sort)="onSort($event)">
+
+        <ngx-datatable-column name="Email" prop="email">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Nombre" prop="firstname">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Apellidos" prop="lastname">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="DNI" prop="dni">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Teléfono" prop="telephone">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Dirección" prop="address">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button mz-button [float]="true" (click)="editUserModal(row)">
+              <i mz-icon-mdi [icon]="'pencil'"></i>
+            </button>
+            <button mz-button [float]="true" (click)="delUserModal(row)">
+              <i mz-icon-mdi [icon]="'delete'"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
     </div>
-</div>
-<div id="deleteUser" class="modal bottom-sheet"> <!-- materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions"-->
-     <div class="modal-content">
-        <h4>Eliminar usuario</h4>
-        <p>¿Estás segur@ que deseas eliminar el usuario {{modalUser?.firstname}} {{modalUser?.lastname}}? Esta acción no se puede revertir.</p>
-    </div>
-    <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        <a class="waves-effect waves-green btn-flat" (click)="delUserRest()">Eliminar</a>
-    </div>
+  </div>
 </div>
 
-<div id="manageUser" class="modal bottom-sheet"> <!-- materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions"-->
-     <div class="modal-content">
-        <h4>Gestionar usuario</h4>
-        <div class="row">
-            <form materialize class="col s12" usersCrud>
-                <div class="row">
-                    <div class="input-field col s2">
-                        <input name="email" type="email" class="validate" [(ngModel)] = "modalUser.email">
-                        <label for="email" *ngIf="!modalUser.email">Email</label>
-                    </div>
-                    <div class="input-field col s1">
-                        <input name="firstname" type="text" class="validate" [(ngModel)] = "modalUser.firstname">
-                        <label for="firstname" *ngIf="!modalUser.firstname">Nombre</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input name="lastname" type="text" class="validate" [(ngModel)] = "modalUser.lastname">
-                        <label for="lastname" *ngIf="!modalUser.lastname">Apellidos</label>
-                    </div>
-                    <div class="input-field col s1">
-                        <select name="rank" [(ngModel)] = "modalUser.rank"> <!-- materialize="material_select"  [materializeSelectOptions]="selectOptions"-->
-                            <option *ngFor="let rank of ranks" [ngValue]="rank">{{ 'ranks.' + rank | translate }}</option>
-                        </select>
-                    </div>
-                    <div class="input-field col s2">
-                        <input name="dni" type="text" class="validate" [(ngModel)] = "modalUser.dni">
-                        <label for="dni" *ngIf="!modalUser.dni">DNI</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input name="telephone" type="text" class="validate" [(ngModel)] = "modalUser.telephone">
-                        <label for="telephone" *ngIf="!modalUser.lastname">Teléfono</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input name="address" type="text" class="validate" [(ngModel)] = "modalUser.address">
-                        <label for="address" *ngIf="!modalUser.address">Dirección</label>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        <a class="waves-effect waves-green btn-flat" (click)="editUserRest()">Confirmar</a>
-    </div>
-</div>
+<mz-modal #userDelModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="false" [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Eliminar usuario</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    ¿Estás segur@ que deseas eliminar el usuario {{modalUser?.firstname}} {{modalUser?.lastname}}? Esta acción no se
+    puede revertir.
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="delUserRest()">Eliminar</button>
+  </mz-modal-footer>
+</mz-modal>
+
+
+<mz-modal #userEditModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true" [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Gestionar usuario</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <form materialize class="col s12" usersCrud>
+      <div class="row">
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="email"
+                 [(ngModel)]="modalUser.email"
+                 [label]="'Email'"
+                 [validate]="true"
+                 [dataError]="'El formato del email es inválido.'"
+                 [dataSuccess]="'¡Email válido!'"
+                 placeholder="Email"
+                 length="150"
+                 type="email">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="firstname"
+                 [(ngModel)]="modalUser.firstname"
+                 [label]="'Nombre'"
+                 [validate]="true"
+                 [dataError]="'Nombre no aceptado.'"
+                 [dataSuccess]="'¡Nombre válido!'"
+                 placeholder="Nombre"
+                 length="150"
+                 type="text">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="lastname"
+                 [(ngModel)]="modalUser.lastname"
+                 [label]="'Apellidos'"
+                 [validate]="true"
+                 [dataError]="'Apellidos no aceptados.'"
+                 [dataSuccess]="'¡Apellidos válidos!'"
+                 placeholder="Apellidos"
+                 length="150"
+                 type="text">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="dni"
+                 [(ngModel)]="modalUser.dni"
+                 [label]="'DNI, NIE o Pasaporte'"
+                 [validate]="true"
+                 [dataError]="'Identificación no aceptada.'"
+                 [dataSuccess]="'¡Identificación válida!'"
+                 placeholder="DNI, NIE o Pasaporte"
+                 length="150"
+                 type="text">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="telephone"
+                 [(ngModel)]="modalUser.telephone"
+                 [label]="'Teléfono'"
+                 [validate]="true"
+                 [dataError]="'Teléfono no aceptado.'"
+                 [dataSuccess]="'¡Teléfono válido!'"
+                 placeholder="Teléfono"
+                 length="150"
+                 type="tel">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="address"
+                 [(ngModel)]="modalUser.address"
+                 [label]="'Dirección'"
+                 [validate]="true"
+                 [dataError]="'Dirección no aceptada.'"
+                 [dataSuccess]="'¡Dirección válida!'"
+                 placeholder="Dirección"
+                 length="150"
+                 type="text">
+        </mz-input-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="editUserRest()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>

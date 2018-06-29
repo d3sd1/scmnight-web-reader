@@ -26,28 +26,16 @@ export class LoginComponent implements OnInit {
     submitSignInForm(): void {
         this.loadingBar.start();
 
-        this.api.post("auth-login", {user: this.user, coords: this.coords, extendedSession: this.extendedSession})
+      this.api.post("rest/auth-login", {user: this.user, coords: this.coords, extendedSession: this.extendedSession})
             .finally(() => {
                 this.loadingBar.complete();
             })
             .subscribe(
             (authToken: AuthToken) => {
-                console.log("LOGN",authToken);
                 localStorage.setItem(ApiOptions.idParameter, authToken.id.toString());
                 localStorage.setItem(ApiOptions.tokenParameter, authToken.value);
-                this.notify.success(
-                    this.translate.get("notifications")["value"]["login"]["success"]["title"],
-                    this.translate.get("notifications")["value"]["login"]["success"]["desc"]
-                );
                 this.router.navigate(['dashboard']);
-            },
-            (error: object) => {
-                this.notify.error(
-                    this.translate.get("notifications")["value"]["login"]["error_password"]["title"],
-                    this.translate.get("notifications")["value"]["login"]["error_password"]["desc"]
-                );
-            }
-            );
+            });
     }
     ngOnInit() {
         this.getLocation();
@@ -61,8 +49,8 @@ export class LoginComponent implements OnInit {
             });
         } else {
             this.notify.warn(
-                this.translate.get("notifications")["value"]["geolocation"]["error_notsupported"]["title"],
-                this.translate.get("notifications")["value"]["geolocation"]["error_notsupported"]["desc"]
+              "",
+              this.translate.get("notifications.GEOLOCATION_UNSUPPORTED")["value"]
             );
         }
     }
@@ -72,8 +60,8 @@ export class LoginComponent implements OnInit {
     }
     private errorPosition() {
         this.notify.warn(
-            this.translate.get("notifications")["value"]["geolocation"]["error_denied"]["title"],
-            this.translate.get("notifications")["value"]["geolocation"]["error_denied"]["desc"]
+          "",
+          this.translate.get("notifications.GEOLOCATION_DENIED")["value"]
         );
     }
 }
