@@ -92,26 +92,33 @@ export const MenuRoutes: Routes = [
     },
     children: [
       {
-        path: 'bar',
-        component: UsersManageComponent,
+        path: 'info',
+        component: ClientsConflictiveComponent,
         data: {
-          requiredPermission: "MANAGE_ROOM_BAR"
+          requiredPermission: "SET_CLIENT_INFO"
         }
       },
       {
-        path: 'stage',
+        path: 'conflicts',
         component: UsersManageComponent,
         data: {
-          requiredPermission: "MANAGE_ROOM_STAGE"
+          requiredPermission: "MANAGE_ROOM_CONFLICTS"
         }
       },
       {
-        path: 'reserved',
+        path: 'rates',
         component: UsersManageComponent,
         data: {
-          requiredPermission: "MANAGE_ROOM_RESERVED"
+          requiredPermission: "MANAGE_ROOM_RATES"
         }
-      }
+      },
+      {
+        path: 'image',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_ROOM_IMAGE"
+        }
+      },
     ]
   },
   {
@@ -145,33 +152,30 @@ export const MenuRoutes: Routes = [
       }
     ]
   },
-
-  {
-    path: 'monetization',
-    component: UsersManageComponent,
-    data: {
-      icon: "currency-usd",
-      requiredPermission: "VIEW_MONETIZATION"
-    }
-  },
   {
     path: 'stock',
-    component: UsersManageComponent,
     data: {
-      icon: "food-fork-drink",
-      requiredPermission: "MANAGE_STOCK"
-    }
+      icon: "food-fork-drink"
+    },
+    children: [
+      {
+        path: 'manage',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_STOCK"
+        }
+      },
+      {
+        path: 'sell',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "SELL_STOCK"
+        }
+      }
+    ]
   },
   {
     path: 'stats',
-    component: UsersManageComponent,
-    data: {
-      icon: "chart-areaspline",
-      requiredPermission: "VIEW_STATS"
-    }
-  },
-  {
-    path: 'marketing',
     data: {
       icon: "chart-line",
     },

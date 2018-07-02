@@ -9,6 +9,7 @@ import {User} from "../../kernel/model/user";
 import {MzModalComponent} from "ng2-materialize";
 import {ApiService} from "../../kernel/services/api.service";
 import {ClientBanType} from "../../kernel/model/client.ban.type";
+import {ClientEntrance} from "../../kernel/model/client-entrance";
 
 @Component({
   templateUrl: '../../templates/clients.conflictive.component.html',
@@ -50,12 +51,29 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
       );
   }
 
+  onClientJoin(uri: any, data: any) {
+    let entrance = deserialize(ClientEntrance, JSON.parse(data));
+    if (entrance.type.name == "LEAVE") {
+      let userIndex: number = this.rows.findIndex(x => {
+        return x.dni == entrance.client.dni;
+      })
+      this.rows.splice(userIndex, 1);
+      this.page.totalElements--;
+    }
+    else if (entrance.type.name == "JOIN" || entrance.type.name == "FORCED_ACCESS") {
+      this.rows.unshift(entrance.client);
+      this.page.totalElements++;
+    }
+  }
+
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/clients_conflictive");
+    this.ws.unsubscribe("scm/clients_entrances");
   }
 
   ngAfterViewInit() {
     this.ws.subscribe("scm/clients_conflictive", this.onClientUpdate.bind(this));
+    this.ws.subscribe("scm/clients_entrances", this.onClientJoin.bind(this));
   }
 
   onClientUpdate(uri: any, data: any) {
