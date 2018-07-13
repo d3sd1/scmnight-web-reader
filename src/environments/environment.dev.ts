@@ -1,11 +1,11 @@
 export const environment = {
     production: false,
-  baseUrl: 'http://localhost/',
+    baseUrl: 'https://api.discoexample.dev.scmnight.com/',
     availableLangs: ["es", "en"],
     socket: {
-        secure: false,
-        ip: "127.0.0.1",
-        port: "9846",
+        secure: true,
+        ip: "ws.discoexample.dev.scmnight.com",
+        port: "",
         reconnectWaitTimeMS: 3000
     }
 };
