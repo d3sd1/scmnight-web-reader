@@ -7,7 +7,6 @@
                         <i mz-icon-mdi mz-input-prefix [icon]="'account-card-details'"></i>
                         <input mz-input
                                [label]="'login.dni' | translate"
-                               [validate]="true"
                                [(ngModel)]="user.dni"
                                name="login"
                                #login="ngModel"
@@ -19,7 +18,6 @@
                         <i mz-icon-mdi mz-input-prefix [icon]="'lock'"></i>
                         <input mz-input
                                [label]="'login.password' | translate"
-                               [validate]="true"
                                [(ngModel)]="user.password"
                                name="password"
                                #password="ngModel"

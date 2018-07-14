@@ -1,0 +1,35 @@
+.no-data-available {
+  text-align: center;
+}
+
+.client-vip {
+  font-weight: bold;
+}
+
+.client-notvip {}
+
+.client-id {
+  font-weight: bold;
+}
+
+.client-entrance-join {
+  font-weight: bold;
+  color: #43a047;
+}
+
+.client-entrance-leave {
+  font-weight: bold;
+  color: #e64a19;
+}
+
+.client-entrance-forced_access {
+  color: #ffa726;
+}
+
+.client-entrance-denied_full {
+  color: #40c4ff;
+}
+
+.client-entrance-denied_conflictive {
+  color: #d4e157;
+}

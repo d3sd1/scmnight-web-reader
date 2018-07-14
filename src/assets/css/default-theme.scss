@@ -1,0 +1,40 @@
+/*
+1. Estilo de las cajas.
+ */
+/* Color de fondo y de letras de la caja */
+
+.theme-box {
+  background-color: rgba(255, 255, 255, 0.97);
+  color: black;
+  i[mz-icon-mdi] {
+    /*background-color: rgba(255, 255, 255, 0.97)*/
+    color: blue;
+  }
+  button {
+    background-color: #212121;
+    color: white;
+    &:hover {
+      background-color: #424242 !important;
+      color: white;
+    }
+  }
+}
+
+/* Color de los iconos de la caja */
+
+/* Color del boton de la caja */
+
+/* Color del boton de la caja al pasar el ratón por encima */
+
+/* Color de el placeholder cuando sube y el underline de los input */
+
+.input-field input:focus + label {
+  color: red !important;
+}
+
+/* label underline focus color */
+
+.row .input-field input:focus {
+  border-bottom: 1px solid red !important;
+  box-shadow: 0 1px 0 0 red !important;
+}
