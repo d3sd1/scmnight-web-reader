@@ -26,11 +26,11 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "./assets/css/default-theme.scss",
         "./assets/css/materialize.scss",
+        "../node_modules/@swimlane/ngx-datatable/src/themes/material.scss",
         "./assets/css/main.scss",
         "./assets/css/tables.scss",
-        "../node_modules/@swimlane/ngx-datatable/src/themes/material.scss"
+        "./assets/css/default-theme.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",

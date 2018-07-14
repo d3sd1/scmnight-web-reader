@@ -1,40 +1,80 @@
 /*
+0. Variables
+ */
+/* Box card */
+$theme-box-bg-color: rgba(255, 255, 255, 0.97) !default;
+$theme-box-txt-color: #424242 !default;
+$theme-box-button-bg-color: #212121 !default;
+$theme-box-button-hover-bg-color: #424242 !default;
+$theme-box-button-active-bg-color: #212121 !default;
+$theme-box-button-text-color: #FFFFFF !default;
+$theme-box-button-hover-text-color: #FFFFFF !default;
+$theme-box-button-active-text-color: #FFFFFF !default;
+$theme-box-link-color: #263238 !default;
+$theme-box-link-hover-color: #455a64 !default;
+$theme-box-icon-color: #212121 !default;
+$theme-box-icon-active-color: #616161 !default;
+$theme-box-input-label-color: #212121 !default;
+$theme-box-input-underline-unselected-color: #757575 !default;
+$theme-box-input-underline-selected-color: #bdbdbd !default;
+/*
 1. Estilo de las cajas.
  */
 /* Color de fondo y de letras de la caja */
 
 .theme-box {
-  background-color: rgba(255, 255, 255, 0.97);
-  color: black;
+  background-color: $theme-box-bg-color;
+  color: $theme-box-txt-color;
   i[mz-icon-mdi] {
-    /*background-color: rgba(255, 255, 255, 0.97)*/
-    color: blue;
+    color: $theme-box-icon-color;
+  }
+  i[mz-icon-mdi].active {
+    color: $theme-box-icon-active-color;
   }
   button {
-    background-color: #212121;
-    color: white;
+    background-color: $theme-box-button-bg-color;
+    color: $theme-box-button-text-color;
     &:hover {
-      background-color: #424242 !important;
-      color: white;
+      background-color: $theme-box-button-hover-bg-color;
+      color: $theme-box-button-hover-text-color;
     }
+    &:active {
+      background-color: $theme-box-button-active-bg-color;
+      color: $theme-box-button-active-text-color;
+    }
+  }
+  a.btn {
+    background-color: $theme-box-button-bg-color;
+    color: $theme-box-button-text-color;
+    &:hover {
+      background-color: $theme-box-button-hover-bg-color;
+      color: $theme-box-button-hover-text-color;
+    }
+    &:active {
+      background-color: $theme-box-button-active-bg-color;
+      color: $theme-box-button-active-text-color;
+    }
+  }
+  input + label {
+    color: $theme-box-txt-color
+  }
+  a {
+    color: $theme-box-link-color
+  }
+  a:hover {
+    color: $theme-box-link-hover-color
   }
 }
 
-/* Color de los iconos de la caja */
-
-/* Color del boton de la caja */
-
-/* Color del boton de la caja al pasar el ratón por encima */
-
-/* Color de el placeholder cuando sube y el underline de los input */
-
 .input-field input:focus + label {
-  color: red !important;
+  color: $theme-box-input-label-color !important;
 }
 
-/* label underline focus color */
-
+.row .input-field input {
+  border-bottom: 1px solid $theme-box-input-underline-unselected-color !important;
+  box-shadow: 0 1px 0 0 $theme-box-input-underline-unselected-color !important;
+}
 .row .input-field input:focus {
-  border-bottom: 1px solid red !important;
-  box-shadow: 0 1px 0 0 red !important;
+  border-bottom: 1px solid $theme-box-input-underline-selected-color !important;
+  box-shadow: 0 1px 0 0 $theme-box-input-underline-selected-color !important;
 }
