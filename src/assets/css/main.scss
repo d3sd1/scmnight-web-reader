@@ -1605,8 +1605,11 @@ span.title.langname {
   background: #424242;
   z-index: 5;
   text-align: center;
+
   > .preloader-wrapper {
-    margin-top: 30vh;
+    margin-top: 40vh;
+    width: 10em;
+    height: 10em;
   }
 }
 

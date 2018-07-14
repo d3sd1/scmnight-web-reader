@@ -2,6 +2,9 @@
 0. Variables
  */
 /* Box card */
+$preloader-bg-color: #424242;
+$preloader-text-color: #eceff1;
+$preloader-circle-color: #eceff1;
 $theme-box-bg-color: rgba(255, 255, 255, 0.97) !default;
 $theme-box-txt-color: #424242 !default;
 $theme-box-button-bg-color: #212121 !default;
@@ -18,7 +21,17 @@ $theme-box-input-label-color: #212121 !default;
 $theme-box-input-underline-unselected-color: #757575 !default;
 $theme-box-input-underline-selected-color: #bdbdbd !default;
 /*
-1. Estilo de las cajas.
+1. Estilo del preloader
+ */
+#preloader {
+  background-color: $preloader-bg-color;
+  color: $preloader-text-color;
+  .spinner-layer {
+    border-color: $preloader-circle-color
+  }
+}
+/*
+2. Estilo de las cajas.
  */
 /* Color de fondo y de letras de la caja */
 
