@@ -37,6 +37,7 @@ import {
 } from 'ng2-materialize';
 import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
 import {AgePipe} from "../directives/age.pipe";
+import {RoomClientDataComponent} from "../../components/room/clients.data.component";
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import {AgePipe} from "../directives/age.pipe";
     ClientsTotalComponent,
     ClientsRoomComponent,
     UsersTotalComponent,
+    RoomClientDataComponent,
     UsersRoomComponent,
     ClientsConflictiveComponent,
     ConfigComponent,

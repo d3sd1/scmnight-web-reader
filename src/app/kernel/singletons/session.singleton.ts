@@ -4,12 +4,18 @@ import {ApiService} from '../services/api.service';
 import {User} from '../model/user';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Permission} from "../model/Permission";
+import {Config} from "../model/config";
+import {DiscoInfo} from "../model/disco-info";
+
 @Injectable()
 export class SessionSingleton {
-    constructor(private api: ApiService) {}
-    private user: User = null;
+  constructor(private api: ApiService) {
+  }
+
+  private user: User = null;
   private userPermissions: Array<Permission> = null;
-    private apiLoadingUser: Promise<User> = null;
+  private apiLoadingUser: Promise<User> = null;
+  private discoInfo: Promise<DiscoInfo> = null;
   private apiLoadingPermissions: Promise<Array<Permission>> = null;
 
   getUser(): Promise<User> {
@@ -18,6 +24,38 @@ export class SessionSingleton {
         if (this.apiLoadingUser === null) {
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/session/userinfo')
+              .subscribe(
+                (user: User) => {
+                  this.apiLoadingUser = null;
+                  this.user = user;
+                  resolveInternal(this.user);
+                  resolveGeneral(this.user);
+                },
+                (err: HttpErrorResponse) => {
+                  /* Fix para prevenir bucle */
+                  resolveInternal(new User());
+                  resolveGeneral(new User());
+                });
+          });
+        }
+        else {
+          this.apiLoadingUser.then(res => {
+            resolveGeneral(this.user)
+          });
+        }
+      }
+      else {
+        resolveGeneral(this.user);
+      }
+    });
+  }
+
+  getDiscoInfo(): Promise<DiscoInfo> {
+    return new Promise((resolveGeneral, rejectGeneral) => {
+      if (this.discoInfo === null) {
+        if (this.apiLoadingUser === null) {
+          this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
+            this.api.get('rest/discoinfo')
               .subscribe(
                 (user: User) => {
                   this.apiLoadingUser = null;

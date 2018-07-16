@@ -20,6 +20,30 @@ $theme-box-icon-active-color: #616161 !default;
 $theme-box-input-label-color: #212121 !default;
 $theme-box-input-underline-unselected-color: #757575 !default;
 $theme-box-input-underline-selected-color: #bdbdbd !default;
+$theme-box-switch-color: #212121;
+$main-background-color: #424242;
+$theme-table-bg-color: #FFFFFF;
+$theme-table-hover-color: #eeeeee;
+$theme-table-text-color: rgba(0, 0, 0, 0.87);
+$theme-table-header-color: rgba(0, 0, 0, 0.54);
+$theme-table-button-bg-color: #212121;
+$theme-table-button-text-color: #FFFFFF;
+$theme-table-button-hover-bg-color: #424242;
+$theme-table-button-hover-text-color: #FFFFFF;
+$theme-table-button-active-bg-color: #212121;
+$theme-table-button-active-text-color: #FFFFFF;
+$theme-table-outside-bg-button: #fafafa;
+$theme-table-outside-text-button: #212121;
+$theme-table-outside-hover-bg-button: #eeeeee;
+$theme-table-outside-hover-text-button: #616161;
+$theme-table-outside-active-bg-button: #FFFFFFF;
+$theme-table-outside-active-text-button: #000000;
+$theme-table-outside-select-text-color: #212121;
+$theme-table-outside-select-bg-color: #fafafa;
+$theme-menu-logo-bg-color: #212121;
+$theme-menu-bg-color: #1B1B1B;
+$theme-menu-text-color: #dddddd;
+
 /*
 1. Estilo del preloader
  */
@@ -30,11 +54,17 @@ $theme-box-input-underline-selected-color: #bdbdbd !default;
     border-color: $preloader-circle-color
   }
 }
-/*
-2. Estilo de las cajas.
- */
-/* Color de fondo y de letras de la caja */
 
+/*
+2. Color de fondo principal
+ */
+body {
+  background-color: $main-background-color
+}
+
+/*
+3. Estilo de las cajas.
+ */
 .theme-box {
   background-color: $theme-box-bg-color;
   color: $theme-box-txt-color;
@@ -44,6 +74,9 @@ $theme-box-input-underline-selected-color: #bdbdbd !default;
   i[mz-icon-mdi].active {
     color: $theme-box-icon-active-color;
   }
+  mz-card-title {
+    color: $theme-box-txt-color;
+  }
   button {
     background-color: $theme-box-button-bg-color;
     color: $theme-box-button-text-color;
@@ -52,6 +85,10 @@ $theme-box-input-underline-selected-color: #bdbdbd !default;
       color: $theme-box-button-hover-text-color;
     }
     &:active {
+      background-color: $theme-box-button-active-bg-color;
+      color: $theme-box-button-active-text-color;
+    }
+    &:focus {
       background-color: $theme-box-button-active-bg-color;
       color: $theme-box-button-active-text-color;
     }
@@ -67,6 +104,10 @@ $theme-box-input-underline-selected-color: #bdbdbd !default;
       background-color: $theme-box-button-active-bg-color;
       color: $theme-box-button-active-text-color;
     }
+    &:focus {
+      background-color: $theme-box-button-active-bg-color;
+      color: $theme-box-button-active-text-color;
+    }
   }
   input + label {
     color: $theme-box-txt-color
@@ -77,17 +118,90 @@ $theme-box-input-underline-selected-color: #bdbdbd !default;
   a:hover {
     color: $theme-box-link-hover-color
   }
+  .switch label input[type=checkbox]:checked + .lever:after {
+    background-color: $theme-box-switch-color !important;
+  }
+  .switch label input[type=checkbox]:checked + .lever {
+    background-color: $theme-box-switch-color !important;
+  }
+  .input-field input:focus + label {
+    color: $theme-box-input-label-color !important;
+  }
+
+  .row .input-field input {
+    border-bottom: 1px solid $theme-box-input-underline-unselected-color !important;
+    box-shadow: 0 1px 0 0 $theme-box-input-underline-unselected-color !important;
+  }
+  .row .input-field input:focus {
+    border-bottom: 1px solid $theme-box-input-underline-selected-color !important;
+    box-shadow: 0 1px 0 0 $theme-box-input-underline-selected-color !important;
+  }
 }
 
-.input-field input:focus + label {
-  color: $theme-box-input-label-color !important;
+/*
+4. Estilo de las tablas
+ */
+.theme-table {
+  ul.dropdown-content.select-dropdown li span {
+    color: $theme-table-outside-select-text-color;
+    background-color: $theme-table-outside-select-bg-color;
+  }
+  button {
+    background-color: $theme-table-outside-bg-button;
+    color: $theme-table-outside-text-button;
+    &:hover {
+      background-color: $theme-table-outside-hover-bg-button;
+      color: $theme-table-outside-hover-text-button;
+    }
+    &:active {
+      background-color: $theme-table-outside-active-bg-button !important;
+      color: $theme-table-outside-active-text-button !important;
+    }
+    &:focus {
+      background-color: $theme-table-outside-active-bg-button !important;
+      color: $theme-table-outside-active-text-button !important;
+    }
+  }
+  ngx-datatable {
+    background-color: $theme-table-bg-color !important;
+    color: $theme-table-text-color !important;
+    datatable-body-row:hover {
+      background-color: $theme-table-hover-color !important
+    }
+    .datatable-header-cell-label, .page-count {
+      color: $theme-table-header-color !important;
+    }
+    .datatable-body-cell  {
+      color: $theme-table-text-color !important;
+    }
+    button {
+      background-color: $theme-table-button-bg-color;
+      color: $theme-table-button-text-color;
+      &:hover {
+        background-color: $theme-table-button-hover-bg-color;
+        color: $theme-table-button-hover-text-color
+      }
+      &:active {
+        background-color: $theme-table-button-active-bg-color;
+        color: $theme-table-button-active-text-color;
+      }
+      &:focus {
+        background-color: $theme-table-button-active-bg-color;
+        color: $theme-table-button-active-text-color;
+      }
+      & > i {
+        color: $theme-table-button-text-color
+      }
+    }
+  }
 }
-
-.row .input-field input {
-  border-bottom: 1px solid $theme-box-input-underline-unselected-color !important;
-  box-shadow: 0 1px 0 0 $theme-box-input-underline-unselected-color !important;
+/*
+5. Logotipo
+ */
+.own-sidenav-user {
+  background-color: $theme-menu-logo-bg-color;
 }
-.row .input-field input:focus {
-  border-bottom: 1px solid $theme-box-input-underline-selected-color !important;
-  box-shadow: 0 1px 0 0 $theme-box-input-underline-selected-color !important;
+.own-sidenav {
+  background-color: $theme-menu-bg-color;
+  color: $theme-menu-text-color;
 }

@@ -59,9 +59,14 @@
             {{value | age}}
           </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="Estado de datos">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="client-data-{{row.getProfileStatus().toLowerCase()}}"> {{'clientsData.' + row.getProfileStatus() | translate}}</span>
+          </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column name="">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mz-button (click)="checkConflictive(row)">Conflictividad</button>
+            <button mz-button (click)="editExtraData(row)">Editar</button>
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -71,18 +76,53 @@
 <mz-modal #editConflictivity [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true" [options]="modalOptions"
           class="black-text">
   <mz-modal-header>
-    <h4>Revisión de conflictividad</h4>
+    <h4>Datos extra de clientes</h4>
   </mz-modal-header>
   <mz-modal-content>
-    <mz-checkbox-container *ngFor="let conflictiveReason of conflictiveReasons">
-      <input mz-checkbox
-             [label]="conflictiveReason.name"
-             [id]="'conflictive-' + conflictiveReason.id"
-             [filledIn]="true"
-             [checked]="conflictiveReason.checked"
-             (change)="changeConflictStatus(conflictiveReason.id,conflictiveReason.checked)"
-             type="checkbox">
-    </mz-checkbox-container>
+    <form materialize class="col s12" usersCrud>
+      <div class="row">
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="email"
+                 [(ngModel)]="actualClient.email"
+                 [label]="'Email'"
+                 [validate]="true"
+                 [dataError]="'El formato del email es inválido.'"
+                 [dataSuccess]="'¡Email válido!'"
+                 placeholder="Email"
+                 length="150"
+                 type="email">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="email"
+                 [(ngModel)]="actualClient.address"
+                 [label]="'Dirección de casa'"
+                 [validate]="true"
+                 [dataError]="'Dirección inválida.'"
+                 [dataSuccess]="'¡Dirección válida!'"
+                 placeholder="Dirección de casa"
+                 length="150"
+                 type="text">
+        </mz-input-container>
+        <mz-select-container class="col s12 m6">
+          <select mz-select
+                  [label]="'Sexo'"
+                  [name]="'client-sex'"
+                  [placeholder]="'Escoge el sexo'"
+                  [(ngModel)]="actualClient.gender.id"
+          >
+            <option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</option>
+          </select>
+        </mz-select-container>
+      </div>
+    </form>
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>

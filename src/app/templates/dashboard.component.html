@@ -40,8 +40,8 @@
     </div>
     <div class="row" *ngIf="!roomUsers[0]['loading'] && !roomClients[0]['loading'] && roomUsers[0]['realUsers'] === 0">
       <div class="col s12 m6 offset-m3">
-        <div class="card-panel white">
-          <span class="black-text">{{'dashboard.userschart.nodata' | translate}}</span>
+        <div class="card-panel theme-box">
+          <span>{{'dashboard.userschart.nodata' | translate}}</span>
         </div>
       </div>
     </div>
@@ -72,8 +72,8 @@
     <div class="row"
          *ngIf="!roomUsers[0]['loading'] && !roomClients[0]['loading'] && roomClients[0]['realClients'] === 0">
       <div class="col s12 m6 offset-m3">
-        <div class="card-panel white">
-          <span class="black-text">{{'dashboard.clientschart.nodata' | translate}}</span>
+        <div class="card-panel theme-box">
+          <span>{{'dashboard.clientschart.nodata' | translate}}</span>
         </div>
       </div>
     </div>

@@ -23,13 +23,15 @@ export class NavbarComponent implements OnInit {
   private userPermission: Array<Permission>;
 
   ngOnInit() {
-    this.sessionInfo.getUser().then(user => {
-      this.sessionInfo.getPermissions().then(userPermission => {
-        this.userPermission = userPermission;
-        this.user = user;
-        this.constructMenu();
-        this.pickActualMenuOption();
-        this.menuOptionPicker();
+    this.sessionInfo.getDiscoInfo().then(discoInfo => {
+      this.sessionInfo.getUser().then(user => {
+        this.sessionInfo.getPermissions().then(userPermission => {
+          this.userPermission = userPermission;
+          this.user = user;
+          this.constructMenu();
+          this.pickActualMenuOption();
+          this.menuOptionPicker();
+        });
       });
     });
   }

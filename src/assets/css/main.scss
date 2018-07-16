@@ -379,8 +379,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .own-sidenav-user {
+  cursor: pointer;
   .logo {
-    background-image: url("../img/logo.png");
+    background-image: url("../img/example-logo.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -1613,11 +1614,6 @@ span.title.langname {
   }
 }
 
-.menu {
-  background-color: #212121 !important;
-  color: #dddddd !important;
-}
-
 /* FIX FOR MATERIALIZE SELECT VISIBILITY */
 
 .modal, ngx-datatable {
@@ -1698,15 +1694,25 @@ span.title.langname {
   background-color: #FAFAFA;
 }
 
-/* label focus color */
 
-.input-field input[type=text]:focus + label, .materialize-textarea:focus:not([readonly]) + label {
-  color: #FAFAFA !important;
+.client-data-full_completed {
+  font-weight: bold;
+  color: #43a047;
 }
 
-/* label underline focus color */
+.client-data-not_completed, .client-data-low_completed {
+  font-weight: bold;
+  color: #e64a19;
+}
 
-.input-field input[type=text]:focus, .materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #FAFAFA !important;
-  box-shadow: 0 1px 0 0 #FAFAFA !important;
+.client-data-quite_completed {
+  color: #ffa726;
+}
+
+.client-data-high_completed {
+  color: #40c4ff;
+}
+
+.client-entrance-denied_conflictive {
+  color: #d4e157;
 }

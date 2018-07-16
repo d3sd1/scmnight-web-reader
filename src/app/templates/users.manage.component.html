@@ -1,6 +1,6 @@
 <div class="main-content section">
   <div class="row">
-    <div class="col s12 m12">
+    <div class="col s12 theme-table">
       <div class="row">
         <mz-select-container class="col s5">
           <select mz-select
@@ -16,12 +16,16 @@
           <label>Buscar</label>
         </div>
         <div class="input-field col s2">
-          <button mz-button (click)="addUserModal()">Añadir</button>
+          <button mz-button class="col s12" (click)="addUserModal()">Añadir</button>
         </div>
       </div>
 
       <ngx-datatable
         class="material"
+        [messages]="{
+                emptyMessage: 'table.noData' | translate,
+                totalMessage: 'table.total' | translate
+        }"
         [rows]="rows"
         [columnMode]="'force'"
         [headerHeight]="50"

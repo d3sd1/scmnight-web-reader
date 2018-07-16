@@ -1,95 +1,100 @@
 <div class="row">
-    <header class="disable-select">
-        <mz-sidenav #sidenav
-            [id]="'mobileMenu'"
-            [backgroundClass]="'own-sidenav menu'"
-            [collapseButtonId]="'openMobileMenu'"
-            [fixed]="true"
-            [edge]="'left'"
-            [closeOnClick]="true"
-            [draggable]="true"
-            class="hide-on-large-only">
-            <mz-progress class="hide-on-large-only" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
-            <mz-sidenav-header>
-                <li class="own-sidenav-user valign-wrapper">
-                    <span class="logo"></span>
-                </li>
-            </mz-sidenav-header>
-            <mz-sidenav-collapsible *ngFor="let menuOption of filteredMenuOptions">
-                <mz-sidenav-collapsible-header *ngIf="menuOption.submenus?.length === 0">
-                    <mz-sidenav-link [routerLink]="[menuOption.link]">
-                        <a [routerLink]="[menuOption.link]">
-                            <i mz-icon-mdi class="material-icons white-text" [align]="'left'" [icon]="menuOption.icon"></i>
-                            <span class="white-text">{{ menuOption.text }}</span>
-                            <i mz-icon-mdi *ngIf="menuOption.submenus?.length > 0" [align]="'right'" [icon]="'chevron-down'" class="white-text caret"></i>
-                        </a>
-                    </mz-sidenav-link>
-                </mz-sidenav-collapsible-header>
-                <mz-sidenav-collapsible-header *ngIf="menuOption.submenus?.length > 0">
-                    <i mz-icon-mdi class="material-icons white-text" [align]="'left'" [icon]="menuOption.icon"></i>
-                    <span class="white-text">{{ menuOption.text }}</span>
-                    <i mz-icon-mdi *ngIf="menuOption.submenus?.length > 0" [align]="'right'" [icon]="'chevron-down'" class="white-text caret"></i>
-                </mz-sidenav-collapsible-header>
+  <header class="disable-select">
+    <mz-sidenav #sidenav
+                [id]="'mobileMenu'"
+                [backgroundClass]="'own-sidenav menu'"
+                [collapseButtonId]="'openMobileMenu'"
+                [fixed]="true"
+                [edge]="'left'"
+                [closeOnClick]="true"
+                [draggable]="true"
+                class="hide-on-large-only">
+      <mz-progress class="hide-on-large-only" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
+      <mz-sidenav-header>
+        <li class="own-sidenav-user valign-wrapper">
+          <img class="logo" src="../../assets/img/example-logo.png">
+        </li>
+      </mz-sidenav-header>
+      <mz-sidenav-collapsible *ngFor="let menuOption of filteredMenuOptions">
+        <mz-sidenav-collapsible-header *ngIf="menuOption.submenus?.length === 0">
+          <mz-sidenav-link [routerLink]="[menuOption.link]">
+            <a [routerLink]="[menuOption.link]">
+              <i mz-icon-mdi class="material-icons white-text" [align]="'left'" [icon]="menuOption.icon"></i>
+              <span class="white-text">{{ menuOption.text }}</span>
+              <i mz-icon-mdi *ngIf="menuOption.submenus?.length > 0" [align]="'right'" [icon]="'chevron-down'"
+                 class="white-text caret"></i>
+            </a>
+          </mz-sidenav-link>
+        </mz-sidenav-collapsible-header>
+        <mz-sidenav-collapsible-header *ngIf="menuOption.submenus?.length > 0">
+          <i mz-icon-mdi class="material-icons white-text" [align]="'left'" [icon]="menuOption.icon"></i>
+          <span class="white-text">{{ menuOption.text }}</span>
+          <i mz-icon-mdi *ngIf="menuOption.submenus?.length > 0" [align]="'right'" [icon]="'chevron-down'"
+             class="white-text caret"></i>
+        </mz-sidenav-collapsible-header>
 
-                <mz-sidenav-collapsible-content *ngIf="menuOption.submenus?.length > 0">
-                    <mz-sidenav-link *ngFor="let subMenuOption of menuOption.submenus">
-                        <a [routerLink]="[subMenuOption.link]">{{subMenuOption.text}}</a>
-                    </mz-sidenav-link>
-                </mz-sidenav-collapsible-content>
-            </mz-sidenav-collapsible>
-        </mz-sidenav>
-        <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
-            <li class="own-sidenav-user valign-wrapper">
-                <span class="logo"></span>
-            </li>
-            <li class="own-sidenav-links">
+        <mz-sidenav-collapsible-content *ngIf="menuOption.submenus?.length > 0">
+          <mz-sidenav-link *ngFor="let subMenuOption of menuOption.submenus">
+            <a [routerLink]="[subMenuOption.link]">{{subMenuOption.text}}</a>
+          </mz-sidenav-link>
+        </mz-sidenav-collapsible-content>
+      </mz-sidenav-collapsible>
+    </mz-sidenav>
+    <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
+      <li class="own-sidenav-user valign-wrapper">
+        <span class="logo" style="background-image: url(../../assets/img/disco-logo.jpg), url(../../assets/img/example-logo.png);"></span>
+      </li>
+      <li class="own-sidenav-links">
                 <span *ngIf="!menuLoaded">
                     <div class="progress">
                         <div class="indeterminate"></div>
                     </div>
                 </span>
-                <mz-progress class="hide-on-med-and-down" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
-                <ul *ngIf="filteredMenuOptions.length > 0" class="collapsible">
-                    <li *ngFor="let menuOption of filteredMenuOptions" [class.active]="menuOption.active">
-                        <a *ngIf="menuOption.submenus?.length === 0" [routerLink]="menuOption.link"
-                            class="waves-effect">
-                            <i mz-icon-mdi class="material-icons" [align]="'left'" [icon]="menuOption.icon"></i>
-                            <span>{{menuOption.text}}</span>
-                        </a>
+        <mz-progress class="hide-on-med-and-down" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
+        <ul *ngIf="filteredMenuOptions.length > 0" class="collapsible">
+          <li *ngFor="let menuOption of filteredMenuOptions" [class.active]="menuOption.active">
+            <a *ngIf="menuOption.submenus?.length === 0" [routerLink]="menuOption.link"
+               class="waves-effect">
+              <i mz-icon-mdi class="material-icons" [align]="'left'" [icon]="menuOption.icon"></i>
+              <span>{{menuOption.text}}</span>
+            </a>
 
-                    <mz-collapsible [mode]="'accordion'" *ngIf="menuOption.submenus?.length > 0">
-                        <mz-collapsible-item [active]="menuOption.active">
-                            <mz-collapsible-item-header>
-                                <a href="javascript:void(0)">
-                                    <i mz-icon-mdi class="material-icons" [align]="'left'" [icon]="menuOption.icon"></i>
-                                    <span>{{menuOption.text}}</span>
-                                    <i mz-icon-mdi [align]="'right'" [icon]="'chevron-down'"></i>
-                                </a>
-                            </mz-collapsible-item-header>
-                            <mz-collapsible-item-body>
-                                <li *ngFor="let subMenuOption of menuOption.submenus" [class.active]="subMenuOption.active">
-                                    <a [routerLink]="[subMenuOption.link]">{{subMenuOption.text}}</a>
-                                </li>
-                            </mz-collapsible-item-body>
-                        </mz-collapsible-item>
+            <mz-collapsible [mode]="'accordion'" *ngIf="menuOption.submenus?.length > 0">
+              <mz-collapsible-item [active]="menuOption.active">
+                <mz-collapsible-item-header>
+                  <a href="javascript:void(0)">
+                    <i mz-icon-mdi class="material-icons" [align]="'left'" [icon]="menuOption.icon"></i>
+                    <span>{{menuOption.text}}</span>
+                    <i mz-icon-mdi [align]="'right'" [icon]="'chevron-down'"></i>
+                  </a>
+                </mz-collapsible-item-header>
+                <mz-collapsible-item-body>
+          <li *ngFor="let subMenuOption of menuOption.submenus" [class.active]="subMenuOption.active">
+            <a [routerLink]="[subMenuOption.link]">{{subMenuOption.text}}</a>
+          </li>
+          </mz-collapsible-item-body>
+          </mz-collapsible-item>
 
-                        <li class="clearfix"></li>
-                    </mz-collapsible>
-            </li>
+          <li class="clearfix"></li>
+          </mz-collapsible>
+          </li>
         </ul>
-        </li>
-        </ul>
-    </header>
-    <mz-navbar [navbarClass]="'menu'" class="hide-on-large-only">
-      <a routerLink="/" class="brand-logo center">Logo</a>
-        <mz-navbar-item-container [align]="'left'">
-            <mz-navbar-item><button mz-button [flat]="true" id="openMobileMenu" class="white-text"><i mz-icon-mdi [icon]="'menu'"></i></button></mz-navbar-item>
-        </mz-navbar-item-container>
-    </mz-navbar>
-    <main class="col s12 m12 l10 no-padding offset-l2">
-        <section>
-            <router-outlet></router-outlet>
-        </section>
-        <div class="clearfix"></div>
-    </main>
+      </li>
+    </ul>
+  </header>
+  <mz-navbar [navbarClass]="'menu'" class="hide-on-large-only">
+    <a routerLink="/" class="brand-logo center">Logo</a>
+    <mz-navbar-item-container [align]="'left'">
+      <mz-navbar-item>
+        <button mz-button [flat]="true" id="openMobileMenu" class="white-text"><i mz-icon-mdi [icon]="'menu'"></i>
+        </button>
+      </mz-navbar-item>
+    </mz-navbar-item-container>
+  </mz-navbar>
+  <main class="col s12 m12 l10 no-padding offset-l2">
+    <section>
+      <router-outlet></router-outlet>
+    </section>
+    <div class="clearfix"></div>
+  </main>
 </div>

@@ -14,6 +14,7 @@ import {ConfigComponent} from '../../components/config.component';
 /* Services */
 import {LoggedInService} from '../services/logged-in.service';
 import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
+import {RoomClientDataComponent} from "../../components/room/clients.data.component";
 
 export const MenuRoutes: Routes = [
   {
@@ -93,7 +94,7 @@ export const MenuRoutes: Routes = [
     children: [
       {
         path: 'info',
-        component: ClientsConflictiveComponent,
+        component: RoomClientDataComponent,
         data: {
           requiredPermission: "SET_CLIENT_INFO"
         }

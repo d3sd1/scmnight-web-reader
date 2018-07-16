@@ -102,6 +102,7 @@
   "nav": {
     "/dashboard/start": "Inicio",
     "/dashboard/room": "Sala",
+    "/dashboard/room/info": "Recoger datos clientes",
     "/dashboard/room/conflicts": "Motivos de conflicto",
     "/dashboard/room/rates": "Tarifas",
     "/dashboard/room/image": "Temas del panel",
@@ -203,5 +204,16 @@
       "desc": "Te has conectado desde otro dispositivo y se ha cerrado la sesión actual."
     },
     "back": "Volver atrás"
+  },
+  "table": {
+    "noData": "Esta tabla no posee datos.",
+    "total": "Registros totales"
+  },
+  "clientsData": {
+    "NOT_COMPLETED": "Sin datos",
+    "LOW_COMPLETED": "Pocos datos",
+    "QUITE_COMPLETED": "Algunos datos",
+    "HIGH_COMPLETED": "Casi completo",
+    "FULL_COMPLETED": "Completo"
   }
 }
