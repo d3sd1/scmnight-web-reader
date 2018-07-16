@@ -115,7 +115,6 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
     this.serverResultsService.getConflictiveResults(this.page).subscribe(pagedData => {
       this.page = pagedData.page;
       this.rows = pagedData.data;
-      console.log(this.rows);
       this.loading = false;
     });
   }

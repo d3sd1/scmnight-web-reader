@@ -89,7 +89,7 @@
             >
               <option *ngFor="let lang of languages" data-icon="assets/img/langs/lang.png" class="left circle"
                       changeMenuLanguage
-                      [selected]="user.langcode ? 'selected':'null'"
+                      [value]="user.langcode"
                       [attr.data-menulang]="lang">{{ 'langs.' + lang | translate }}
               </option>
             </select>
