@@ -73,15 +73,15 @@
     </div>
   </div>
 </div>
-<mz-modal #editConflictivity [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true" [options]="modalOptions"
+<mz-modal #editExtraDataModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true" [options]="modalOptions"
           class="black-text">
   <mz-modal-header>
     <h4>Datos extra de clientes</h4>
   </mz-modal-header>
   <mz-modal-content>
-    <form materialize class="col s12" usersCrud>
+    <form materialize class="col s12">
       <div class="row">
-        <mz-input-container class="col s12 m6">
+        <mz-input-container class="col s12 l4">
           <i mz-icon-mdi mz-input-prefix
              [icon]="'email'">
           </i>
@@ -92,33 +92,31 @@
                  [validate]="true"
                  [dataError]="'El formato del email es inválido.'"
                  [dataSuccess]="'¡Email válido!'"
-                 placeholder="Email"
                  length="150"
                  type="email">
         </mz-input-container>
-        <mz-input-container class="col s12 m6">
+        <mz-input-container class="col s12 l4">
           <i mz-icon-mdi mz-input-prefix
              [icon]="'email'">
           </i>
           <input mz-input
-                 name="email"
+                 name="address"
                  [(ngModel)]="actualClient.address"
                  [label]="'Dirección de casa'"
                  [validate]="true"
                  [dataError]="'Dirección inválida.'"
                  [dataSuccess]="'¡Dirección válida!'"
-                 placeholder="Dirección de casa"
                  length="150"
                  type="text">
         </mz-input-container>
-        <mz-select-container class="col s12 m6">
+        <mz-select-container class="col s12 l4">
           <select mz-select
                   [label]="'Sexo'"
                   [name]="'client-sex'"
                   [placeholder]="'Escoge el sexo'"
                   [(ngModel)]="actualClient.gender.id"
           >
-            <option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</option>
+            <option *ngFor="let gender of genders" [value]="gender.id">{{'gender.' + gender.name | translate}}</option>
           </select>
         </mz-select-container>
       </div>
@@ -126,6 +124,6 @@
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
-    <button mz-button [flat]="true" (click)="setConflictive()">Confirmar</button>
+    <button mz-button [flat]="true" (click)="setExtraData()">Confirmar</button>
   </mz-modal-footer>
 </mz-modal>

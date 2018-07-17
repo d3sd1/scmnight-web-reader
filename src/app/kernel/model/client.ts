@@ -24,7 +24,7 @@ export class Client {
   public email: string = null;
   public getProfileStatus() {
     let completeLevel:number = 0;
-    const manualLevels = 4;
+    const manualLevels = 3;
     this.address != null && this.address != "" ? completeLevel++:null;
     this.gender != null && this.gender.name != "" ? completeLevel++:null;
     this.email != null && this.email != "" ? completeLevel++:null;

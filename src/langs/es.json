@@ -91,6 +91,7 @@
     "USER_NOT_FOUND": "Usuario no encontrado.",
     "BANS_UPDATED": "Conflictividad actualizada.",
     "USER_EDIT_SUCCESS": "Usuario editado correctamente.",
+    "GENDER_NOT_FOUND": "Género no encontrado.",
     "USER_ADD_SUCCESS": "Usuario añadido correctamente.",
     "USER_DEL_SUCCESS": "Usuario eliminado correctamente.",
     "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
@@ -215,5 +216,10 @@
     "QUITE_COMPLETED": "Algunos datos",
     "HIGH_COMPLETED": "Casi completo",
     "FULL_COMPLETED": "Completo"
+  },
+  "gender": {
+    "M": "Hombre",
+    "F": "Mujer",
+    "NA": "No especificado"
   }
 }

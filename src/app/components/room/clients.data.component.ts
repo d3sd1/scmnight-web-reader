@@ -23,10 +23,9 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
   rows = new Array<Client>();
   loading: boolean = false;
   genders: Array<Gender> = [];
-  conflictiveReasons: Array<ClientBanType>;
-  private actualClient: Client = new Client();
+  actualClient: Client = new Client();
 
-  @ViewChild('editConflictivity') editConflictivity: MzModalComponent;
+  @ViewChild('editExtraDataModal') editExtraDataModal: MzModalComponent;
   public modalOptions: Materialize.ModalOptions = {
     dismissible: false, // Modal can be dismissed by clicking outside of the modal
     opacity: .5, // Opacity of modal background
@@ -39,58 +38,46 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit(): void {
     this.loading = true;
     this.setPage({offset: 0});
-    this.api.get("rest/clients/conflictive_reasons")
-      .finally(() => {
-        this.editConflictivity.close();
-      })
+    this.api.get("rest/clients/genders")
       .subscribe(
-        (data: Array<ClientBanType>) => {
-          this.conflictiveReasons = data;
-        },
-        (error: HttpErrorResponse) => {
+        (genders: Array<ClientBanType>) => {
+          this.genders = genders;
         }
       );
   }
 
   onClientJoin(uri: any, data: any) {
     let entrance = deserialize(ClientEntrance, JSON.parse(data));
-    if (entrance.type.name == "LEAVE") {
-      let userIndex: number = this.rows.findIndex(x => {
-        return x.dni == entrance.client.dni;
-      })
-      this.rows.splice(userIndex, 1);
-      this.page.totalElements--;
-    }
-    else if (entrance.type.name == "JOIN" || entrance.type.name == "FORCED_ACCESS") {
-      this.rows.unshift(entrance.client);
-      this.page.totalElements++;
+    const foundRow = this.rows.findIndex((el) => {
+      return el.dni == entrance.client.dni;
+    });
+    if(foundRow === -1)
+    {
+      this.rows.push(entrance.client);
     }
   }
 
   ngOnDestroy(): void {
-    this.ws.unsubscribe("scm/clients_conflictive");
+    this.ws.unsubscribe("scm/clients_extradata");
     this.ws.unsubscribe("scm/clients_entrances");
   }
 
   ngAfterViewInit() {
-    this.ws.subscribe("scm/clients_conflictive", this.onClientUpdate.bind(this));
+    this.ws.subscribe("scm/clients_extradata", this.onClientUpdate.bind(this));
     this.ws.subscribe("scm/clients_entrances", this.onClientJoin.bind(this));
-
-    this.api.get("rest/clients/genders")
-      .subscribe(
-        (genders: Array<ClientBanType>) => {
-          this.genders = genders;
-          console.log(genders);
-        }
-      );
   }
 
   onClientUpdate(uri: any, data: any) {
-    const updatedData = JSON.parse(data);
-    if (null !== this.actualClient && this.actualClient.dni == updatedData.client.dni) {
-      this.clearConflictivityBoxes();
-      this.setConflictivityBoxes(updatedData.conflictivies);
-    }
+    const updatedClient = deserialize(Client, JSON.parse(data));
+    /*
+    * Update only editable data: email, address, sex.
+     */
+    const updatedUserRow = this.rows.findIndex((el) => {
+      return el.dni == updatedClient.dni;
+    });
+    this.rows[updatedUserRow].email = updatedClient.email;
+    this.rows[updatedUserRow].address = updatedClient.address;
+    this.rows[updatedUserRow].gender = updatedClient.gender;
   }
 
   constructor(private serverResultsService: ClientsMock, private ws: WsService, private api: ApiService) {
@@ -112,6 +99,7 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
     else {
       this.page.search = pageInfo.search;
     }
+    /* nos valen los conflictivos, ya que esto devuelve todos los usuarios */
     this.serverResultsService.getConflictiveResults(this.page).subscribe(pagedData => {
       this.page = pagedData.page;
       this.rows = pagedData.data;
@@ -143,57 +131,25 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  clearConflictivityBoxes() {
-    this.conflictiveReasons.forEach(function (el) {
-      el.checked = false;
-    });
-  }
-
-  setConflictivityBoxes(conflictibityReasons: Array<ClientBanType>) {
-    if (typeof conflictibityReasons == "object") {
-      this.conflictiveReasons.forEach((el, index) => {
-        const isChecked = conflictibityReasons.some(x => {
-          return el.id == x.id;
-        });
-        if (isChecked) {
-          this.conflictiveReasons[index].checked = true;
-        }
-      });
-    }
-  }
-
-  getConflictivity() {
-    let conflictivity: Array<ClientBanType> = [];
-    this.conflictiveReasons.forEach((el, index) => {
-      if (el.checked) {
-        conflictivity.push(this.conflictiveReasons[index]);
-      }
-    });
-    return conflictivity;
-  }
-
   editExtraData(client: Client) {
-    this.clearConflictivityBoxes();
     this.setPage({offset: 0});
     this.actualClient = client;
-    this.editConflictivity.open();
+    this.editExtraDataModal.open();
   }
 
-  setConflictive() {
-    this.api.post("rest/clients/conflictive/" + this.actualClient.dni, this.getConflictivity())
+  setExtraData() {
+    /* FIX PARA FECHAS DE REST: AQUI NO HACE FALTA EL BIRTHDATE */
+    this.actualClient.birthdate = null;
+    this.api.post("rest/clients/extradata", this.actualClient)
       .finally(() => {
-        this.editConflictivity.close();
+        this.editExtraDataModal.close();
       })
       .subscribe(
         (data: Array<ClientBanType>) => {
-          this.actualClient = null;
+          this.actualClient = new Client();
         },
         (error: HttpErrorResponse) => {
         }
       );
-  }
-
-  changeConflictStatus(id: number, actualStatus: boolean) {
-    this.conflictiveReasons[this.conflictiveReasons.findIndex(x => x.id == id)].checked = !actualStatus;
   }
 }
