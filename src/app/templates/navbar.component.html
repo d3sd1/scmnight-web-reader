@@ -41,8 +41,10 @@
       </mz-sidenav-collapsible>
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
-      <li class="own-sidenav-user valign-wrapper">
-        <span class="logo" style="background-image: url(../../assets/img/disco-logo.jpg), url(../../assets/img/example-logo.png);"></span>
+      <li class="own-sidenav-user valign-wrapper" (click)="changeLogo()">
+        <span class="logo"
+              style="background-image: url(../../assets/img/disco-logo.jpg), url(../../assets/img/example-logo.png);"></span>
+        <i mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">
                 <span *ngIf="!menuLoaded">
@@ -98,3 +100,30 @@
     <div class="clearfix"></div>
   </main>
 </div>
+
+<mz-modal #changeLogoModal [fixedFooter]="true" [bottomSheet]="false" [fullscreen]="false" [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h1 class="text-center">Cambiar logo</h1>
+  </mz-modal-header>
+  <mz-modal-content>
+    <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)"
+         [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+      <h1>Drag &amp; Drop</h1>
+    </div>
+
+    <label class="upload-button">
+      <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+             [uploadInput]="uploadInput" multiple>
+      or choose file(s)
+    </label>
+
+    <button type="button" class="start-upload-btn" (click)="startUpload()">
+      Start Upload
+    </button>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="setConflictive()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>

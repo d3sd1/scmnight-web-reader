@@ -1719,3 +1719,16 @@ span.title.langname {
 .chart-pie-grid {
   height: 30vh;
 }
+
+.own-sidenav-user:hover > .edit {
+  display: block;
+}
+
+.own-sidenav-user > .edit {
+  padding-top: 7px;
+  padding-right: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: none;
+}

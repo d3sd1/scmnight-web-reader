@@ -133,7 +133,9 @@
     "/dashboard/status": "Estado del servidor",
     "/dashboard/profile": "Mi perfil",
     "/dashboard/user/logout": "Desconectar",
-    "/dashboard/user/profile": "Mi perfil"
+    "/dashboard/user/profile": "Mi perfil",
+    "/dashboard/stock/manage": "Modificar",
+    "/dashboard/stock/sell": "Vender"
   },
   "langs": {
     "es": "Español",

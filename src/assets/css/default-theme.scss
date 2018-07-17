@@ -43,7 +43,7 @@ $theme-table-outside-select-bg-color: #fafafa;
 $theme-menu-logo-bg-color: #212121;
 $theme-menu-bg-color: #1B1B1B;
 $theme-menu-text-color: #dddddd;
-
+$theme-menu-edit-icon-color: #f5f5f5;
 /*
 1. Estilo del preloader
  */
@@ -204,4 +204,8 @@ body {
 .own-sidenav {
   background-color: $theme-menu-bg-color;
   color: $theme-menu-text-color;
+}
+
+.own-sidenav-user > .edit a {
+  color: $theme-menu-edit-icon-color;
 }
