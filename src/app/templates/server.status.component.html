@@ -1,0 +1,28 @@
+<!-- Content -->
+<div class="main-content section text-center">
+  <div class="row">
+    <div class="col s12 m6 l4 chart-pie-grid">
+      <ngx-charts-pie-grid
+        [scheme]="colorScheme"
+        [results]="single"
+        [customColors]="customColors"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-grid>
+    </div>
+    <div class="col s12 m6 l4 chart-pie-grid">
+      <ngx-charts-pie-grid
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-grid>
+    </div>
+    <div class="col s12 m6 l4 chart-pie-grid">
+      <ngx-charts-pie-grid
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-grid>
+    </div>
+  </div>
+</div>
+<!-- / .main-content -->

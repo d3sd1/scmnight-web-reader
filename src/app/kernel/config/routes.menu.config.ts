@@ -15,6 +15,9 @@ import {ConfigComponent} from '../../components/config.component';
 import {LoggedInService} from '../services/logged-in.service';
 import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
 import {RoomClientDataComponent} from "../../components/room/clients.data.component";
+import {ConflictreasonsManageComponent} from "../../components/room/conflictreasons.manage.component";
+import {ServerStatusComponent} from "../../components/server.status.component";
+import {RatesManageComponent} from "../../components/room/rates.manage.component";
 
 export const MenuRoutes: Routes = [
   {
@@ -101,14 +104,14 @@ export const MenuRoutes: Routes = [
       },
       {
         path: 'conflicts',
-        component: UsersManageComponent,
+        component: ConflictreasonsManageComponent,
         data: {
           requiredPermission: "MANAGE_ROOM_CONFLICTS"
         }
       },
       {
         path: 'rates',
-        component: UsersManageComponent,
+        component: RatesManageComponent,
         data: {
           requiredPermission: "MANAGE_ROOM_RATES"
         }
@@ -210,6 +213,14 @@ export const MenuRoutes: Routes = [
     data: {
       icon: "settings",
       requiredPermission: "MANAGE_CONFIG"
+    }
+  },
+  {
+    path: 'status',
+    component: ServerStatusComponent,
+    data: {
+      icon: "server",
+      requiredPermission: "VIEW_SERVER_STATUS"
     }
   }
 ];

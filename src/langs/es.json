@@ -94,6 +94,15 @@
     "GENDER_NOT_FOUND": "Género no encontrado.",
     "USER_ADD_SUCCESS": "Usuario añadido correctamente.",
     "USER_DEL_SUCCESS": "Usuario eliminado correctamente.",
+    "CONFLICTREASON_NOT_FOUND": "Motivo de conflictividad no encontrado.",
+    "CONFLICTREASON_UPDATED": "Motivo de conflictividad actualizado.",
+    "CONFLICTREASON_ALREADY_ONDB": "Motivo de conflictividad duplicado.",
+    "CONFLICTREASON_CREATED": "Motivo de conflictividad creado.",
+    "CONFLICTREASON_DELETED": "Motivo de conflictividad eliminado.",
+    "RATE_NOT_FOUND": "Tarifa no encontrada.",
+    "RATE_UPDATED": "Tarifa actualizada.",
+    "RATE_ALREADY_ONDB": "Tarifa duplicada.",
+    "RATE_CREATED": "Tarifa creada.",
     "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
   },
   "ws": {
@@ -121,6 +130,7 @@
     "/dashboard/stats/events": "Eventos",
     "/dashboard/stats/parties": "Fiestas",
     "/dashboard/config": "Configuración",
+    "/dashboard/status": "Estado del servidor",
     "/dashboard/profile": "Mi perfil",
     "/dashboard/user/logout": "Desconectar",
     "/dashboard/user/profile": "Mi perfil"

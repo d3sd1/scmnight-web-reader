@@ -8,8 +8,9 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {User} from "../../kernel/model/user";
 import {MzModalComponent} from "ng2-materialize";
 import {ApiService} from "../../kernel/services/api.service";
-import {ClientBanType} from "../../kernel/model/client.ban.type";
+import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {ClientEntrance} from "../../kernel/model/client-entrance";
+import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
 
 @Component({
   templateUrl: '../../templates/clients.conflictive.component.html',
@@ -22,7 +23,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   page = new TablePage();
   rows = new Array<Client>();
   loading: boolean = false;
-  conflictiveReasons: Array<ClientBanType>;
+  conflictiveReasons: Array<ConflictReason>;
   private actualClient: Client = null;
 
   @ViewChild('editConflictivity') editConflictivity: MzModalComponent;
@@ -43,7 +44,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
         this.editConflictivity.close();
       })
       .subscribe(
-        (data: Array<ClientBanType>) => {
+        (data: Array<ConflictReason>) => {
           this.conflictiveReasons = data;
         },
         (error: HttpErrorResponse) => {
@@ -74,8 +75,26 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   ngAfterViewInit() {
     this.ws.subscribe("scm/clients_conflictive", this.onClientUpdate.bind(this));
     this.ws.subscribe("scm/clients_entrances", this.onClientJoin.bind(this));
+    this.ws.subscribe("scm/conflictreasons_manage", this.onConflictReasonManage.bind(this));
   }
 
+  private onConflictReasonManage(uri: any, data: any) {
+    let action: ConflictReasonManage = deserialize(ConflictReasonManage, JSON.parse(data)),
+      conflictReasonIndex: number = this.conflictiveReasons.findIndex(x =>  x.id === action.conflict_reason.id);
+    switch (action.type.name) {
+      case "ADD":
+        this.conflictiveReasons.push(action.conflict_reason);
+        this.page.totalElements++;
+        break;
+      case "DELETE":
+        this.conflictiveReasons.splice(conflictReasonIndex, 1);
+        this.page.totalElements--;
+        break;
+      case "EDIT":
+        this.conflictiveReasons[conflictReasonIndex] = action.conflict_reason;
+        break;
+    }
+  }
   onClientUpdate(uri: any, data: any) {
     const updatedData = JSON.parse(data);
     if (null !== this.actualClient && this.actualClient.dni == updatedData.client.dni) {
@@ -140,7 +159,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  setConflictivityBoxes(conflictibityReasons: Array<ClientBanType>) {
+  setConflictivityBoxes(conflictibityReasons: Array<ConflictReason>) {
     if (typeof conflictibityReasons == "object") {
       this.conflictiveReasons.forEach((el, index) => {
         const isChecked = conflictibityReasons.some(x => {
@@ -154,7 +173,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   }
 
   getConflictivity() {
-    let conflictivity: Array<ClientBanType> = [];
+    let conflictivity: Array<ConflictReason> = [];
     this.conflictiveReasons.forEach((el, index) => {
       if (el.checked) {
         conflictivity.push(this.conflictiveReasons[index]);
@@ -172,7 +191,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
         this.editConflictivity.open();
       })
       .subscribe(
-        (data: Array<ClientBanType>) => {
+        (data: Array<ConflictReason>) => {
           this.setConflictivityBoxes(data);
         },
         (error: HttpErrorResponse) => {
@@ -186,7 +205,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
         this.editConflictivity.close();
       })
       .subscribe(
-        (data: Array<ClientBanType>) => {
+        (data: Array<ConflictReason>) => {
           this.actualClient = null;
         },
         (error: HttpErrorResponse) => {

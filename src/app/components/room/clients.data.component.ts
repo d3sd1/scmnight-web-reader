@@ -5,7 +5,7 @@ import {ClientEntrance} from '../../kernel/model/client-entrance';
 import {ClientsMock} from '../../kernel/mock/clients.mock';
 import {deserialize} from 'json-typescript-mapper';
 import {Client} from "../../kernel/model/client";
-import {ClientBanType} from "../../kernel/model/client.ban.type";
+import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {MzModalComponent} from "ng2-materialize";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../kernel/services/api.service";
@@ -40,7 +40,7 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
     this.setPage({offset: 0});
     this.api.get("rest/clients/genders")
       .subscribe(
-        (genders: Array<ClientBanType>) => {
+        (genders: Array<ConflictReason>) => {
           this.genders = genders;
         }
       );
@@ -145,7 +145,7 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
         this.editExtraDataModal.close();
       })
       .subscribe(
-        (data: Array<ClientBanType>) => {
+        (data: Array<ConflictReason>) => {
           this.actualClient = new Client();
         },
         (error: HttpErrorResponse) => {

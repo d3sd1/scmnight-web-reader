@@ -33,11 +33,20 @@ import {
   MzNavbarModule,
   MzProgressModule,
   MzCardModule,
-  MzSelectModule, MzSwitchModule, MzModalModule, MzDropdownModule, MzValidationModule, MzCheckboxModule
+  MzSelectModule,
+  MzSwitchModule,
+  MzModalModule,
+  MzDropdownModule,
+  MzValidationModule,
+  MzCheckboxModule,
+  MzTextareaModule
 } from 'ng2-materialize';
 import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
 import {AgePipe} from "../directives/age.pipe";
 import {RoomClientDataComponent} from "../../components/room/clients.data.component";
+import {ConflictreasonsManageComponent} from "../../components/room/conflictreasons.manage.component";
+import {ServerStatusComponent} from "../../components/server.status.component";
+import {RatesManageComponent} from "../../components/room/rates.manage.component";
 
 @NgModule({
   imports: [
@@ -64,7 +73,8 @@ import {RoomClientDataComponent} from "../../components/room/clients.data.compon
     MzDropdownModule,
     MzValidationModule,
     MzSelectModule,
-    MzCheckboxModule
+    MzCheckboxModule,
+    MzTextareaModule
   ],
   declarations: [
     NavbarComponent,
@@ -76,8 +86,11 @@ import {RoomClientDataComponent} from "../../components/room/clients.data.compon
     ClientsRoomComponent,
     UsersTotalComponent,
     RoomClientDataComponent,
+    ConflictreasonsManageComponent,
     UsersRoomComponent,
     ClientsConflictiveComponent,
+    RatesManageComponent,
+    ServerStatusComponent,
     ConfigComponent,
     ChangeLanguageDirective,
     DefaultProfileImageDirective,
