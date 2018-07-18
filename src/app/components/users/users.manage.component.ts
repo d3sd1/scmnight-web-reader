@@ -10,7 +10,8 @@ import {ApiService} from '../../kernel/services/api.service';
 import {NotificationsService} from 'angular2-notifications';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
+import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
 
 @Component({
   templateUrl: '../../templates/users.manage.component.html',
@@ -47,13 +48,13 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
   addUserModal() {
     this.modalUser = new User();
     this.editTypeAdd = true;
-    this.userEditModal.open();
+    this.userEditModal.openModal();
   }
 
   editUserModal(user: User) {
     this.modalUser = user;
     this.editTypeAdd = false;
-    this.userEditModal.open();
+    this.userEditModal.openModal();
   }
 
   editUserRest() {
@@ -67,9 +68,9 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
       typeName = "edit";
     }
 
-    call.finally(() => {
-      this.userEditModal.close();
-    }).subscribe(
+    call.pipe(finalize(() => {
+      this.userEditModal.closeModal();
+    })).subscribe(
       (data: HttpResponse<User>) => {
 
       },
@@ -80,14 +81,14 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   delUserModal(user: User) {
     this.modalUser = user;
-    this.userDelModal.open();
+    this.userDelModal.openModal();
   }
 
   delUserRest() {
     this.api.del("rest/users/delete/" + this.modalUser.dni)
-      .finally(() => {
-        this.userDelModal.close();
-      })
+      .pipe(finalize(() => {
+        this.userDelModal.closeModal();
+      }))
       .subscribe(
         (data: HttpResponse<User>) => {
 

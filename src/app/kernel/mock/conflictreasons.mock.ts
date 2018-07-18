@@ -7,13 +7,14 @@ import {ApiService} from "../services/api.service";
 
 import {deserialize} from 'json-typescript-mapper';
 import {ConflictReason} from "../model/conflict-reason";
+import { map, filter, scan } from 'rxjs/operators';
 
 @Injectable()
 export class ConflictreasonsMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<ConflictReason>> {
-      return this.api.post("rest/clients/table/conflictreasons", page).map(resp => this.getPagedConflictReasons(resp, page));
+      return this.api.post("rest/clients/table/conflictreasons", page).pipe(map(resp => this.getPagedConflictReasons(resp, page)));
     }
 
     private getPagedConflictReasons(response: TableClientsMockResponse, page: TablePage): TablePagedData<ConflictReason> {

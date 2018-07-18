@@ -5,11 +5,12 @@ import {User} from '../../kernel/model/user';
 import {UsersMock} from '../../kernel/mock/users.mock';
 import {ApiService} from '../../kernel/services/api.service';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
 import {ConflictreasonsMock} from "../../kernel/mock/conflictreasons.mock";
 import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {deserialize} from "json-typescript-mapper";
 import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
+import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
 
 @Component({
   templateUrl: '../../templates/conflictreasons.manage.component.html',
@@ -46,13 +47,13 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
   addUserModal() {
     this.modalConflictReason = new ConflictReason();
     this.editTypeAdd = true;
-    this.conflictReasonEditModal.open();
+    this.conflictReasonEditModal.openModal();
   }
 
   editUserModal(conflictReason: ConflictReason) {
     this.modalConflictReason = conflictReason;
     this.editTypeAdd = false;
-    this.conflictReasonEditModal.open();
+    this.conflictReasonEditModal.openModal();
   }
 
   editUserRest() {
@@ -64,21 +65,21 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
       call = this.api.post("rest/clients/conflictreason", this.modalConflictReason);
     }
 
-    call.finally(() => {
-      this.conflictReasonEditModal.close();
-    }).subscribe();
+    call.pipe(finalize(() => {
+      this.conflictReasonEditModal.closeModal();
+    })).subscribe();
   }
 
   delUserModal(conflictReason: ConflictReason) {
     this.modalConflictReason = conflictReason;
-    this.conflictReasonDelModal.open();
+    this.conflictReasonDelModal.openModal();
   }
 
   delUserRest() {
     this.api.del("rest/clients/conflictreason/" + this.modalConflictReason.id)
-      .finally(() => {
-        this.conflictReasonDelModal.close();
-      })
+      .pipe(finalize(() => {
+        this.conflictReasonDelModal.closeModal();
+      }))
       .subscribe();
   }
 

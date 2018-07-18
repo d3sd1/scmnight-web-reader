@@ -8,21 +8,22 @@ import {TableClientsMockResponse} from "../model/table-client-mockresponse";
 import {ApiService} from "../services/api.service";
 
 import {deserialize} from 'json-typescript-mapper';
+import { map, filter, scan } from 'rxjs/operators';
 
 @Injectable()
 export class UsersMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<User>> {
-      return this.api.post("rest/users/table/all", page).map(resp => this.getPagedUser(resp, page));
+      return this.api.post("rest/users/table/all", page).pipe(map(resp => this.getPagedUser(resp, page)));
     }
 
     public getRoomResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-      return this.api.post("rest/users/table/room", page).map(resp => this.getPagedUserEntrance(resp, page));
+      return this.api.post("rest/users/table/room", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
     }
 
     public getHistoricalResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-      return this.api.post("rest/users/table/historical", page).map(resp => this.getPagedUserEntrance(resp, page));
+      return this.api.post("rest/users/table/historical", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
     }
 
     private getPagedUser(response: TableClientsMockResponse, page: TablePage): TablePagedData<User> {

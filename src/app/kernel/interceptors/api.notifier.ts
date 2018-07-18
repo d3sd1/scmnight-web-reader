@@ -6,14 +6,10 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/empty';
-import 'rxjs/add/operator/retry';
+import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import {deserialize} from 'json-typescript-mapper';
 import {ResponseMessage} from '../model/response-message';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class ApiNotifierInterceptor implements HttpInterceptor {
@@ -68,7 +64,7 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
-      .map((event: HttpEvent<any>) => {
+      .pipe(map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
           let response: ResponseMessage = deserialize(ResponseMessage, event.body);
           response.code = event.status;
@@ -81,14 +77,13 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
           }
         }
         return event;
-      })
-      .catch((err: any, caught) => {
+      }), catchError((err: any, caught) => {
         if (err instanceof HttpErrorResponse) {
           let response: ResponseMessage = deserialize(ResponseMessage, err.error);
           response.code = err.status;
           this.sendNotification(response);
           return Observable.throw(err);
         }
-      });
+      }))
   }
 }

@@ -6,10 +6,11 @@ import {ClientsMock} from '../../kernel/mock/clients.mock';
 import {deserialize} from 'json-typescript-mapper';
 import {Client} from "../../kernel/model/client";
 import {ConflictReason} from "../../kernel/model/conflict-reason";
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../kernel/services/api.service";
 import {Gender} from "../../kernel/model/gender";
+import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
 
 @Component({
     templateUrl: '../../templates/clients.data.component.html',
@@ -134,16 +135,16 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
   editExtraData(client: Client) {
     this.setPage({offset: 0});
     this.actualClient = client;
-    this.editExtraDataModal.open();
+    this.editExtraDataModal.openModal();
   }
 
   setExtraData() {
     /* FIX PARA FECHAS DE REST: AQUI NO HACE FALTA EL BIRTHDATE */
     this.actualClient.birthdate = null;
     this.api.post("rest/clients/extradata", this.actualClient)
-      .finally(() => {
-        this.editExtraDataModal.close();
-      })
+      .pipe(finalize(() => {
+        this.editExtraDataModal.closeModal();
+      }))
       .subscribe(
         (data: Array<ConflictReason>) => {
           this.actualClient = new Client();

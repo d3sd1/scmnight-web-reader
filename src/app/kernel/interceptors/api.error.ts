@@ -6,12 +6,8 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable'
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/empty';
-import 'rxjs/add/operator/retry';
+import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
@@ -23,7 +19,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
-      .catch((err: HttpErrorResponse) => {
+      .pipe(catchError((err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           /* Client error */
         } else {
@@ -56,6 +52,6 @@ export class ApiErrorInterceptor implements HttpInterceptor {
           }
         }
         return Observable.throw(err);
-      });
+      }));
   }
 }

@@ -2,11 +2,12 @@ import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/c
 import {WsService} from '../../kernel/services/ws.service';
 import {TablePage} from '../../kernel/model/table-page';
 import {ApiService} from '../../kernel/services/api.service';
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
 import {deserialize} from "json-typescript-mapper";
 import {RatesMock} from "../../kernel/mock/rates.mock";
 import {Rate} from "../../kernel/model/rate";
 import {RateManage} from "../../kernel/model/rate-manage";
+import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
 
 @Component({
   templateUrl: '../../templates/rates.manage.component.html',
@@ -43,13 +44,13 @@ export class RatesManageComponent implements OnInit, AfterViewInit, OnDestroy {
   addUserModal() {
     this.modalRate = new Rate();
     this.editTypeAdd = true;
-    this.rateEditModal.open();
+    this.rateEditModal.openModal();
   }
 
   editUserModal(rate: Rate) {
     this.modalRate = rate;
     this.editTypeAdd = false;
-    this.rateEditModal.open();
+    this.rateEditModal.openModal();
   }
 
   editUserRest() {
@@ -61,21 +62,21 @@ export class RatesManageComponent implements OnInit, AfterViewInit, OnDestroy {
       call = this.api.post("rest/clients/rate", this.modalRate);
     }
 
-    call.finally(() => {
-      this.rateEditModal.close();
-    }).subscribe();
+    call.pipe(finalize(() => {
+      this.rateEditModal.closeModal();
+    })).subscribe();
   }
 
   delUserModal(rate: Rate) {
     this.modalRate = rate;
-    this.rateDelModal.open();
+    this.rateDelModal.openModal();
   }
 
   delUserRest() {
     this.api.del("rest/clients/rate/" + this.modalRate.id)
-      .finally(() => {
-        this.rateDelModal.close();
-      })
+      .pipe(finalize(() => {
+        this.rateDelModal.closeModal();
+      }))
       .subscribe();
   }
 

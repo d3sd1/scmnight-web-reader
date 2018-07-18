@@ -40,7 +40,7 @@ import {
   MzValidationModule,
   MzCheckboxModule,
   MzTextareaModule
-} from 'ng2-materialize';
+} from 'ngx-materialize';
 import {ClientsConflictiveComponent} from "../../components/clients/clients.conflictive.component";
 import {AgePipe} from "../directives/age.pipe";
 import {RoomClientDataComponent} from "../../components/room/clients.data.component";

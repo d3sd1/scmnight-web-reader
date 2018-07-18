@@ -4,6 +4,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {ApiService} from '../services/api.service';
 import {LoadingBarService} from '@ngx-loading-bar/core';
 import {Router, NavigationEnd} from '@angular/router';
+import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
 
 @Directive({
     selector: '[changeMenuLanguage]'
@@ -22,9 +23,9 @@ export class ChangeLanguageDirective {
         let lang = $(this.el.nativeElement).attr("data-menulang");
         this.loadingBar.start();
         this.api.post("session/userlang", {"langcode": lang})
-            .finally(() => {
+            .pipe(finalize(() => {
                 this.loadingBar.complete();
-            })
+            }))
             .subscribe(
             (data: any) => {
                 this.translate.get("notifications").subscribe(langLoaded =>

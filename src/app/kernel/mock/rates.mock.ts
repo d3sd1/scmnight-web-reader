@@ -7,13 +7,14 @@ import {ApiService} from "../services/api.service";
 
 import {deserialize} from 'json-typescript-mapper';
 import {Rate} from "../model/rate";
+import { map, filter, scan } from 'rxjs/operators';
 
 @Injectable()
 export class RatesMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<Rate>> {
-      return this.api.post("rest/clients/table/rates", page).map(resp => this.getPagedRates(resp, page));
+      return this.api.post("rest/clients/table/rates", page).pipe(map(resp => this.getPagedRates(resp, page)));
     }
 
     private getPagedRates(response: TableClientsMockResponse, page: TablePage): TablePagedData<Rate> {

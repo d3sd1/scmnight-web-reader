@@ -11,7 +11,7 @@ import {LoginComponent} from '../../components/login.component';
 import {RecoverComponent} from '../../components/recover.component';
 import {RecoverCodeComponent} from '../../components/recover.code.component';
 import {LanguageModule} from '../modules/language.module';
-import {MzButtonModule, MzInputModule, MzIconMdiModule, MzSidenavModule, MzCheckboxModule, MzRadioButtonModule} from 'ng2-materialize';
+import {MzButtonModule, MzInputModule, MzIconMdiModule, MzSidenavModule, MzCheckboxModule, MzRadioButtonModule} from 'ngx-materialize';
 
 
 @NgModule({
