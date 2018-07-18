@@ -47,6 +47,7 @@ import {RoomClientDataComponent} from "../../components/room/clients.data.compon
 import {ConflictreasonsManageComponent} from "../../components/room/conflictreasons.manage.component";
 import {ServerStatusComponent} from "../../components/server.status.component";
 import {RatesManageComponent} from "../../components/room/rates.manage.component";
+import { NgxUploaderModule } from 'ngx-uploader';
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import {RatesManageComponent} from "../../components/room/rates.manage.component
     MzValidationModule,
     MzSelectModule,
     MzCheckboxModule,
-    MzTextareaModule
+    MzTextareaModule,
+    NgxUploaderModule
   ],
   declarations: [
     NavbarComponent,

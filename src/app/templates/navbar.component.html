@@ -42,8 +42,7 @@
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
       <li class="own-sidenav-user valign-wrapper" (click)="changeLogo()">
-        <span class="logo"
-              style="background-image: url(../../assets/img/disco-logo.jpg), url(../../assets/img/example-logo.png);"></span>
+        <span class="logo" [style.background-image]="'url('+base64CustomImage+'), url(../../assets/img/example-logo.png)'"></span>
         <i mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">
@@ -103,14 +102,37 @@
 
 <mz-modal #changeLogoModal [fixedFooter]="true" [bottomSheet]="false" [fullscreen]="false" [options]="modalOptions"
           class="black-text">
-  <mz-modal-header>
-    <h1 class="text-center">Cambiar logo</h1>
-  </mz-modal-header>
   <mz-modal-content>
-
+    <form class="upload-logo" action="upload.php" method="POST">
+      <input (change)="logoUpload($event)"
+             [disabled]="uploadingLogo"
+             accept=".svg,.png,.jpg,.jpeg"
+             type="file"
+             ngFileDrop
+             ngFileSelect
+             [options]="options"
+             [uploadInput]="uploadInput"
+             single>
+      <p [hidden]="uploadingLogo">Arrastra aquí tu logotipo o clicka en este cuadro para seleccionarlo. Aceptamos el
+        formato svg, png, y jpg.</p>
+      <div [hidden]="!uploadingLogo" class="uploading">
+      <div class="preloader-wrapper big active margin-top-40vh">
+        <div class="spinner-layer spinner-white-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </form>
   </mz-modal-content>
   <mz-modal-footer>
-    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
-    <button mz-button [flat]="true" >Confirmar</button>
+    <button [disabled]="uploadingLogo" mz-button [flat]="true" (click)="cancelUpload()" mz-modal-close>Cancelar</button>
   </mz-modal-footer>
 </mz-modal>

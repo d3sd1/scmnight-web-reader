@@ -20,30 +20,50 @@ $theme-box-icon-active-color: #616161 !default;
 $theme-box-input-label-color: #212121 !default;
 $theme-box-input-underline-unselected-color: #757575 !default;
 $theme-box-input-underline-selected-color: #bdbdbd !default;
-$theme-box-switch-color: #212121;
-$main-background-color: #424242;
-$theme-table-bg-color: #FFFFFF;
-$theme-table-hover-color: #eeeeee;
-$theme-table-text-color: rgba(0, 0, 0, 0.87);
-$theme-table-header-color: rgba(0, 0, 0, 0.54);
-$theme-table-button-bg-color: #212121;
-$theme-table-button-text-color: #FFFFFF;
-$theme-table-button-hover-bg-color: #424242;
-$theme-table-button-hover-text-color: #FFFFFF;
-$theme-table-button-active-bg-color: #212121;
-$theme-table-button-active-text-color: #FFFFFF;
-$theme-table-outside-bg-button: #fafafa;
-$theme-table-outside-text-button: #212121;
-$theme-table-outside-hover-bg-button: #eeeeee;
-$theme-table-outside-hover-text-button: #616161;
-$theme-table-outside-active-bg-button: #FFFFFFF;
-$theme-table-outside-active-text-button: #000000;
-$theme-table-outside-select-text-color: #212121;
-$theme-table-outside-select-bg-color: #fafafa;
-$theme-menu-logo-bg-color: #212121;
-$theme-menu-bg-color: #1B1B1B;
-$theme-menu-text-color: #dddddd;
-$theme-menu-edit-icon-color: #f5f5f5;
+$theme-box-switch-color: #212121 !default;
+$main-background-color: #424242 !default;
+$theme-table-bg-color: #FFFFFF !default;
+$theme-table-hover-color: #eeeeee !default;
+$theme-table-text-color: rgba(0, 0, 0, 0.87) !default;
+$theme-table-header-color: rgba(0, 0, 0, 0.54) !default;
+$theme-table-button-bg-color: #212121 !default;
+$theme-table-button-text-color: #FFFFFF !default;
+$theme-table-button-hover-bg-color: #424242 !default;
+$theme-table-button-hover-text-color: #FFFFFF !default;
+$theme-table-button-active-bg-color: #212121 !default;
+$theme-table-button-active-text-color: #FFFFFF !default;
+$theme-table-outside-bg-button: #fafafa !default;
+$theme-table-outside-text-button: #212121 !default;
+$theme-table-outside-hover-bg-button: #eeeeee !default;
+$theme-table-outside-hover-text-button: #616161 !default;
+$theme-table-outside-active-bg-button: #FFFFFFF !default;
+$theme-table-outside-active-text-button: #000000 !default;
+$theme-table-outside-select-text-color: #212121 !default;
+$theme-table-outside-select-bg-color: #fafafa !default;
+$theme-menu-logo-bg-color: #212121 !default;
+$theme-menu-bg-color: #1B1B1B !default;
+$theme-menu-text-color: #dddddd !default;
+$theme-menu-edit-icon-color: #f5f5f5 !default;
+$theme-modal-upload-logo-box-border-color: #212121 !default;
+$theme-modal-upload-logo-box-text-color: #424242 !default;
+$theme-modal-content-bg-color: #fafafa !default;
+$theme-modal-content-text-color: #212121 !default;
+$theme-modal-footer-bg-color: #eeeeee !default;
+$theme-modal-footer-text-color: #616161 !default;
+$theme-modal-footer-button-bg-color: #eeeeee !default;
+$theme-modal-footer-button-text-color: #616161 !default;
+$theme-modal-footer-button-hover-bg-color: #e0e0e0 !default;
+$theme-modal-footer-button-hover-text-color: #757575 !default;
+$theme-modal-footer-button-active-bg-color: #424242 !default;
+$theme-modal-footer-button-active-text-color: #f5f5f5 !default;
+$theme-modal-footer-button-icon-color: #212121 !default;
+$theme-modal-content-icon-color: #212121 !default;
+$theme-modal-content-icon-active-color: #616161 !default;
+$theme-modal-content-switch-color: #212121 !default;
+$theme-modal-content-input-label-color: #212121 !default;
+$theme-modal-content-input-underline-unselected-color: #757575 !default;
+$theme-modal-content-input-underline-selected-color: #bdbdbd !default;
+$theme-modal-upload-spinner-color: #212121;
 /*
 1. Estilo del preloader
  */
@@ -171,7 +191,7 @@ body {
     .datatable-header-cell-label, .page-count {
       color: $theme-table-header-color !important;
     }
-    .datatable-body-cell  {
+    .datatable-body-cell {
       color: $theme-table-text-color !important;
     }
     button {
@@ -195,12 +215,14 @@ body {
     }
   }
 }
+
 /*
 5. Logotipo
  */
 .own-sidenav-user {
   background-color: $theme-menu-logo-bg-color;
 }
+
 .own-sidenav {
   background-color: $theme-menu-bg-color;
   color: $theme-menu-text-color;
@@ -208,4 +230,81 @@ body {
 
 .own-sidenav-user > .edit a {
   color: $theme-menu-edit-icon-color;
+}
+
+/*
+6. Modales
+ */
+.modal {
+  background-color: $theme-modal-content-bg-color;
+  color: $theme-modal-content-text-color;
+  .modal-content {
+    background-color: $theme-modal-content-bg-color;
+    color: $theme-modal-content-text-color;
+  }
+
+  .modal-footer {
+    background-color: $theme-modal-footer-bg-color;
+    color: $theme-modal-footer-text-color;
+    button {
+      background-color: $theme-modal-footer-button-bg-color;
+      color: $theme-modal-footer-button-text-color;
+
+      &:hover {
+        background-color: $theme-modal-footer-button-hover-bg-color;
+        color: $theme-modal-footer-button-hover-text-color
+      }
+      &:active {
+        background-color: $theme-modal-footer-button-active-bg-color;
+        color: $theme-modal-footer-button-active-text-color;
+      }
+      &:focus {
+        background-color: $theme-modal-footer-button-active-bg-color;
+        color: $theme-modal-footer-button-active-text-color;
+      }
+      & > i {
+        color: $theme-modal-footer-button-icon-color
+      }
+    }
+  }
+  i[mz-icon-mdi] {
+    color: $theme-modal-content-icon-color;
+  }
+  i[mz-icon-mdi].active {
+    color: $theme-modal-content-icon-active-color;
+  }
+  .switch label input[type=checkbox]:checked + .lever:after {
+    background-color: $theme-modal-content-switch-color !important;
+  }
+  .switch label input[type=checkbox]:checked + .lever {
+    background-color: $theme-modal-content-switch-color !important;
+  }
+  .input-field input:focus + label {
+    color: $theme-modal-content-input-label-color !important;
+  }
+  .input-field input {
+    border-bottom: 1px solid $theme-modal-content-input-underline-unselected-color !important;
+    box-shadow: 0 1px 0 0 $theme-modal-content-input-underline-unselected-color !important;
+  }
+  .input-field input:focus {
+    border-bottom: 1px solid $theme-modal-content-input-underline-selected-color !important;
+    box-shadow: 0 1px 0 0 $theme-modal-content-input-underline-selected-color !important;
+  }
+}
+
+/*
+7. Modal subir logotipo
+ */
+
+form.upload-logo {
+  border-color: $theme-modal-upload-logo-box-border-color;
+}
+
+form.upload-logo div:not(.uploading) {
+  color: $theme-modal-upload-logo-box-text-color;
+}
+form.upload-logo div.uploading {
+  .spinner-layer {
+    border-color: $theme-modal-upload-spinner-color
+  }
 }

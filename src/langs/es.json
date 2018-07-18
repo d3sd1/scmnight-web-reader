@@ -233,5 +233,8 @@
     "M": "Hombre",
     "F": "Mujer",
     "NA": "No especificado"
+  },
+  "logo_upload": {
+    "error_uploading": "No se puede cancelar cuando se está subiendo el nuevo logo."
   }
 }
