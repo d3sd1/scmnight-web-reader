@@ -1,0 +1,124 @@
+<div class="main-content section">
+  <div class="row">
+    <div class="col s12 theme-table">
+      <div class="row">
+        <mz-select-container class="col s4">
+          <select mz-select
+                  [placeholder]="'Traducciones por página'"
+                  (change)="setRows($event)">
+            <option value="10" selected>10 Traducciones por página</option>
+            <option value="25">25 Traducciones por página</option>
+            <option value="50">50 Traducciones por página</option>
+          </select>
+        </mz-select-container>
+        <div class="input-field col s4">
+          <input type="text" class="validate" (keyup)='onSearch($event)'>
+          <label>Buscar</label>
+        </div>
+        <mz-select-container class="col s4">
+          <select mz-select
+                  [placeholder]="'Filtrar por idioma'"
+                  (change)="filterByLang($event)">
+            <option *ngFor="let lang of langs" value="{{lang['key']}}" [selected]="lang['key'] == userInfo.lang_code">{{ lang['trans'] }}</option>
+          </select>
+        </mz-select-container>
+      </div>
+
+      <ngx-datatable
+        class="material"
+        [messages]="{
+                emptyMessage: 'table.noData' | translate,
+                totalMessage: 'table.total' | translate
+        }"
+        [rows]="filteredRows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'
+        [externalSorting]="true"
+        [loadingIndicator]="loading"
+        [trackByProp]="'updated'"
+        (sort)="onSort($event)">
+
+        <ngx-datatable-column name="Código" prop="key">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Valor" prop="value">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Idioma" prop="lang_key.lang_key">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button mz-button [float]="true" (click)="editUserModal(row)">
+              <i mz-icon-mdi [icon]="'pencil'"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+
+<mz-modal #conflictReasonEditModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
+          [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Gestionar usuario</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <form materialize class="col s12" usersCrud>
+      <div class="row">
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'key'">
+          </i>
+          <input mz-input
+                 name="langConfKey"
+                 value="{{ modalLang.key }}"
+                 disabled="true"
+                 type="text">
+        </mz-input-container>
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'keyboard-off'">
+          </i>
+          <input mz-input
+                 name="langKey"
+                 value="{{ 'langs.' + modalLang.lang_key.lang_key | translate }}"
+                 disabled="true"
+                 type="text">
+        </mz-input-container>
+        <mz-textarea-container class="col s12">
+          <i mz-icon-mdi mz-textarea-prefix
+             [icon]="'message-reply-text'">
+          </i>
+          <textarea mz-textarea
+                    [(ngModel)]="modalLang.value"
+                    [label]="'Traducción'"
+                    name="trans"
+                    placeholder="Introduce aquí el texto de traducción."
+                    length="150"></textarea>
+        </mz-textarea-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="editUserRest()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>

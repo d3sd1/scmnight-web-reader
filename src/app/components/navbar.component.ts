@@ -43,16 +43,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   uploadingLogo = false;
   logo: SafeStyle = "";
   canEditLogo = false;
+  discoName: string = "";
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
-
-  dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
-  }
 
   isValidLogo(str) {
     var image = new Image();
@@ -125,6 +117,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.sessionInfo.getDiscoInfo().then(res => {
       this.setLogo(res.logo);
+      this.discoName = res.discoName;
     });
   }
 

@@ -107,6 +107,8 @@
     "LOGO_IMAGE_CHANGED": "Imagen de logo cambiada.",
     "INVALID_LOGO_FORMATIMAGE": "El formato del logo no es válido.",
     "INVALID_LOGO_MBSIZEIMAGE": "El logotipo indicado ocupa más de lo permitido.",
+    "LANG_KEY_NOT_FOUND": "Clave de idioma no encontrada.",
+    "LANG_KEY_UPDATED": "Clave de idioma actualizada.",
     "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
   },
   "ws": {
@@ -121,6 +123,7 @@
     "/dashboard/room/rates": "Tarifas",
     "/dashboard/room/image": "Temas del panel",
     "/dashboard/users": "Personal",
+    "/dashboard/users/permissions": "Permisos",
     "/dashboard/users/manage": "Modificar personal",
     "/dashboard/users/room": "Actualmente en la sala",
     "/dashboard/users/all": "Histórico de accesos",
@@ -133,6 +136,7 @@
     "/dashboard/stats/promos": "Promociones",
     "/dashboard/stats/events": "Eventos",
     "/dashboard/stats/parties": "Fiestas",
+    "/dashboard/translate": "Traducciones",
     "/dashboard/config": "Configuración",
     "/dashboard/status": "Estado del servidor",
     "/dashboard/profile": "Mi perfil",
@@ -143,7 +147,8 @@
   },
   "langs": {
     "es": "Español",
-    "en": "Inglés"
+    "en": "Inglés",
+    "all": "Todos"
   },
   "page_titles": {
     "/dashboard/start": "Panel de control",

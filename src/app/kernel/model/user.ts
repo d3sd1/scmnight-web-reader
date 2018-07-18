@@ -8,5 +8,5 @@ export class User {
     public email: string = null;
     public telephone: number = null;
     public address: string = null;
-    public langcode: string = null;
+    public lang_code: string = null;
 }

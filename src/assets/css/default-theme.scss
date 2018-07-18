@@ -43,6 +43,8 @@ $theme-table-outside-select-bg-color: #fafafa !default;
 $theme-menu-logo-bg-color: #212121 !default;
 $theme-menu-bg-color: #1B1B1B !default;
 $theme-menu-text-color: #dddddd !default;
+$theme-nav-mobile-bg-color: #1B1B1B !default;
+$theme-nav-mobile-text-color: #dddddd !default;
 $theme-menu-edit-icon-color: #f5f5f5 !default;
 $theme-modal-upload-logo-box-border-color: #212121 !default;
 $theme-modal-upload-logo-box-text-color: #424242 !default;
@@ -307,4 +309,11 @@ form.upload-logo div.uploading {
   .spinner-layer {
     border-color: $theme-modal-upload-spinner-color
   }
+}
+/*
+8. Mobile menu
+ */
+nav {
+  background-color: $theme-nav-mobile-bg-color;
+  color: $theme-nav-mobile-text-color
 }

@@ -18,6 +18,9 @@ import {RoomClientDataComponent} from "../../components/room/clients.data.compon
 import {ConflictreasonsManageComponent} from "../../components/room/conflictreasons.manage.component";
 import {ServerStatusComponent} from "../../components/server.status.component";
 import {RatesManageComponent} from "../../components/room/rates.manage.component";
+import {StockManageComponent} from "../../components/stock/stock.manage.component";
+import {PermissionsManageComponent} from "../../components/users/permissions.manage.component";
+import {CustomTranslateManageComponent} from "../../components/custom-translate.manage.component";
 
 export const MenuRoutes: Routes = [
   {
@@ -66,6 +69,13 @@ export const MenuRoutes: Routes = [
       icon: "account-multiple"
     },
     children: [
+      {
+        path: 'permissions',
+        component: PermissionsManageComponent,
+        data: {
+          requiredPermission: "MANAGE_PERMISSIONS"
+        },
+      },
       {
         path: 'manage',
         component: UsersManageComponent,
@@ -164,9 +174,16 @@ export const MenuRoutes: Routes = [
     children: [
       {
         path: 'manage',
-        component: UsersManageComponent,
+        component: StockManageComponent,
         data: {
           requiredPermission: "MANAGE_STOCK"
+        }
+      },
+      {
+        path: 'types',
+        component: UsersManageComponent,
+        data: {
+          requiredPermission: "MANAGE_STOCK_TYPES"
         }
       },
       {
@@ -206,6 +223,14 @@ export const MenuRoutes: Routes = [
         }
       }
     ]
+  },
+  {
+    path: 'translate',
+    component: CustomTranslateManageComponent,
+    data: {
+      icon: "translate",
+      requiredPermission: "MANAGE_TRANSLATES"
+    }
   },
   {
     path: 'config',

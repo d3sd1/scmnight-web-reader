@@ -48,6 +48,10 @@ import {ConflictreasonsManageComponent} from "../../components/room/conflictreas
 import {ServerStatusComponent} from "../../components/server.status.component";
 import {RatesManageComponent} from "../../components/room/rates.manage.component";
 import { NgxUploaderModule } from 'ngx-uploader';
+import {StockManageComponent} from "../../components/stock/stock.manage.component";
+import {PermissionsManageComponent} from "../../components/users/permissions.manage.component";
+import {CustomTranslatesService} from "../services/custom-translates.service";
+import {CustomTranslateManageComponent} from "../../components/custom-translate.manage.component";
 
 @NgModule({
   imports: [
@@ -97,13 +101,19 @@ import { NgxUploaderModule } from 'ngx-uploader';
     ChangeLanguageDirective,
     DefaultProfileImageDirective,
     TimeAgoPipe,
-    AgePipe
+    AgePipe,
+    StockManageComponent,
+    PermissionsManageComponent,
+    CustomTranslateManageComponent
   ],
   exports: [
     ChangeLanguageDirective,
     DefaultProfileImageDirective
   ],
-  providers: [SessionSingleton]
+  providers: [
+    SessionSingleton,
+    CustomTranslatesService
+  ]
 })
 
 export class LoggedInModule {

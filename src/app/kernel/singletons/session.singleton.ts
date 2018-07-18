@@ -6,6 +6,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Permission} from "../model/Permission";
 import {Config} from "../model/config";
 import {DiscoInfo} from "../model/disco-info";
+import {CustomTranslate} from "../model/custom-translate";
+import {CustomLang} from "../model/custom-lang";
+
 
 @Injectable()
 export class SessionSingleton {
@@ -15,10 +18,82 @@ export class SessionSingleton {
   private user: User = null;
   private userPermissions: Array<Permission> = null;
   private discoInfo: DiscoInfo = null;
+  private customTranslates: Array<CustomTranslate> = null;
+  private customAvailableLangs: Array<CustomLang> = null;
 
   private apiLoadingUser: Promise<User> = null;
   private apiLoadingPermissions: Promise<Array<Permission>> = null;
   private apiLoadingDiscoInfo: Promise<DiscoInfo> = null;
+  private apiLoadingCustomTranslates: Promise<Array<CustomTranslate>> = null;
+  private apiLoadingCustomLanguages: Promise<Array<CustomLang>> = null;
+
+  getCustomTranslatesAvailable(): Promise<Array<CustomLang>> {
+    return new Promise((resolveGeneral, rejectGeneral) => {
+      if (this.customTranslates === null) {
+        if (this.apiLoadingCustomLanguages === null) {
+          this.apiLoadingCustomLanguages = new Promise((resolveInternal, rejectInternal) => {
+            this.getUser().then(user => {
+              this.api.get('rest/sessiondata/translatesavailable')
+                .subscribe(
+                  (customAvailableLangs: Array<CustomLang>) => {
+                    this.apiLoadingCustomLanguages = null;
+                    this.customAvailableLangs = customAvailableLangs;
+                    resolveInternal(this.customAvailableLangs);
+                    resolveGeneral(this.customAvailableLangs);
+                  },
+                  (err: HttpErrorResponse) => {
+                    /* Fix para prevenir bucle */
+                    resolveInternal([new CustomLang()]);
+                    resolveGeneral([new CustomLang()]);
+                  });
+            });
+          });
+        }
+        else {
+          this.apiLoadingCustomLanguages.then(res => {
+            resolveGeneral(this.customAvailableLangs)
+          });
+        }
+      }
+      else {
+        resolveGeneral(this.customAvailableLangs);
+      }
+    });
+  }
+
+  getCustomTranslates(): Promise<Array<CustomTranslate>> {
+    return new Promise((resolveGeneral, rejectGeneral) => {
+      if (this.customTranslates === null) {
+        if (this.apiLoadingCustomTranslates === null) {
+          this.apiLoadingCustomTranslates = new Promise((resolveInternal, rejectInternal) => {
+            this.getUser().then(user => {
+              this.api.get('rest/session/translates/' + user.langcode)
+                .subscribe(
+                  (customTranslates: Array<CustomTranslate>) => {
+                    this.apiLoadingCustomTranslates = null;
+                    this.customTranslates = customTranslates;
+                    resolveInternal(this.customTranslates);
+                    resolveGeneral(this.customTranslates);
+                  },
+                  (err: HttpErrorResponse) => {
+                    /* Fix para prevenir bucle */
+                    resolveInternal([new CustomTranslate()]);
+                    resolveGeneral([new CustomTranslate()]);
+                  });
+            });
+          });
+        }
+        else {
+          this.apiLoadingCustomTranslates.then(res => {
+            resolveGeneral(this.customTranslates)
+          });
+        }
+      }
+      else {
+        resolveGeneral(this.customTranslates);
+      }
+    });
+  }
 
   getUser(): Promise<User> {
     return new Promise((resolveGeneral, rejectGeneral) => {
