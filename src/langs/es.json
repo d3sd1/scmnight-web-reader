@@ -235,6 +235,7 @@
     "NA": "No especificado"
   },
   "logo_upload": {
-    "error_uploading": "No se puede cancelar cuando se está subiendo el nuevo logo."
+    "error_uploading": "No se puede cancelar cuando se está subiendo el nuevo logo.",
+    "error_onupload": "Ha ocurrido un error al subir el nuevo logo."
   }
 }

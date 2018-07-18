@@ -41,9 +41,9 @@
       </mz-sidenav-collapsible>
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
-      <li class="own-sidenav-user valign-wrapper" (click)="changeLogo()">
+      <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
         <span class="logo" [style.background-image]="'url('+base64CustomImage+'), url(../../assets/img/example-logo.png)'"></span>
-        <i mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
+        <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">
                 <span *ngIf="!menuLoaded">

@@ -1716,11 +1716,11 @@ span.title.langname {
   height: 30vh;
 }
 
-.own-sidenav-user:hover > .edit {
+.own-sidenav-user.editable:hover > .edit {
   display: block;
 }
 
-.own-sidenav-user > .edit {
+.own-sidenav-user.editable > .edit {
   padding-top: 7px;
   padding-right: 7px;
   position: absolute;
@@ -1769,4 +1769,7 @@ form.upload-logo .uploading > .preloader-wrapper {
   margin-top: 35%;
   width: 6em;
   height: 6em;
+}
+i.hidden {
+  display: none !important
 }
