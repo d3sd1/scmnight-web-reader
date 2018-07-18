@@ -1773,3 +1773,9 @@ form.upload-logo .uploading > .preloader-wrapper {
 i.hidden {
   display: none !important
 }
+
+@media only screen and (min-width: 601px) {
+  nav .nav-wrapper i {
+    line-height: 40px;
+  }
+}

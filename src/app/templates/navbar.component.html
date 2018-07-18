@@ -11,8 +11,9 @@
                 class="hide-on-large-only">
       <mz-progress class="hide-on-large-only" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
       <mz-sidenav-header>
-        <li class="own-sidenav-user valign-wrapper">
-          <img class="logo" src="../../assets/img/example-logo.png">
+        <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
+          <span class="logo" [style.background-image]="logo"></span>
+          <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
         </li>
       </mz-sidenav-header>
       <mz-sidenav-collapsible *ngFor="let menuOption of filteredMenuOptions">
