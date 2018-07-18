@@ -107,20 +107,7 @@
     <h1 class="text-center">Cambiar logo</h1>
   </mz-modal-header>
   <mz-modal-content>
-    <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)"
-         [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
-      <h1>Drag &amp; Drop</h1>
-    </div>
 
-    <label class="upload-button">
-      <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
-             [uploadInput]="uploadInput" multiple>
-      or choose file(s)
-    </label>
-
-    <button type="button" class="start-upload-btn" (click)="startUpload()">
-      Start Upload
-    </button>
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
