@@ -42,7 +42,7 @@
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
       <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
-        <img class="logo" [src]="logo" (error)="setLogo()" />
+        <span class="logo" [style.background-image]="logo"></span>
         <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">

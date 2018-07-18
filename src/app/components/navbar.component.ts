@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   options: UploaderOptions;
   uploadInput: EventEmitter<UploadInput>;
   uploadingLogo = false;
-  logo: SafeUrl = "";
+  logo: SafeStyle = "";
   canEditLogo = false;
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
 
@@ -55,14 +55,16 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isValidLogo(str) {
-    var file = this.dataURLtoFile(str, 'a.png');
+    var image = new Image();
+    image.src = str;
+    image.onerror = function(err){
+      return false;
+    }
     return str != "";
   }
   setLogo(logo) {
     if (typeof logo !== "undefined" && this.isValidLogo(logo)) {
-      this.logo = this._sanitizer.bypassSecurityTrustUrl(logo);
-    } else {
-      this.logo = this._sanitizer.bypassSecurityTrustUrl("../../assets/img/example-logo.png");
+      this.logo = this._sanitizer.bypassSecurityTrustStyle("url(" + logo + ")");
     }
   }
 
