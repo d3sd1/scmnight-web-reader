@@ -1,4 +1,14 @@
-import {Component, OnInit, ViewChild, ElementRef, ViewChildren, EventEmitter, Output} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ViewChildren,
+  EventEmitter,
+  Output,
+  OnDestroy,
+  AfterViewInit
+} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {User} from '../kernel/model/user';
 import {NavbarOptions} from '../kernel/config/navbar.config';
@@ -12,19 +22,61 @@ import {MzModalComponent} from "ngx-materialize";
 
 import {UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions} from 'ngx-uploader';
 import {NotificationsService} from "angular2-notifications";
+import {ApiOptions} from "../kernel/config/api.config";
+import {AuthToken} from "../kernel/model/auth-token";
+import {finalize} from "rxjs/operators";
+import {ApiService} from "../kernel/services/api.service";
+import {LoadingBarService} from '@ngx-loading-bar/core';
+import {deserialize} from "json-typescript-mapper";
+import {ConflictReasonManage} from "../kernel/model/conflict-reason-manage";
+import {WsService} from "../kernel/services/ws.service";
+import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'main-content',
   templateUrl: '../templates/navbar.component.html'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options: UploaderOptions;
   uploadInput: EventEmitter<UploadInput>;
   uploadingLogo = false;
-  base64CustomImage = "";
+  logo: SafeUrl = "";
   canEditLogo = false;
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
+
+  dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+  }
+
+  isValidLogo(str) {
+    var file = this.dataURLtoFile(str, 'a.png');
+    return str != "";
+  }
+  setLogo(logo) {
+    if (typeof logo !== "undefined" && this.isValidLogo(logo)) {
+      this.logo = this._sanitizer.bypassSecurityTrustUrl(logo);
+    } else {
+      this.logo = this._sanitizer.bypassSecurityTrustUrl("../../assets/img/example-logo.png");
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.ws.unsubscribe("scm/config_logo");
+  }
+
+  ngAfterViewInit() {
+    this.ws.subscribe("scm/config_logo", this.onLogoChanged.bind(this));
+  }
+
+  private onLogoChanged(uri: any, img: any) {
+    this.setLogo(img);
+  }
 
   cancelUpload() {
     if (!this.uploadingLogo) {
@@ -41,14 +93,19 @@ export class NavbarComponent implements OnInit {
 
   logoUpload($event) {
     this.uploadingLogo = true;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL($event.target.files[0]);
     reader.onload = () => {
-      //TODO: subir logo
-      console.log("base 64: ", reader.result);
-
-      //ejecutar esto cuando acabe
-      this.uploadingLogo = true;
+      const img = reader.result;
+      this.api.post("rest/config/logo", {"img": img})
+        .pipe(finalize(() => {
+          this.loadingBar.complete();
+        }))
+        .subscribe(
+          (res) => {
+            this.changeLogoModal.closeModal();
+            this.uploadingLogo = false;
+          });
     };
     reader.onerror = (error) => {
       this.notify.error(
@@ -59,10 +116,13 @@ export class NavbarComponent implements OnInit {
     };
   }
 
-  constructor(public router: Router, private translate: TranslateService, private sessionInfo: SessionSingleton, private notify: NotificationsService) {
+  constructor(public router: Router, private _sanitizer: DomSanitizer, private ws: WsService, private loadingBar: LoadingBarService, private api: ApiService, private translate: TranslateService, private sessionInfo: SessionSingleton, private notify: NotificationsService) {
 
     this.sessionInfo.getPermissions().then(res => {
       this.canEditLogo = res.findIndex(x => x.action === "CHANGE_LOGO") !== -1;
+    });
+    this.sessionInfo.getDiscoInfo().then(res => {
+      this.setLogo(res.logo);
     });
   }
 

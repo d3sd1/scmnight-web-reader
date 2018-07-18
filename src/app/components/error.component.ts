@@ -9,14 +9,16 @@ export class ErrorComponent {
     public errorDesc;
     constructor(private route: ActivatedRoute, private translate: TranslateService) {
         this.route.params.subscribe(params => {
-            if (!isNaN(params["code"]) && params["code"] in this.translate.get("errorPages")["value"]) {
-                this.errorTitle = this.translate.get("errorPages")["value"][params["code"]]["title"];
-                this.errorDesc = this.translate.get("errorPages")["value"][params["code"]]["desc"];
+          translate.get('errorPages').subscribe((codes: Array<string>) => {
+            if (!isNaN(params["code"]) && params["code"] in codes) {
+              this.errorTitle = this.translate.get("errorPages")["value"][params["code"]]["title"];
+              this.errorDesc = this.translate.get("errorPages")["value"][params["code"]]["desc"];
             }
             else {
-                this.errorTitle = this.translate.get("errorPages")["value"]["generic"]["title"];
-                this.errorDesc = this.translate.get("errorPages")["value"]["generic"]["desc"];
+              this.errorTitle = this.translate.get("errorPages")["value"]["generic"]["title"];
+              this.errorDesc = this.translate.get("errorPages")["value"]["generic"]["desc"];
             }
+          });
         });
     }
 }

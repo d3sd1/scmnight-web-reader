@@ -14,9 +14,11 @@ export class SessionSingleton {
 
   private user: User = null;
   private userPermissions: Array<Permission> = null;
+  private discoInfo: DiscoInfo = null;
+
   private apiLoadingUser: Promise<User> = null;
-  private discoInfo: Promise<DiscoInfo> = null;
   private apiLoadingPermissions: Promise<Array<Permission>> = null;
+  private apiLoadingDiscoInfo: Promise<DiscoInfo> = null;
 
   getUser(): Promise<User> {
     return new Promise((resolveGeneral, rejectGeneral) => {
@@ -53,31 +55,31 @@ export class SessionSingleton {
   getDiscoInfo(): Promise<DiscoInfo> {
     return new Promise((resolveGeneral, rejectGeneral) => {
       if (this.discoInfo === null) {
-        if (this.apiLoadingUser === null) {
-          this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
-            this.api.get('rest/discoinfo')
+        if (this.apiLoadingDiscoInfo === null) {
+          this.apiLoadingDiscoInfo = new Promise((resolveInternal, rejectInternal) => {
+            this.api.get('rest/sessiondata/discoinfo')
               .subscribe(
-                (user: User) => {
-                  this.apiLoadingUser = null;
-                  this.user = user;
-                  resolveInternal(this.user);
-                  resolveGeneral(this.user);
+                (discoInfo: DiscoInfo) => {
+                  this.apiLoadingDiscoInfo = null;
+                  this.discoInfo = discoInfo;
+                  resolveInternal(this.discoInfo);
+                  resolveGeneral(this.discoInfo);
                 },
                 (err: HttpErrorResponse) => {
                   /* Fix para prevenir bucle */
-                  resolveInternal(new User());
-                  resolveGeneral(new User());
+                  resolveInternal(new DiscoInfo());
+                  resolveGeneral(new DiscoInfo());
                 });
           });
         }
         else {
-          this.apiLoadingUser.then(res => {
-            resolveGeneral(this.user)
+          this.apiLoadingDiscoInfo.then(res => {
+            resolveGeneral(this.discoInfo)
           });
         }
       }
       else {
-        resolveGeneral(this.user);
+        resolveGeneral(this.discoInfo);
       }
     });
   }

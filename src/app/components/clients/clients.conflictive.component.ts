@@ -71,6 +71,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/clients_conflictive");
     this.ws.unsubscribe("scm/clients_entrances");
+    this.ws.unsubscribe("scm/conflictreasons_manage");
   }
 
   ngAfterViewInit() {

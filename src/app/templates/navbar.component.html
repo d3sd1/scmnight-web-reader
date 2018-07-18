@@ -42,7 +42,7 @@
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
       <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
-        <span class="logo" [style.background-image]="'url('+base64CustomImage+'), url(../../assets/img/example-logo.png)'"></span>
+        <img class="logo" [src]="logo" (error)="setLogo()" />
         <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">
@@ -114,7 +114,7 @@
              [uploadInput]="uploadInput"
              single>
       <p [hidden]="uploadingLogo">Arrastra aquí tu logotipo o clicka en este cuadro para seleccionarlo. Aceptamos el
-        formato svg, png, y jpg.</p>
+        formato svg, png, y jpg, con un tamaño máximo de 10 MB.</p>
       <div [hidden]="!uploadingLogo" class="uploading">
       <div class="preloader-wrapper big active margin-top-40vh">
         <div class="spinner-layer spinner-white-only">

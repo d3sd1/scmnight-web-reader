@@ -103,6 +103,10 @@
     "RATE_UPDATED": "Tarifa actualizada.",
     "RATE_ALREADY_ONDB": "Tarifa duplicada.",
     "RATE_CREATED": "Tarifa creada.",
+    "INVALID_LOGO_IMAGE": "La imagen utilizada como logotipo es inválida.",
+    "LOGO_IMAGE_CHANGED": "Imagen de logo cambiada.",
+    "INVALID_LOGO_FORMATIMAGE": "El formato del logo no es válido.",
+    "INVALID_LOGO_MBSIZEIMAGE": "El logotipo indicado ocupa más de lo permitido.",
     "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
   },
   "ws": {
