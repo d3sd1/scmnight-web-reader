@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+import {throwError} from "rxjs/internal/observable/throwError";
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
@@ -51,7 +52,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             );
           }
         }
-        return Observable.throw(err);
+        return throwError(err);
       }));
   }
 }

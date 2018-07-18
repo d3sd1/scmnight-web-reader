@@ -7,7 +7,7 @@ import {User} from '../kernel/model/user';
 import {TranslateService} from '@ngx-translate/core';
 import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
-import 'rxjs/add/operator/finally';
+import {finalize} from "rxjs/operators";
 @Component({
     selector: 'main-content',
     templateUrl: '../templates/login.component.html'
@@ -27,9 +27,9 @@ export class LoginComponent implements OnInit {
         this.loadingBar.start();
 
       this.api.post("rest/auth-login", {user: this.user, coords: this.coords, extendedSession: this.extendedSession})
-            .finally(() => {
+            .pipe(finalize(() => {
                 this.loadingBar.complete();
-            })
+            }))
             .subscribe(
             (authToken: AuthToken) => {
                 localStorage.setItem(ApiOptions.idParameter, authToken.id.toString());

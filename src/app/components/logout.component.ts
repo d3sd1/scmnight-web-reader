@@ -6,6 +6,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {ApiService} from '../kernel/services/api.service';
 import {ApiOptions} from '../kernel/config/api.config';
 import {AuthService} from '../kernel/services/auth.service';
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'main-content',
@@ -25,12 +26,12 @@ export class LogoutComponent implements OnInit {
         if (this.authService.loggedIn()) {
             this.loadingBar.start();
             this.api.del("auth-logout" + '/' + localStorage.getItem(ApiOptions.idParameter))
-                .finally(() => {
+                .pipe(finalize(() => {
                     localStorage.clear();
 
                     this.router.navigate(['login']);
                     this.loadingBar.complete();
-                })
+                }))
                 .subscribe(
                 () => this.notify.success(
                     this.translate.get("notifications")["value"]["logout"]["success"]["title"],

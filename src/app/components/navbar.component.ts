@@ -8,7 +8,7 @@ import {MenuRoutes} from '../kernel/config/routes.menu.config';
 import {MenuOptionData} from '../kernel/model/menu-option-data';
 import {SessionSingleton} from '../kernel/singletons/session.singleton';
 import {Permission} from "../kernel/model/Permission";
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
 
 @Component({
   selector: 'main-content',
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
   private userPermission: Array<Permission>;
 
   changeLogo() {
-    this.changeLogoModal.open();
+    this.changeLogoModal.openModal();
   }
   ngOnInit() {
     this.sessionInfo.getDiscoInfo().then(discoInfo => {

@@ -6,11 +6,12 @@ import {deserialize} from 'json-typescript-mapper';
 import {Client} from "../../kernel/model/client";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {User} from "../../kernel/model/user";
-import {MzModalComponent} from "ng2-materialize";
+import {MzModalComponent} from "ngx-materialize";
 import {ApiService} from "../../kernel/services/api.service";
 import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {ClientEntrance} from "../../kernel/model/client-entrance";
 import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
+import {finalize} from "rxjs/operators";
 
 @Component({
   templateUrl: '../../templates/clients.conflictive.component.html',
@@ -40,9 +41,9 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
     this.loading = true;
     this.setPage({offset: 0});
     this.api.get("rest/clients/conflictive_reasons")
-      .finally(() => {
-        this.editConflictivity.close();
-      })
+      .pipe(finalize(() => {
+        this.editConflictivity.closeModal();
+      }))
       .subscribe(
         (data: Array<ConflictReason>) => {
           this.conflictiveReasons = data;
@@ -187,9 +188,9 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
     this.setPage({offset: 0});
     this.actualClient = client;
     this.api.get("rest/clients/conflictive/" + client.dni)
-      .finally(() => {
-        this.editConflictivity.open();
-      })
+      .pipe(finalize(() => {
+        this.editConflictivity.openModal();
+      }))
       .subscribe(
         (data: Array<ConflictReason>) => {
           this.setConflictivityBoxes(data);
@@ -201,9 +202,9 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
 
   setConflictive() {
     this.api.post("rest/clients/conflictive/" + this.actualClient.dni, this.getConflictivity())
-      .finally(() => {
-        this.editConflictivity.close();
-      })
+      .pipe(finalize(() => {
+        this.editConflictivity.closeModal();
+      }))
       .subscribe(
         (data: Array<ConflictReason>) => {
           this.actualClient = null;

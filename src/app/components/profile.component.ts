@@ -9,6 +9,7 @@ import {ApiOptions} from "../kernel/config/api.config";
 import {ApiService} from "../kernel/services/api.service";
 import {LoadingBarService} from '@ngx-loading-bar/core';
 import {NotificationsService} from "angular2-notifications";
+import {finalize} from "rxjs/operators";
 
 @Component({
   templateUrl: '../templates/profile.component.html',
@@ -57,14 +58,14 @@ export class ProfileComponent implements OnInit {
     }
     console.log(this.user);
     this.api.post("rest/session/userinfo", this.user)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.loadingBar.complete();
         this.user.password = null;
         this.user.newpass = null;
         this.newPass1 = null;
         this.newPass2 = null;
         this.showPasswordChanger = false;
-      })
+      }))
       .subscribe(
         (authToken: AuthToken) => {
         });

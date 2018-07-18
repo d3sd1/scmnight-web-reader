@@ -1,16 +1,26 @@
 {
   "compileOnSave": false,
+  "include": [
+    "src/**/*",
+    "node_modules/json-typescript-mapper/libs/utils.ts"
+  ],
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2017",
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "baseUrl": "./",
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "types": [
+      "jquery",
+      "materialize-css"
     ],
     "lib": [
       "es2017",

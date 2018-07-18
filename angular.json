@@ -20,15 +20,24 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/langs"
             ],
             "styles": [
-              "src/styles.css"
+              "./src/assets/css/materialize.scss",
+              "./node_modules/@swimlane/ngx-datatable/src/themes/material.scss",
+              "./src/assets/css/main.scss",
+              "./src/assets/css/tables.scss",
+              "./src/assets/css/default-theme.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/materialize-css/dist/js/materialize.js",
+              "./src/assets/js/autobahn.min.js"
+            ]
           },
           "configurations": {
-            "production": {
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -44,6 +53,17 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "dev": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": false,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           }
         },
@@ -53,8 +73,11 @@
             "browserTarget": "scm-disco:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "scm-disco:build:production"
+            "dev": {
+              "browserTarget": "scm-disco:build:dev"
+            },
+            "prod": {
+              "browserTarget": "scm-disco:build:prod"
             }
           }
         },
@@ -106,8 +129,8 @@
             "devServerTarget": "scm-disco:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "scm-disco:serve:production"
+            "prod": {
+              "devServerTarget": "scm-disco:serve:prod"
             }
           }
         },
@@ -121,6 +144,12 @@
           }
         }
       }
+    }
+  },
+
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
     }
   },
   "defaultProject": "scm-disco"

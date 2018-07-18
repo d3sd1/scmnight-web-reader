@@ -6,11 +6,11 @@ import {AuthToken} from '../kernel/model/auth-token';
 import {TranslateService} from '@ngx-translate/core';
 import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
-import 'rxjs/add/operator/finally';
 import {
     HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
     HttpErrorResponse
 } from '@angular/common/http';
+import {finalize} from "rxjs/operators";
 @Component({
     selector: 'main-content',
     templateUrl: '../templates/recover.code.component.html'
@@ -28,9 +28,9 @@ export class RecoverCodeComponent {
         this.loadingBar.start();
 
         this.api.post("recover/code", {code: this.code})
-            .finally(() => {
+            .pipe(finalize(() => {
                 this.loadingBar.complete();
-            })
+            }))
             .subscribe(
                 (response: HttpResponse<AuthToken>) => {
                     this.notify.success(

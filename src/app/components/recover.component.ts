@@ -5,8 +5,8 @@ import {NotificationsService} from 'angular2-notifications';
 import {AuthToken} from '../kernel/model/auth-token';
 import {TranslateService} from '@ngx-translate/core';
 import {ApiService} from '../kernel/services/api.service';
-import 'rxjs/add/operator/finally';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
+import {finalize} from "rxjs/operators";
 @Component({
     selector: 'main-content',
     templateUrl: '../templates/recover.component.html'
@@ -25,9 +25,9 @@ export class RecoverComponent {
         this.loadingBar.start();
         if (this.isPropietary) {
             this.api.post("recover", {dni: this.dni})
-                .finally(() => {
+                .pipe(finalize(() => {
                     this.loadingBar.complete();
-                })
+                }))
                 .subscribe(
                     (response: HttpResponse<AuthToken>) => {
                         this.notify.success(

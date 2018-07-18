@@ -10,7 +10,8 @@ import {NotificationsService} from 'angular2-notifications';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 import {deserialize} from 'json-typescript-mapper';
-import {MzBaseModal, MzModalComponent, MzModalService} from "ng2-materialize";
+import {MzBaseModal, MzModalComponent, MzModalService} from "ngx-materialize";
+import {finalize} from "rxjs/operators";
 
 @Component({
   templateUrl: '../templates/config.component.html',
@@ -46,21 +47,21 @@ export class ConfigComponent implements OnInit, AfterViewInit, OnDestroy {
   editConfigModal(config: Config) {
     this.modalConfig = new Config(config);
     console.log(this.modalConfig);
-    this.modal.open();
+    this.modal.openModal();
   }
 
   editConfigRest() {
 
-    this.api.post("rest/config/mod", this.modalConfig).finally(() => {
+    this.api.post("rest/config/mod", this.modalConfig).pipe(finalize(() => {
       this.modalConfig = new Config();
-    }).subscribe(
+    })).subscribe(
       (data: HttpResponse<Config>) => {
 
       },
       (error: HttpErrorResponse) => {
       },
       () => {
-        this.modal.close();
+        this.modal.closeModal();
       });
   }
 

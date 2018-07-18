@@ -4,7 +4,6 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import * as $ from 'jquery';
 import  "reflect-metadata";
-import 'rxjs/add/operator/map';
 
 if (environment.production) {
     enableProdMode();
