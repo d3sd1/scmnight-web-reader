@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     submitSignInForm(): void {
         this.loadingBar.start();
 
-      this.api.post("rest/auth-login", {user: this.user, coords: this.coords, extendedSession: this.extendedSession})
+      this.api.post("rest/auth/login", {user: this.user, coords: this.coords, extended_session: this.extendedSession})
             .pipe(finalize(() => {
                 this.loadingBar.complete();
             }))

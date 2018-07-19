@@ -16,7 +16,7 @@
           <label>Buscar</label>
         </div>
         <div class="input-field col s2">
-          <button mz-button class="col s12" (click)="addUserModal()">Añadir</button>
+          <button mz-button class="col s12" (click)="openAddModal()">Añadir</button>
         </div>
       </div>
 
@@ -53,10 +53,10 @@
         </ngx-datatable-column>
         <ngx-datatable-column>
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <button mz-button [float]="true" (click)="editUserModal(row)">
+            <button mz-button [float]="true" (click)="openEditModal(row)">
               <i mz-icon-mdi [icon]="'pencil'"></i>
             </button>
-            <button mz-button [float]="true" (click)="delUserModal(row)">
+            <button mz-button [float]="true" (click)="openDelModal(row)">
               <i mz-icon-mdi [icon]="'delete'"></i>
             </button>
           </ng-template>
@@ -67,14 +67,14 @@
   </div>
 </div>
 
-<mz-modal #conflictReasonDelModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="false"
+<mz-modal #delModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="false"
           [options]="modalOptions"
           class="black-text">
   <mz-modal-header>
     <h4>Eliminar usuario</h4>
   </mz-modal-header>
   <mz-modal-content>
-    ¿Estás segur@ que deseas eliminar el conflicto {{modalConflictReason?.name}} ? Esta acción no se puede revertir.
+    ¿Estás segur@ que deseas eliminar el conflicto {{modalData?.name}} ? Esta acción no se puede revertir.
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
@@ -83,7 +83,7 @@
 </mz-modal>
 
 
-<mz-modal #conflictReasonEditModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
+<mz-modal #manageModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
           [options]="modalOptions"
           class="black-text">
   <mz-modal-header>
@@ -98,7 +98,7 @@
           </i>
           <input mz-input
                  name="conflictKey"
-                 [(ngModel)]="modalConflictReason.name"
+                 [(ngModel)]="modalData.name"
                  [label]="'Clave de conflicto'"
                  autocomplete="off"
                  [disabled]="!editTypeAdd"

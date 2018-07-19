@@ -15,15 +15,15 @@ export class UsersMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<User>> {
-      return this.api.post("rest/users/table/all", page).pipe(map(resp => this.getPagedUser(resp, page)));
+      return this.api.post("rest/users/crud/all", page).pipe(map(resp => this.getPagedUser(resp, page)));
     }
 
     public getRoomResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-      return this.api.post("rest/users/table/room", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
+      return this.api.post("rest/users/crud/room", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
     }
 
     public getHistoricalResults(page: TablePage): Observable<TablePagedData<UserEntrance>> {
-      return this.api.post("rest/users/table/historical", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
+      return this.api.post("rest/users/crud/historical", page).pipe(map(resp => this.getPagedUserEntrance(resp, page)));
     }
 
     private getPagedUser(response: TableClientsMockResponse, page: TablePage): TablePagedData<User> {

@@ -12,7 +12,7 @@ import { map, filter, scan } from 'rxjs/operators';
 export class ConfigMock {
     constructor(private api: ApiService) {}
     public getAllConfigs(page: TablePage): Observable<TablePagedData<Config>> {
-      return this.api.post("rest/config/table/all", page).pipe(map(resp => this.getPagedConfigs(resp, page)));
+      return this.api.post("rest/config/crud/all", page).pipe(map(resp => this.getPagedConfigs(resp, page)));
     }
 
     private getPagedConfigs(response: TableClientsMockResponse, page: TablePage): TablePagedData<Config> {

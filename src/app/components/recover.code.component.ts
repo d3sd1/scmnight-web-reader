@@ -27,7 +27,7 @@ export class RecoverCodeComponent {
     finalRecoverAccount(): void {
         this.loadingBar.start();
 
-        this.api.post("recover/code", {code: this.code})
+        this.api.post("rest/auth/recover/code", {code: this.code})
             .pipe(finalize(() => {
                 this.loadingBar.complete();
             }))

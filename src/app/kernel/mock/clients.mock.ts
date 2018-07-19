@@ -17,15 +17,15 @@ export class ClientsMock {
   }
 
   public getTotalResults(page: TablePage): Observable<TablePagedData<ClientEntrance>> {
-    return this.api.post("rest/clients/table/all", page).pipe(map(resp => this.getPagedData(resp, page)));
+    return this.api.post("rest/clients/crud/all", page).pipe(map(resp => this.getPagedData(resp, page)));
   }
 
   public getConflictiveResults(page: TablePage): Observable<TablePagedData<Client>> {
-    return this.api.post("rest/clients/table/conflictive", page).pipe(map(resp => this.getPagedConflictives(resp, page)));
+    return this.api.post("rest/clients/crud/conflictive", page).pipe(map(resp => this.getPagedConflictives(resp, page)));
   }
 
   public getRoomResults(page: TablePage): Observable<TablePagedData<ClientEntrance>> {
-    return this.api.post("rest/clients/table/room", page).pipe(map(resp => this.getPagedData(resp, page)));
+    return this.api.post("rest/clients/crud/room", page).pipe(map(resp => this.getPagedData(resp, page)));
   }
 
   private getPagedData(response: TableClientsMockResponse, page: TablePage): TablePagedData<ClientEntrance> {

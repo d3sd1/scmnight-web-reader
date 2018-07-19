@@ -16,7 +16,7 @@ export class StockItemsMock {
   }
 
   public getTotalResults(page: TablePage): Observable<TablePagedData<StockItem>> {
-    return this.api.post("rest/stock/table", page).pipe(map(resp => this.getPagedConflictReasons(resp, page)));
+    return this.api.post("rest/stock/crud", page).pipe(map(resp => this.getPagedConflictReasons(resp, page)));
   }
 
   private getPagedConflictReasons(response: TableClientsMockResponse, page: TablePage): TablePagedData<StockItem> {

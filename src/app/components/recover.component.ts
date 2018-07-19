@@ -24,7 +24,7 @@ export class RecoverComponent {
     recoverAccountForm(): void {
         this.loadingBar.start();
         if (this.isPropietary) {
-            this.api.post("recover", {dni: this.dni})
+            this.api.post("rest/auth/recover", {dni: this.dni})
                 .pipe(finalize(() => {
                     this.loadingBar.complete();
                 }))

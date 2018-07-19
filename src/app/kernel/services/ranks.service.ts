@@ -21,7 +21,7 @@ export class RanksService implements CanActivate {
           console.warn("permisos no configurados para ruta ", route.data);
           return true;
         }
-        return typeof userPermissions.find(x => x.action === data.requiredPermission) !== "undefined";
+        return userPermissions !== null && typeof userPermissions.find(x => x.action === data.requiredPermission) !== "undefined";
       });
 
     });

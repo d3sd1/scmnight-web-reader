@@ -65,7 +65,7 @@ export class SessionSingleton {
       if (this.user === null) {
         if (this.apiLoadingUser === null) {
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
-            this.api.get('rest/session/userinfo')
+            this.api.get('rest/user/info')
               .subscribe(
                 (user: User) => {
                   this.apiLoadingUser = null;
@@ -129,7 +129,7 @@ export class SessionSingleton {
       if (this.userPermissions === null) {
         if (this.apiLoadingPermissions === null) {
           this.apiLoadingPermissions = new Promise((resolveInternal, rejectInternal) => {
-            this.api.get('rest/session/userpermissions')
+            this.api.get('rest/user/permissions')
               .subscribe(
                 (permissions: Array<Permission>) => {
                   this.apiLoadingPermissions = null;

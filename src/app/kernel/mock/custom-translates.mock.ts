@@ -17,7 +17,7 @@ export class CustomTranslatesMock {
   }
 
   public getTotalResults(page: TablePage): Observable<TablePagedData<CustomTranslate>> {
-    return this.api.post("rest/sessiondata/table/translates", page).pipe(map(resp => this.getPagedConflictReasons(resp, page)));
+    return this.api.post("rest/sessiondata/crud/translates", page).pipe(map(resp => this.getPagedConflictReasons(resp, page)));
   }
 
   private getPagedConflictReasons(response: TableClientsMockResponse, page: TablePage): TablePagedData<CustomTranslate> {
