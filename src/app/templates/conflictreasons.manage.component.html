@@ -46,14 +46,9 @@
             {{value}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Descripción ES" prop="trans_es">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            {{value}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Descripción EN" prop="trans_en">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            {{value}}
+        <ngx-datatable-column name="Descripción">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{"CONFLICT." + row.name | cTranslate:userInfo.lang_code}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column>
@@ -95,7 +90,7 @@
     <h4>Gestionar usuario</h4>
   </mz-modal-header>
   <mz-modal-content>
-    <form materialize class="col s12" usersCrud>
+    <form materialize class="col s12" usersCrud *ngIf="modalSetLangs['es'] != undefined">
       <div class="row">
         <mz-input-container class="col s12 m6">
           <i mz-icon-mdi mz-input-prefix
@@ -109,26 +104,15 @@
                  [disabled]="!editTypeAdd"
                  type="text">
         </mz-input-container>
-        <mz-textarea-container class="col s12">
+        <mz-textarea-container class="col s12" *ngFor="let customLang of customLangs" >
           <i mz-icon-mdi mz-textarea-prefix
              [icon]="'message-reply-text'">
           </i>
           <textarea mz-textarea
-                    [(ngModel)]="modalConflictReason.trans_es"
-                    [label]="'Traducción al español'"
-                    name="conflictLangES"
-                    placeholder="Introduce aquí el texto descriptivo del conflicto, en español."
-                    length="150"></textarea>
-        </mz-textarea-container>
-        <mz-textarea-container class="col s12">
-          <i mz-icon-mdi mz-textarea-prefix
-             [icon]="'message-reply-text'">
-          </i>
-          <textarea mz-textarea
-                    [(ngModel)]="modalConflictReason.trans_en"
-                    [label]="'Traducción al inglés'"
-                    name="conflictLangEN"
-                    placeholder="Introduce aquí el texto descriptivo del conflicto, en inglés."
+                    [(ngModel)]="modalSetLangs[customLang.lang_key].value"
+                    [label]="'Traducción al ' + ('langs.' + customLang.lang_key | translate)"
+                    [name]="'conflictLang' + customLang.lang_key"
+                    [placeholder]="'Introduce aquí el texto descriptivo del conflicto, en ' + ('langs.' + customLang.lang_key | translate) + '.'"
                     length="150"></textarea>
         </mz-textarea-container>
       </div>

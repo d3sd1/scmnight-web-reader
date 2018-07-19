@@ -52,6 +52,7 @@ import {StockManageComponent} from "../../components/stock/stock.manage.componen
 import {PermissionsManageComponent} from "../../components/users/permissions.manage.component";
 import {CustomTranslatesService} from "../services/custom-translates.service";
 import {CustomTranslateManageComponent} from "../../components/custom-translate.manage.component";
+import {CustomTranslatePipe} from "../pipes/custom-translate.pipe";
 
 @NgModule({
   imports: [
@@ -102,6 +103,7 @@ import {CustomTranslateManageComponent} from "../../components/custom-translate.
     DefaultProfileImageDirective,
     TimeAgoPipe,
     AgePipe,
+    CustomTranslatePipe,
     StockManageComponent,
     PermissionsManageComponent,
     CustomTranslateManageComponent

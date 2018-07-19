@@ -89,7 +89,7 @@
           </i>
           <input mz-input
                  name="langConfKey"
-                 value="{{ modalLang.key }}"
+                 value="{{ modalLang.key_id }}"
                  disabled="true"
                  type="text">
         </mz-input-container>
@@ -119,6 +119,6 @@
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
-    <button mz-button [flat]="true" (click)="editUserRest()">Confirmar</button>
+    <button mz-button [flat]="true" (click)="editLangRest()">Confirmar</button>
   </mz-modal-footer>
 </mz-modal>

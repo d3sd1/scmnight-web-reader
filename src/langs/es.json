@@ -109,6 +109,8 @@
     "INVALID_LOGO_MBSIZEIMAGE": "El logotipo indicado ocupa más de lo permitido.",
     "LANG_KEY_NOT_FOUND": "Clave de idioma no encontrada.",
     "LANG_KEY_UPDATED": "Clave de idioma actualizada.",
+    "LANG_KEY_DELETE_SUCCESS": "Clave de idioma eliminada.",
+    "LANG_NOT_FOUND": "El idioma indicado no fue encontrado.",
     "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
   },
   "ws": {

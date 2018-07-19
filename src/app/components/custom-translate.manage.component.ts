@@ -8,7 +8,6 @@ import {TablePage} from "../kernel/model/table-page";
 import {CustomTranslate} from "../kernel/model/custom-translate";
 import {WsService} from "../kernel/services/ws.service";
 import {ApiService} from "../kernel/services/api.service";
-import {CustomTranslateManage} from "../kernel/model/custom-translate-manage";
 import {TranslateService} from "@ngx-translate/core";
 import {SessionSingleton} from "../kernel/singletons/session.singleton";
 import {User} from "../kernel/model/user";
@@ -73,7 +72,7 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
     });
   }
 
-  /* Manage user */
+  /* Manage lang key */
   modalLang: CustomTranslate = new CustomTranslate();
   editTypeAdd: boolean = false;
 
@@ -84,7 +83,7 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
     this.conflictReasonEditModal.openModal();
   }
 
-  editUserRest() {
+  editLangRest() {
     this.api.post("rest/sessiondata/translates", this.modalLang).pipe(finalize(() => {
       this.conflictReasonEditModal.closeModal();
     })).subscribe();
@@ -107,12 +106,12 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
   private onLangManage(uri: any, data: any) {
     let translation: CustomTranslate = deserialize(CustomTranslate, JSON.parse(data));
     this.filteredRows.forEach((row: CustomTranslate, index) => {
-      if (translation.key == row.key && translation.lang_key.lang_key == row.lang_key.lang_key) {
+      if (translation.key_id == row.key_id && translation.lang_key.lang_key == row.lang_key.lang_key) {
         this.filteredRows[index] = translation;
       }
     });
     this.allRows.forEach((row: CustomTranslate, index) => {
-      if (translation.key == row.key && translation.lang_key.lang_key == row.lang_key.lang_key) {
+      if (translation.key_id == row.key_id && translation.lang_key.lang_key == row.lang_key.lang_key) {
         this.allRows[index] = translation;
       }
     });

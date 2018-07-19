@@ -84,12 +84,12 @@
             <select mz-select
                     [name]="'prof-lang'"
                     [label]="'Idioma'"
-                    [(ngModel)]="user.langcode"
+                    [(ngModel)]="user.lang_code"
                     [placeholder]="'Escoge tu idioma'"
             >
               <option *ngFor="let lang of languages" data-icon="assets/img/langs/lang.png" class="left circle"
                       changeMenuLanguage
-                      [value]="user.langcode"
+                      [value]="user.lang_code"
                       [attr.data-menulang]="lang">{{ 'langs.' + lang | translate }}
               </option>
             </select>

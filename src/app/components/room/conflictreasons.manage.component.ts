@@ -10,7 +10,11 @@ import {ConflictreasonsMock} from "../../kernel/mock/conflictreasons.mock";
 import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {deserialize} from "json-typescript-mapper";
 import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
-import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
+import {finalize} from 'rxjs/operators';
+import {CustomTranslatesService} from "../../kernel/services/custom-translates.service";
+import {SessionSingleton} from "../../kernel/singletons/session.singleton";
+import {CustomLang} from "../../kernel/model/custom-lang";
+import {CustomTranslate} from "../../kernel/model/custom-translate";
 
 @Component({
   templateUrl: '../../templates/conflictreasons.manage.component.html',
@@ -23,6 +27,9 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
   page = new TablePage();
   rows = new Array<ConflictReason>();
   loading: boolean = false;
+  userInfo: User = new User();
+  customLangs: Array<CustomLang> = new Array<CustomLang>();
+
   @ViewChild('conflictReasonEditModal') conflictReasonEditModal: MzModalComponent;
   @ViewChild('conflictReasonDelModal') conflictReasonDelModal: MzModalComponent;
 
@@ -35,39 +42,56 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
     endingTop: '10%', // Ending top style attribute
   };
 
-  constructor(private serverResultsService: ConflictreasonsMock, private ws: WsService, private api: ApiService) {
+  constructor(private serverResultsService: ConflictreasonsMock, private ws: WsService, private api: ApiService, private singleton: SessionSingleton, private cTranslate: CustomTranslatesService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }
 
   /* Manage user */
   modalConflictReason: ConflictReason = new ConflictReason();
+  modalSetLangs = [];
   editTypeAdd: boolean = false;
+
+  initLanguages() {
+    console.log("init");
+    this.modalSetLangs = [];
+    console.log(this.modalSetLangs);
+    this.customLangs.forEach((lang) => {
+      const newLang = new CustomTranslate();
+      newLang.lang_key.lang_key = lang.lang_key;
+      newLang.value = this.cTranslate.getTranslate('CONFLICT.' + this.modalConflictReason.name, lang.lang_key);
+      newLang.key_id = 'CONFLICT.' + this.modalConflictReason.name;
+
+      this.modalSetLangs[lang.lang_key] = newLang;
+    });
+  }
 
   addUserModal() {
     this.modalConflictReason = new ConflictReason();
     this.editTypeAdd = true;
+    this.initLanguages();
     this.conflictReasonEditModal.openModal();
   }
 
   editUserModal(conflictReason: ConflictReason) {
     this.modalConflictReason = conflictReason;
     this.editTypeAdd = false;
+    this.initLanguages();
     this.conflictReasonEditModal.openModal();
   }
 
   editUserRest() {
-    let call;
     if (this.editTypeAdd) {
-      call = this.api.put("rest/clients/conflictreason", this.modalConflictReason);
+      this.api.put("rest/clients/conflictreason", this.modalConflictReason).pipe(finalize(() => {
+        this.conflictReasonEditModal.closeModal();
+      })).subscribe();
+      ;
     }
-    else {
-      call = this.api.post("rest/clients/conflictreason", this.modalConflictReason);
+    for (let lang in this.modalSetLangs) {
+      this.api.post("rest/sessiondata/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
+        this.conflictReasonEditModal.closeModal();
+      })).subscribe();
     }
-
-    call.pipe(finalize(() => {
-      this.conflictReasonEditModal.closeModal();
-    })).subscribe();
   }
 
   delUserModal(conflictReason: ConflictReason) {
@@ -81,11 +105,24 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
         this.conflictReasonDelModal.closeModal();
       }))
       .subscribe();
+
+    for (let lang in this.modalSetLangs) {
+      this.api.del("rest/sessiondata/translates/").pipe(finalize(() => {
+        this.conflictReasonEditModal.closeModal();
+      })).subscribe();
+    }
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.setPage({offset: 0});
+
+    this.singleton.getUser().then((user: User) => {
+      this.userInfo = user;
+    });
+    this.singleton.getCustomTranslatesAvailable().then((customLangs: Array<CustomLang>) => {
+      this.customLangs = customLangs;
+    });
   }
 
   ngOnDestroy(): void {
@@ -98,7 +135,7 @@ export class ConflictreasonsManageComponent implements OnInit, AfterViewInit, On
 
   private onConflictReasonManage(uri: any, data: any) {
     let action: ConflictReasonManage = deserialize(ConflictReasonManage, JSON.parse(data)),
-      conflictReasonIndex: number = this.rows.findIndex(x =>  x.id === action.conflict_reason.id);
+      conflictReasonIndex: number = this.rows.findIndex(x => x.id === action.conflict_reason.id);
     switch (action.type.name) {
       case "ADD":
         this.rows.push(action.conflict_reason);

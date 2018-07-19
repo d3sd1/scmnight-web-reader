@@ -109,28 +109,6 @@
                  [disabled]="!editTypeAdd"
                  type="text">
         </mz-input-container>
-        <mz-textarea-container class="col s12">
-          <i mz-icon-mdi mz-textarea-prefix
-             [icon]="'message-reply-text'">
-          </i>
-          <textarea mz-textarea
-                    [(ngModel)]="modalStockItem.trans_es"
-                    [label]="'Traducción al español'"
-                    name="conflictLangES"
-                    placeholder="Introduce aquí el texto descriptivo del conflicto, en español."
-                    length="150"></textarea>
-        </mz-textarea-container>
-        <mz-textarea-container class="col s12">
-          <i mz-icon-mdi mz-textarea-prefix
-             [icon]="'message-reply-text'">
-          </i>
-          <textarea mz-textarea
-                    [(ngModel)]="modalStockItem.trans_en"
-                    [label]="'Traducción al inglés'"
-                    name="conflictLangEN"
-                    placeholder="Introduce aquí el texto descriptivo del conflicto, en inglés."
-                    length="150"></textarea>
-        </mz-textarea-container>
       </div>
     </form>
   </mz-modal-content>
