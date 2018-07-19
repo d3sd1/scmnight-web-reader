@@ -25,7 +25,7 @@ export class LogoutComponent implements OnInit {
     ngOnInit(): void {
         if (this.authService.loggedIn()) {
             this.loadingBar.start();
-            this.api.del("auth/logout" + '/' + localStorage.getItem(ApiOptions.idParameter))
+            this.api.del("rest/auth/logout" + '/' + localStorage.getItem(ApiOptions.idParameter))
                 .pipe(finalize(() => {
                     localStorage.clear();
 

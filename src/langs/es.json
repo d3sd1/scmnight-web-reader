@@ -67,7 +67,9 @@
     "SESSION_EXPIRED": "La sesión ha expirado."
   },
   "api_notifications": {
+    "SERVER_NOT_CONFIGURED": "El servidor no está configurado correctamente.",
     "RECOVER_EMAIL_SENT": "El email de recuperación ha sido enviado al correo de la cuenta.",
+    "RECOVER_NO_PERMISSIONS": "El usuario indicado no puede restablecer manualmente su contraseña.",
     "RECOVER_ACCOUNT_SUCCESS": "La recuperación de cuenta fue satisfactoria.",
     "INCORRECT_LOGIN": "La conexión no fue satisfactoria.",
     "LOGIN_SUCCESS": "Conexión satisfactoria.",
@@ -113,8 +115,8 @@
     "LANG_KEY_NOT_FOUND": "Clave de idioma no encontrada.",
     "LANG_KEY_UPDATED": "Clave de idioma actualizada.",
     "LANG_KEY_DELETE_SUCCESS": "Clave de idioma eliminada.",
-    "LANG_NOT_FOUND": "El idioma indicado no fue encontrado.",
-    "USER_HAS_NO_PERMISSIONS": "No tienes suficientes permisos para realizar dicha acción."
+    "SESSION_CLOSE_SUCCESS": "Desconectado correctamente.",
+    "LANG_NOT_FOUND": "El idioma indicado no fue encontrado."
   },
   "ws": {
     "disconnected": "El servidor en tiempo real está desconectado.",
@@ -190,7 +192,8 @@
     "dni": "DNI de la cuenta",
     "submit": "Recuperar",
     "code": "Código de recuperación",
-    "codeNotSent": "¿No has recibido el código?"
+    "codeNotSent": "¿No has recibido el código?",
+    "error_propietary": "Para recuperar la cuenta debe ser tuya."
   },
   "clientsTable": {
     "vip": {
