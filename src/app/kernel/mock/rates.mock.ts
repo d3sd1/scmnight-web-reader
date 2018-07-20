@@ -14,7 +14,7 @@ export class RatesMock {
     constructor(private api: ApiService) {}
 
     public getTotalResults(page: TablePage): Observable<TablePagedData<Rate>> {
-      return this.api.post("rest/clients/crud/rates", page).pipe(map(resp => this.getPagedRates(resp, page)));
+      return this.api.post("rest/crud/rates/table", page).pipe(map(resp => this.getPagedRates(resp, page)));
     }
 
     private getPagedRates(response: TableClientsMockResponse, page: TablePage): TablePagedData<Rate> {
@@ -25,7 +25,6 @@ export class RatesMock {
         for (let i = 0; i < response.data.length; i++) {
             let data = response.data[i];
             pagedData.data.push(deserialize(Rate, data));
-          console.log(pagedData.data);
         }
         pagedData.page = page;
         return pagedData;

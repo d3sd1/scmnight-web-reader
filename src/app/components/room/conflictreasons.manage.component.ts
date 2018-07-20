@@ -27,7 +27,7 @@ export class ConflictreasonsManageComponent extends CustomLanguageCrud<ConflictR
   /* Paso 2º: Editar esta info */
   protected PAGE_NAME = "CONFLICT";
   protected WS_CHANNEL = "scm/conflictreasons_manage";
-  protected REST_URL = "clients/conflictive";
+  protected REST_URL = "conflictive/reasons";
   protected DATA_PK = "id";
   protected MANAGE_FIELD = "conflict_reason";
   protected TRANSLATE_FIELD = "name";

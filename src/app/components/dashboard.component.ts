@@ -66,7 +66,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
         (err: HttpErrorResponse) => {
 
         });
-    this.api.get('rest/users/entrances')
+    this.api.get('rest/user/entrances/all')
       .subscribe(
         (usersEntrances: UserEntrance[]) => {
           this.roomUsers[0]["series"] = [];
@@ -80,7 +80,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
         (err: HttpErrorResponse) => {
 
         });
-    this.api.get('rest/clients/entrances')
+    this.api.get('rest/client/entrances/all')
       .subscribe(
         (clientsEntrances: ClientEntrance[]) => {
           this.roomClients[0]["series"] = [];

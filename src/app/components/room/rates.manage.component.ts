@@ -56,10 +56,10 @@ export class RatesManageComponent implements OnInit, AfterViewInit, OnDestroy {
   editUserRest() {
     let call;
     if (this.editTypeAdd) {
-      call = this.api.put("rest/clients/rate", this.modalRate);
+      call = this.api.put("rest/crud/rate", this.modalRate);
     }
     else {
-      call = this.api.post("rest/clients/rate", this.modalRate);
+      call = this.api.post("rest/crud/rate", this.modalRate);
     }
 
     call.pipe(finalize(() => {
@@ -73,7 +73,7 @@ export class RatesManageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delUserRest() {
-    this.api.del("rest/clients/rate/" + this.modalRate.id)
+    this.api.del("rest/crud/rate/" + this.modalRate.id)
       .pipe(finalize(() => {
         this.rateDelModal.closeModal();
       }))
