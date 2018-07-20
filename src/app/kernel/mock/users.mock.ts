@@ -39,7 +39,6 @@ export class UsersMock {
         return pagedData;
     }
     private getPagedUserEntrance(response: TableClientsMockResponse, page: TablePage): TablePagedData<UserEntrance> {
-      console.log(response);
         let pagedData = new TablePagedData<UserEntrance>();
         page.totalElements = response.totalRows;
         page.totalPages = Math.ceil(page.totalElements / page.size);

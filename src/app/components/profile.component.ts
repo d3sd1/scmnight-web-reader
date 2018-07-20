@@ -89,7 +89,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.sessionInfo.getUser().then(res => {
       this.user = res;
-      console.log("user", this.user);
     });
   }
 }

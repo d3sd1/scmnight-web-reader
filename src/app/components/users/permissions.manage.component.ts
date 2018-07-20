@@ -69,19 +69,15 @@ export class PermissionsManageComponent extends CustomLanguageCrud<PermissionLis
   }
 
   openPermissionsModal(row: PermissionList) {
-    console.log(row);
     this.activeModalList = row;
 
     this.api.get("rest/crud/permission").subscribe((permissions: Array<Permission>) => {
-      console.log(permissions);
       this.activeModalPermissions = permissions;
       this.api.get("rest/crud/permission/list/" + this.activeModalList.id).subscribe((checkedPermissions: Array<PermissionsLists>) => {
-        console.log(checkedPermissions);
         if (checkedPermissions.length > 0) {
           checkedPermissions.forEach((checkedPermission: PermissionsLists) => {
             let status = this.activeModalPermissions[this.getPermissionIndex(checkedPermission.id_permission)].checked;
             this.activeModalPermissions[this.getPermissionIndex(checkedPermission.id_permission)].checked = !status;
-            console.log(this.activeModalPermissions);
           });
         }
         this.managePermissionsModal.openModal();

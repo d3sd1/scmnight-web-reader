@@ -46,7 +46,6 @@ export class ConfigComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editConfigModal(config: Config) {
     this.modalConfig = new Config(config);
-    console.log(this.modalConfig);
     this.modal.openModal();
   }
 

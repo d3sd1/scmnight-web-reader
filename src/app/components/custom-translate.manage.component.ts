@@ -78,7 +78,6 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
 
   editUserModal(modalLang: CustomTranslate) {
     this.modalLang = modalLang;
-    console.log(this.modalLang);
     this.editTypeAdd = false;
     this.conflictReasonEditModal.openModal();
   }

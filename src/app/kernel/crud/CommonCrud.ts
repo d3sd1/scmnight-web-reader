@@ -80,7 +80,6 @@ export abstract class CommonCrud<T, N> implements Crud {
     page.totalPages = Math.ceil(page.totalElements / page.size);
     page.pageNumber = response.pageNumber;
 
-    console.log(response.data);
     for (let i = 0; i < response.data.length; i++) {
       let data = response.data[i];
       pagedData.data.push(deserialize(this.typeTokenBaseClass, data));
@@ -208,9 +207,6 @@ export abstract class CommonCrud<T, N> implements Crud {
   private onWsUpdate(uri: any, data: any) {
     let action: N = deserialize(this.typeTokenManageClass, JSON.parse(data)),
       dataIndex: number = this.rows.findIndex(x => x[this.DATA_PK] === action[this.MANAGE_FIELD][this.DATA_PK]);
-
-    console.log(this.typeTokenManageClass);
-    console.log(action);
     switch (action['type'].name) {
       case "ADD":
         this.rows.push(action[this.MANAGE_FIELD]);

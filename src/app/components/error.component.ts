@@ -11,7 +11,6 @@ export class ErrorComponent {
 
         this.route.params.subscribe(params => {
           translate.get('errorPages').subscribe((codes: Array<string>) => {
-            console.log(codes);
             if (!isNaN(params["code"]) && params["code"] in codes) {
               this.translate.get('errorPages.' + params["code"] + '.title').subscribe((res: string) => {
                 this.errorTitle = res;

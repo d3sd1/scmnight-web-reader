@@ -55,7 +55,6 @@ export class ClientsTotalComponent implements OnInit, AfterViewInit, OnDestroy {
             this.page = pagedData.page;
             this.rows = pagedData.data;
             this.loading = false;
-          console.log(this.rows);
         });
     }
     setRows(event: Object) {

@@ -49,7 +49,7 @@ export class RoutingModule {
               this.titleService.setTitle(prefix + " " + pageTitle)
             });
           }, (err) => {
-            console.log(err);
+            console.error("SCM MENU CRASH: " , err);
           }
         );
       }

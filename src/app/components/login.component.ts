@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
       }))
       .subscribe(
         (authToken: AuthToken) => {
-          console.log(authToken);
           this.sessMan.setToken(authToken);
           this.sessMan.setTokenId(authToken);
           this.translate.setDefaultLang(authToken.user.lang_code);

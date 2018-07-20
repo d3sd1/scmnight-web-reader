@@ -99,10 +99,6 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     //fire modal
   }
 
-  errorHandler(error: any): void {
-    console.log(error)
-  }
-
   ngOnInit(): void {
     this.loading = true;
     this.setPage({offset: 0});
