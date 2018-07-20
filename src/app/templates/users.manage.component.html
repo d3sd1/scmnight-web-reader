@@ -98,11 +98,12 @@
     <h4>Gestionar permisos de {{activeModalUser?.firstname}} {{activeModalUser?.lastname}}</h4>
   </mz-modal-header>
   <mz-modal-content>
-    <mz-select-container class="col s12 m6">
+    <mz-select-container class="col s12">
       <select mz-select
               id="basic-select"
+              (change)="setPredefinedPermissions($event.target.value)"
               [placeholder]="'Seleccionar lista de permisos predefinida'">
-        <option *ngFor="let permissionList of permissionLists" (select)="setPredefinedPermissions(permissionList)">{{"PERMISSION." + permissionList.list_key_name |
+        <option *ngFor="let permissionList of permissionLists" value="{{permissionList.id}}">{{"PERMISSION." + permissionList.list_key_name |
           cTranslate:userInfo.lang_code}}
         </option>
       </select>

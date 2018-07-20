@@ -24,7 +24,7 @@ CommonCrud<CLASE> -> CRUD SENCILLO Y NORMAL.
 export class ConflictreasonsManageComponent extends CustomLanguageCrud<ConflictReason, ConflictReasonManage> implements OnInit, AfterViewInit, OnDestroy {
 
   /* Paso 2º: Editar esta info */
-  protected PAGE_NAME = "CONFLICT";
+  public PAGE_NAME = "CONFLICT";
   protected WS_CHANNEL = "scm/conflictreasons_manage";
   protected REST_URL = "conflictive/reasons";
   protected DATA_PK = "id";

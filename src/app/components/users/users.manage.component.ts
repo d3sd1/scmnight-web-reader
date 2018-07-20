@@ -16,6 +16,7 @@ import {PermissionsLists} from "../../kernel/model/permissions-lists";
 import {Permission} from "../../kernel/model/Permission";
 import {PermissionList} from "../../kernel/model/permission-list";
 import {SessionSingleton} from "../../kernel/singletons/session.singleton";
+import {CustomTranslatesService} from "../../kernel/services/custom-translates.service";
 
 @Component({
   templateUrl: '../../templates/users.manage.component.html',
@@ -41,7 +42,7 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     endingTop: '10%', // Ending top style attribute
   };
 
-  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService, private singleton: SessionSingleton) {
+  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService, private singleton: SessionSingleton, public cTranslate: CustomTranslatesService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }
@@ -199,25 +200,42 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.activeModalPermissions.findIndex(x => x.id == permission.id);
   }
 
+  selectPermissions(userPermissions: Array<Permission>) {
+    userPermissions.forEach((checkedPermission: Permission) => {
+      let status = this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked;
+      this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked = !status;
+    });
+  }
+
   openPermissionsModal(row: User) {
     this.activeModalUser = row;
 
     this.api.get("rest/crud/permission").subscribe((permissions: Array<Permission>) => {
       this.activeModalPermissions = permissions;
       this.api.get("rest/crud/permission/user/" + this.activeModalUser.id).subscribe((userPermissions: Array<Permission>) => {
-          if (userPermissions.length > 0) {
-          userPermissions.forEach((checkedPermission: Permission) => {
-            let status = this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked;
-            this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked = !status;
-          });
+        if (userPermissions.length > 0) {
+         this.selectPermissions(userPermissions);
         }
         this.managePermissionsModal.openModal();
       });
     });
   }
 
-  setPredefinedPermissions(permissionList: PermissionList) {
-    console.log(permissionList);
+  setPredefinedPermissions(permissionListId: number) {
+    /* Limpiar valores actuales */
+    this.activeModalPermissions.forEach((permission: Permission) => {
+      this.activeModalPermissions[this.getPermissionIndex(permission)].checked = false;
+    });
+    /* Poner los nuevos */
+    this.api.get("rest/crud/permission/list/" + permissionListId).subscribe((checkedPermissions: Array<PermissionsLists>) => {
+      if (checkedPermissions.length > 0) {
+        checkedPermissions.forEach((checkedPermission: PermissionsLists) => {
+          let status = this.activeModalPermissions[this.getPermissionIndex(checkedPermission.id_permission)].checked;
+          this.activeModalPermissions[this.getPermissionIndex(checkedPermission.id_permission)].checked = !status;
+        });
+      }
+      this.managePermissionsModal.openModal();
+    });
   }
 
   editPermissionListRest() {

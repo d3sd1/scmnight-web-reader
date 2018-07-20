@@ -30,7 +30,7 @@ CommonCrud<CLASE> -> CRUD SENCILLO Y NORMAL.
 export class PermissionsManageComponent extends CustomLanguageCrud<PermissionList, PermissionListManage> implements OnInit, AfterViewInit, OnDestroy {
 
   /* Paso 2º: Editar esta info */
-  protected PAGE_NAME = "PERMISSION";
+  public PAGE_NAME = "PERMISSION";
   protected WS_CHANNEL = "scm/permissions_manage";
   protected REST_URL = "permission/list";
   protected DATA_PK = "id";
