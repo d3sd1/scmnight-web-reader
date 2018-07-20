@@ -17,6 +17,8 @@ import {Permission} from "../../kernel/model/Permission";
 import {PermissionList} from "../../kernel/model/permission-list";
 import {SessionSingleton} from "../../kernel/singletons/session.singleton";
 import {CustomTranslatesService} from "../../kernel/services/custom-translates.service";
+import {PermissionListManage} from "../../kernel/model/permission-list-manage";
+import {CustomTranslate} from "../../kernel/model/custom-translate";
 
 @Component({
   templateUrl: '../../templates/users.manage.component.html',
@@ -112,17 +114,22 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.singleton.getUser().then((user: User) => {
       this.userInfo = user;
     });
+    this.loadAvailablePermissionLists();
+  }
 
+  loadAvailablePermissionLists() {
     this.api.get("rest/crud/permission/lists").subscribe((permissionLists: Array<PermissionList>) => {
       this.permissionLists = permissionLists;
     });
   }
 
   ngOnDestroy(): void {
+    this.ws.unsubscribe("scm/permissions_manage");
     this.ws.unsubscribe("scm/users_manage");
   }
 
   ngAfterViewInit() {
+    this.ws.subscribe("scm/permissions_manage", this.onPermissionListManage.bind(this));
     this.ws.subscribe("scm/users_manage", this.onUserManage.bind(this));
   }
 
@@ -214,7 +221,7 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.activeModalPermissions = permissions;
       this.api.get("rest/crud/permission/user/" + this.activeModalUser.id).subscribe((userPermissions: Array<Permission>) => {
         if (userPermissions.length > 0) {
-         this.selectPermissions(userPermissions);
+          this.selectPermissions(userPermissions);
         }
         this.managePermissionsModal.openModal();
       });
@@ -236,6 +243,22 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.managePermissionsModal.openModal();
     });
+  }
+
+  private onPermissionListManage(uri: any, data: any) {
+    let action: PermissionListManage = deserialize(PermissionListManage, JSON.parse(data)),
+      permissionIndex: number = this.permissionLists !== null ? this.permissionLists.findIndex(x => x.id === action.permission_list.id) : -1;
+    switch (action.type.name) {
+      case "ADD":
+        this.permissionLists.push(action.permission_list);
+        break;
+      case "DELETE":
+        this.permissionLists.splice(permissionIndex, 1);
+        break;
+      case "EDIT":
+        this.permissionLists[permissionIndex] = action.permission_list;
+        break;
+    }
   }
 
   editPermissionListRest() {
