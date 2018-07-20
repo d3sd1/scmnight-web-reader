@@ -35,9 +35,14 @@ export class WsService {
     }
     unsubscribe(channel) {
         this.connect().then(() => {
+          try {
             if (this.ws.connected) {
-                this.ws.session.unsubscribe(channel);
+              this.ws.session.unsubscribe(channel);
             }
+          }
+          catch(e) {
+
+          }
         });
     }
     private connect(): Promise<boolean> {

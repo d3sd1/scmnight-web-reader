@@ -28,15 +28,10 @@ export class LogoutComponent implements OnInit {
             this.api.del("rest/auth/logout" + '/' + localStorage.getItem(ApiOptions.idParameter))
                 .pipe(finalize(() => {
                     localStorage.clear();
-
                     this.router.navigate(['login']);
                     this.loadingBar.complete();
                 }))
-                .subscribe(
-                () => this.notify.success(
-                    this.translate.get("notifications")["value"]["logout"]["success"]["title"],
-                    this.translate.get("notifications")["value"]["logout"]["success"]["desc"]
-                ));
+                .subscribe();
         }
         else {
             this.router.navigate(['login']);

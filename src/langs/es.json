@@ -118,6 +118,10 @@
     "INVALID_LOGO_MBSIZEIMAGE": "El logotipo indicado ocupa más de lo permitido.",
     "LANG_KEY_NOT_FOUND": "Clave de idioma no encontrada.",
     "LANG_KEY_UPDATED": "Clave de idioma actualizada.",
+    "PERMISSIONLIST_DELETED": "Lista de permisos eliminada.",
+    "PERMISSIONLIST_NOT_FOUND": "Lista de permiso no encontrada.",
+    "PERMISSIONLIST_ALREADY_ONDB": "La lista de permisos ya se encontrada en la base de datos.",
+    "PERMISSIONLIST_CREATED": "Lista de permisos creada.",
     "LANG_KEY_DELETE_SUCCESS": "Clave de idioma eliminada.",
     "SESSION_CLOSE_SUCCESS": "Desconectado correctamente.",
     "LANG_NOT_FOUND": "El idioma indicado no fue encontrado."
@@ -226,8 +230,8 @@
       "desc": "Ha ocurrido un error al conectar con el servidor local."
     },
     "401": {
-      "title": "No tienes permisos",
-      "desc": "La página solicitada excede tus permisos de tu perfil."
+      "title": "Sesión expirada",
+      "desc": "La sesión ha finalizado."
     },
     "404": {
       "title": "¡Página no encontrada!",

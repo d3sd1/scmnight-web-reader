@@ -59,7 +59,7 @@ export abstract class CommonCrud<T, N> implements Crud {
   -------------------------------------
    */
 
-  constructor(protected api: ApiService, protected ws: WsService, typeTokenBaseClass: NoParamConstructor<T>, typeTokenManageClass: NoParamConstructor<N>) {
+  protected constructor(protected api: ApiService, protected ws: WsService, typeTokenBaseClass: NoParamConstructor<T>, typeTokenManageClass: NoParamConstructor<N>) {
     this.typeTokenBaseClass = typeTokenBaseClass;
     this.typeTokenManageClass = typeTokenManageClass;
     this.page.pageNumber = 0;
@@ -80,6 +80,7 @@ export abstract class CommonCrud<T, N> implements Crud {
     page.totalPages = Math.ceil(page.totalElements / page.size);
     page.pageNumber = response.pageNumber;
 
+    console.log(response.data);
     for (let i = 0; i < response.data.length; i++) {
       let data = response.data[i];
       pagedData.data.push(deserialize(this.typeTokenBaseClass, data));

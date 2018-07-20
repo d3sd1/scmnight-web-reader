@@ -15,7 +15,7 @@ export abstract class CustomLanguageCrud<T, N> extends CommonCrud<T, N> {
   customLangs: Array<CustomLang> = new Array<CustomLang>();
   modalSetLangs = [];
 
-  constructor(api: ApiService, ws: WsService, private singleton: SessionSingleton, private cTranslate: CustomTranslatesService, typeTokenBaseClass: NoParamConstructor<T>, typeTokenManageClass: NoParamConstructor<N>) {
+  protected constructor(api: ApiService, ws: WsService, private singleton: SessionSingleton, private cTranslate: CustomTranslatesService, typeTokenBaseClass: NoParamConstructor<T>, typeTokenManageClass: NoParamConstructor<N>) {
     super(api, ws, typeTokenBaseClass, typeTokenManageClass);
   }
 
@@ -53,6 +53,7 @@ export abstract class CustomLanguageCrud<T, N> extends CommonCrud<T, N> {
     this.api.post("rest/session/translates", translations).pipe(finalize(() => {
       this.manageModal.closeModal();
     })).subscribe();
+    this.reloadLanguages();
   }
 
   hookAfterDelRestCall() {

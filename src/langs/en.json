@@ -28,6 +28,7 @@
     "a_year_ago": "Hace un año",
     "x_years_ago": "Hace {{years}} años"
   },
+
   "notifications": {
     "config": {
       "edit": {

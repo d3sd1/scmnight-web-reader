@@ -1,182 +1,58 @@
-import {Component, OnInit, OnDestroy, AfterViewInit, EventEmitter, Input, ViewChild} from '@angular/core';
-import {WsService} from '../../kernel/services/ws.service';
-import {TablePage} from '../../kernel/model/table-page';
-import {ApiOptions} from '../../kernel/config/api.config';
-import {User} from '../../kernel/model/user';
-import {UserManage} from '../../kernel/model/user-manage';
-import {UsersMock} from '../../kernel/mock/users.mock';
-import {deserialize} from 'json-typescript-mapper';
-import {ApiService} from '../../kernel/services/api.service';
-import {NotificationsService} from 'angular2-notifications';
-import {TranslateService} from '@ngx-translate/core';
-import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
-import {MzModalComponent} from "ngx-materialize";
-import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {CustomLanguageCrud} from "../../kernel/crud/CustomLanguageCrud";
+import {WsService} from "../../kernel/services/ws.service";
+import {ApiService} from "../../kernel/services/api.service";
+import {SessionSingleton} from "../../kernel/singletons/session.singleton";
+import {CustomTranslatesService} from "../../kernel/services/custom-translates.service";
+import {ConflictReason} from "../../kernel/model/conflict-reason";
+import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
+import {PermissionList} from "../../kernel/model/permission-list";
+import {PermissionListManage} from "../../kernel/model/permission-list-manage";
 
+/*
+Paso 0º: Cambiar la template a:
+crud.customtranslate.component.html -> SE UTILIZA CUANDO EL CRUD ACTUAL NECESITA CLAVES DE IDIOMA EN DB (CONFIGURABLES POR EL USUARIX)
+crud.common.component.html -> CRUD SENCILLO Y NORMAL.
+ */
 @Component({
-  templateUrl: '../../templates/users.manage.component.html',
-  providers: [
-    UsersMock
-  ],
+  templateUrl: '../../templates/crud.customtranslate.component.html'
 })
 
-export class PermissionsManageComponent implements OnInit, AfterViewInit, OnDestroy {
-  page = new TablePage();
-  rows = new Array<User>();
-  loading: boolean = false;
-  @ViewChild('userEditModal') userEditModal: MzModalComponent;
-  @ViewChild('userDelModal') userDelModal: MzModalComponent;
+/*
+Paso 1º: Cambiar la clase TypeToken de:
+CustomLanguageCrud<CLASE> -> SE UTILIZA CUANDO EL CRUD ACTUAL NECESITA CLAVES DE IDIOMA EN DB (CONFIGURABLES POR EL USUARIX)
+CommonCrud<CLASE> -> CRUD SENCILLO Y NORMAL.
+ */
+export class PermissionsManageComponent extends CustomLanguageCrud<PermissionList, PermissionListManage> implements OnInit, AfterViewInit, OnDestroy {
 
-  public modalOptions: Materialize.ModalOptions = {
-    dismissible: false, // Modal can be dismissed by clicking outside of the modal
-    opacity: .5, // Opacity of modal background
-    inDuration: 300, // Transition in duration
-    outDuration: 200, // Transition out duration
-    startingTop: '100%', // Starting top style attribute
-    endingTop: '10%', // Ending top style attribute
-  };
+  /* Paso 2º: Editar esta info */
+  protected PAGE_NAME = "PERMISSION";
+  protected WS_CHANNEL = "scm/permissions_manage";
+  protected REST_URL = "permission/list";
+  protected DATA_PK = "id";
+  protected MANAGE_FIELD = "permission_list";
+  protected TRANSLATE_FIELD = "list_key_name";
 
-  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService) {
-    this.page.pageNumber = 0;
-    this.page.size = 10;
+
+  constructor(ws: WsService, api: ApiService, singleton: SessionSingleton, cTranslate: CustomTranslatesService) {
+    /* Paso 3: Cambiar el 5º parámetro por la misma clase que el paso 1º. El 6º parámetro es la clase para los logs. */
+    super(api, ws, singleton, cTranslate, PermissionList, PermissionListManage);
   }
 
-  /* Manage user */
-  modalUser: User = new User();
-  editTypeAdd: boolean = false;
-
-  addUserModal() {
-    this.modalUser = new User();
-    this.editTypeAdd = true;
-    this.userEditModal.openModal();
-  }
-
-  editUserModal(user: User) {
-    this.modalUser = user;
-    this.editTypeAdd = false;
-    this.userEditModal.openModal();
-  }
-
-  editUserRest() {
-    let call, typeName;
-    if (this.editTypeAdd) {
-      call = this.api.put("rest/users/add", this.modalUser);
-      typeName = "add";
-    }
-    else {
-      call = this.api.post("rest/users/mod", this.modalUser);
-      typeName = "edit";
-    }
-
-    call.pipe(finalize(() => {
-      this.userEditModal.closeModal();
-    })).subscribe(
-      (data: HttpResponse<User>) => {
-
-      },
-      (error: HttpErrorResponse) => {
-
-      });
-  }
-
-  delUserModal(user: User) {
-    this.modalUser = user;
-    this.userDelModal.openModal();
-  }
-
-  delUserRest() {
-    this.api.del("rest/users/delete/" + this.modalUser.dni)
-      .pipe(finalize(() => {
-        this.userDelModal.closeModal();
-      }))
-      .subscribe(
-        (data: HttpResponse<User>) => {
-
-        },
-        (error: HttpErrorResponse) => {
-        }
-      );
-    //fire modal
-  }
-
-  errorHandler(error: any): void {
-    console.log(error)
-  }
 
   ngOnInit(): void {
-    this.loading = true;
-    this.setPage({offset: 0});
+    this.hookOnInit();
   }
 
   ngOnDestroy(): void {
-    this.ws.unsubscribe("scm/users_manage");
+    this.hookOnDestroy();
   }
 
   ngAfterViewInit() {
-    this.ws.subscribe("scm/users_manage", this.onUserManage.bind(this));
+    this.hookOnViewInit();
   }
 
-  private onUserManage(uri: any, data: any) {
-    let action: UserManage = deserialize(UserManage, JSON.parse(data)),
-      userIndex: number = this.rows.findIndex(x => x.dni === action.target_user.dni);
-    switch (action.type.name) {
-      case "ADD":
-        this.rows.push(action.target_user);
-        this.page.totalElements++;
-        break;
-      case "DELETE":
-        this.rows.splice(userIndex, 1);
-        this.page.totalElements--;
-        break;
-      case "EDIT":
-        this.rows[userIndex] = action.target_user;
-        break;
-    }
-  }
+  /* Paso 4º: Configurar esto a nuestras necesidades */
 
-  setPage(pageInfo) {
-    if (pageInfo.offset !== false) {
-      this.page.pageNumber = pageInfo.offset;
-    }
-    if (pageInfo.order) {
-      this.page.order["col"] = pageInfo.order.col;
-      this.page.order["dir"] = pageInfo.order.dir;
-    }
-    if (pageInfo.search) {
-      this.page.search = pageInfo.search;
-    }
-    else {
-      this.page.search = pageInfo.search;
-    }
-    this.serverResultsService.getTotalResults(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
-      this.loading = false;
-    });
-  }
-
-  setRows(event: Object) {
-    this.page.size = parseInt(event["target"]["value"]);
-    this.setPage({});
-  }
-
-  onSort(event) {
-    this.loading = true;
-    this.setPage({
-      offset: 0,
-      order: {
-        col: event.sorts[0].prop,
-        dir: event.sorts[0].dir
-      }
-    });
-  }
-
-  onSearch(event) {
-    this.loading = true;
-    this.setPage({
-      offset: 0,
-      search: event.target.value.toLowerCase()
-    });
-  }
 
 }

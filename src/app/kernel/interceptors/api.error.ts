@@ -6,8 +6,8 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+import {Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent} from 'rxjs';
+import {map, filter, catchError, mergeMap} from 'rxjs/operators';
 import {throwError} from "rxjs/internal/observable/throwError";
 
 @Injectable()
@@ -28,12 +28,15 @@ export class ApiErrorInterceptor implements HttpInterceptor {
           if (err.status === 0 && this.router.url != "/error/000") {
             this.router.navigate(['error/000']);
           }
-          else if (err.status === 401 && this.router.url != "/dashboard/logout") {
-            this.router.navigate(['logout']);
-            this.notify.info(
-              "",
-              this.translate.get("notifications.SESSION_EXPIRED")["value"]
-            );
+          else if (err.status === 401 && this.router.url != "/dashboard/logout" && this.router.url != "/login") {
+            this.translate.get('notifications.SESSION_EXPIRED').subscribe((res: string) => {
+              this.router.navigate(['error/401']);
+              localStorage.clear();
+              this.notify.info(
+                "",
+                res
+              );
+            });
           }
           else if (err.status === 406 && this.router.url != "/error/406") {
             localStorage.clear();

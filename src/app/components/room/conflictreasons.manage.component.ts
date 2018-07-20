@@ -5,7 +5,6 @@ import {ApiService} from "../../kernel/services/api.service";
 import {SessionSingleton} from "../../kernel/singletons/session.singleton";
 import {CustomTranslatesService} from "../../kernel/services/custom-translates.service";
 import {ConflictReason} from "../../kernel/model/conflict-reason";
-import {CommonCrud} from "../../kernel/crud/CommonCrud";
 import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
 
 /*

@@ -22,7 +22,7 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
 
   private sendNotification(response: ResponseMessage) {
     if (response.message !== null && typeof response.message != "undefined" && response.message !== "") {
-      console.log(response);
+
       let translation = this.translate.get("api_notifications." + response.message)["value"];
       if (response.code > 0 && response.code <= 100) {
         this.notify.alert(
@@ -48,13 +48,13 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
           translation
         );
       }
-      else if (response.code >= 400 && response.code < 500) {
+      else if (response.code >= 400 && response.code < 500 && response.code != 401 && response.code != 406) {
         this.notify.warn(
           "",
           translation
         );
       }
-      else if (response.code > 500) {
+      else if (response.code > 500 && response.code != 500) {
         this.notify.error(
           "",
           translation

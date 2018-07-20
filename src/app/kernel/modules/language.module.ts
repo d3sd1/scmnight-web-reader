@@ -31,7 +31,10 @@ export class LanguageModule {
     }
   }
   constructor(private translate: TranslateService, private session: SessionSingleton) {
+    /* Precargar idioma del navegador para evitar errores */
     translate.addLangs(environment.availableLangs);
+    this.setNavigatorLang();
+
     /* Si esta conectado, darle el lenguaje de su perfil primero. */
     session.getUser().then((user: User) => {
       if (null !== user && (-1 !== environment.availableLangs.findIndex(x => x == user.lang_code))) {
