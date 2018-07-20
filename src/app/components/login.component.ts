@@ -8,6 +8,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
 import {finalize} from "rxjs/operators";
+import {UserLang} from "../kernel/libs/user-lang";
 @Component({
     selector: 'main-content',
     templateUrl: '../templates/login.component.html'
@@ -34,6 +35,8 @@ export class LoginComponent implements OnInit {
             (authToken: AuthToken) => {
                 localStorage.setItem(ApiOptions.idParameter, authToken.id.toString());
                 localStorage.setItem(ApiOptions.tokenParameter, authToken.value);
+                this.translate.setDefaultLang(authToken.user.lang_code);
+                this.translate.use(authToken.user.lang_code);
                 this.router.navigate(['dashboard']);
             });
     }

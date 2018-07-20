@@ -69,6 +69,7 @@
   "api_notifications": {
     "SERVER_NOT_CONFIGURED": "El servidor no está configurado correctamente.",
     "RECOVER_EMAIL_SENT": "El email de recuperación ha sido enviado al correo de la cuenta.",
+    "RECOVER_WAIT_FOR_RESEND": "Debes esperar para volver a solicitar un cambio de contraseña.",
     "RECOVER_NO_PERMISSIONS": "El usuario indicado no puede restablecer manualmente su contraseña.",
     "RECOVER_ACCOUNT_SUCCESS": "La recuperación de cuenta fue satisfactoria.",
     "INCORRECT_LOGIN": "La conexión no fue satisfactoria.",
@@ -94,6 +95,7 @@
     "NEW_PASSWORDS_DOESNT_MATCH": "Las nuevas contraseñas no coinciden.",
     "PASSWORD_DOESNT_MATCH": "La contraseña actual no es correcta.",
     "USER_NOT_FOUND": "Usuario no encontrado.",
+    "RECOVER_CODE_NOT_FOUND": "Código de recuperación no válido.",
     "BANS_UPDATED": "Conflictividad actualizada.",
     "USER_EDIT_SUCCESS": "Usuario editado correctamente.",
     "GENDER_NOT_FOUND": "Género no encontrado.",

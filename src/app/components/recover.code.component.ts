@@ -7,52 +7,58 @@ import {TranslateService} from '@ngx-translate/core';
 import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
 import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
-    HttpErrorResponse
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
+  HttpErrorResponse
 } from '@angular/common/http';
 import {finalize} from "rxjs/operators";
+import {RecoverCode} from "../kernel/model/recover-code";
+
 @Component({
-    selector: 'main-content',
-    templateUrl: '../templates/recover.code.component.html'
+  selector: 'main-content',
+  templateUrl: '../templates/recover.code.component.html'
 })
 
 export class RecoverCodeComponent {
-    public code: string;
+  public code: string;
 
-    constructor(private router: Router,
-        private api: ApiService,
-        private loadingBar: LoadingBarService,
-        private notify: NotificationsService,
-        private translate: TranslateService) {}
-    finalRecoverAccount(): void {
-        this.loadingBar.start();
+  constructor(private router: Router,
+              private api: ApiService,
+              private loadingBar: LoadingBarService,
+              private notify: NotificationsService,
+              private translate: TranslateService) {
+  }
 
-        this.api.post("rest/auth/recover/code", {code: this.code})
-            .pipe(finalize(() => {
-                this.loadingBar.complete();
-            }))
-            .subscribe(
-                (response: HttpResponse<AuthToken>) => {
-                    this.notify.success(
-                        this.translate.get("notifications")["value"]["recover_code"]["success"]["title"],
-                        this.translate.get("notifications")["value"]["recover_code"]["success"]["desc"]
-                    );
-                    this.router.navigate(['login']);
-                },
-                (error: HttpErrorResponse) => {
-                    if (error.status === 408) {
-                        this.notify.info(
-                            this.translate.get("notifications")["value"]["recover"]["error_expired"]["title"],
-                            this.translate.get("notifications")["value"]["recover"]["error_expired"]["desc"]
-                        );
-                        this.router.navigate(['recover']);
-                    }
-                    else {
-                        this.notify.error(
-                            this.translate.get("notifications")["value"]["recover"]["error"]["title"],
-                            this.translate.get("notifications")["value"]["recover"]["error"]["desc"]
-                        );
-                    }
-                });
-    }
+  finalRecoverAccount(): void {
+    this.loadingBar.start();
+
+    const recoverCode = new RecoverCode();
+    recoverCode.code = this.code;
+    this.api.post("rest/auth/recover/code", recoverCode)
+      .pipe(finalize(() => {
+        this.loadingBar.complete();
+      }))
+      .subscribe(
+        (response: HttpResponse<AuthToken>) => {
+          this.notify.success(
+            this.translate.get("notifications")["value"]["recover_code"]["success"]["title"],
+            this.translate.get("notifications")["value"]["recover_code"]["success"]["desc"]
+          );
+          this.router.navigate(['login']);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 408) {
+            this.notify.info(
+              this.translate.get("notifications")["value"]["recover"]["error_expired"]["title"],
+              this.translate.get("notifications")["value"]["recover"]["error_expired"]["desc"]
+            );
+            this.router.navigate(['recover']);
+          }
+          else {
+            this.notify.error(
+              this.translate.get("notifications")["value"]["recover"]["error"]["title"],
+              this.translate.get("notifications")["value"]["recover"]["error"]["desc"]
+            );
+          }
+        });
+  }
 }

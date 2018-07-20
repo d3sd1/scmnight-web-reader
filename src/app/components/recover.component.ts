@@ -28,6 +28,7 @@ export class RecoverComponent {
   recoverAccountForm(): void {
     if (this.isPropietary) {
       this.loadingBar.start();
+      this.user.lang_code = this.translate.getBrowserLang();
       this.api.post("rest/auth/recover", this.user)
         .pipe(finalize(() => {
           this.loadingBar.complete();

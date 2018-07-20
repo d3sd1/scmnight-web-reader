@@ -19,16 +19,13 @@ import {HttpClient} from '@angular/common/http';
 
 export class LanguageModule {
   constructor(translate: TranslateService) {
-    const userLang = navigator.language;
-    if (userLang in environment.availableLangs) {
-      translate.setDefaultLang(userLang);
+    translate.addLangs(environment.availableLangs);
+    if (translate.getBrowserLang() in environment.availableLangs) {
+      translate.setDefaultLang(translate.getBrowserLang());
+      translate.use(translate.getBrowserLang());
     }
     else {
       translate.setDefaultLang(environment.availableLangs[0]);
-    }
-    translate.addLangs(environment.availableLangs);
-    if (environment.availableLangs.indexOf(translate.getBrowserLang()) != -1) {
-      translate.use(translate.getBrowserLang());
     }
   }
 }
