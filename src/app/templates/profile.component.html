@@ -85,10 +85,11 @@
                     [name]="'prof-lang'"
                     [label]="'Idioma'"
                     [(ngModel)]="user.lang_code"
+                    (change)="changeLanguage()"
                     [placeholder]="'Escoge tu idioma'"
             >
               <option *ngFor="let lang of languages" [attr.data-icon]="'assets/img/langs/' + lang + '.png'" class="left circle"
-                      (click)="changeLanguage(lang)"
+
                       [value]="lang"
                       [attr.data-menulang]="lang">{{ 'langs.' + lang | translate }}
               </option>

@@ -42,13 +42,14 @@ export class ProfileComponent implements OnInit {
 
   public languages: Array<String> = environment.availableLangs;
 
-  changeLanguage(newLang: string) {
-    if (newLang in this.languages) {
-      this.translate.setDefaultLang(newLang);
-      this.translate.use(newLang);
+  changeLanguage() {
+    if (-1 !== this.languages.findIndex(x => x == this.user.lang_code)) {
+      this.translate.setDefaultLang(this.user.lang_code);
+      this.translate.use(this.user.lang_code);
     }
     else {
       this.translate.setDefaultLang(environment.availableLangs[0]);
+      this.translate.use(environment.availableLangs[0]);
     }
   }
 
