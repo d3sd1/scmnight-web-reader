@@ -15,8 +15,10 @@ import {SessionSingleton} from "../singletons/session.singleton";
 export class CustomTranslatesService {
   private translates: Array<CustomTranslate> = new Array<CustomTranslate>();
   private advisedNotFoundTranslates: Array<string> = new Array<string>();
+  private loadedTranslates = false;
 
   constructor(private api: ApiService, private ws: WsService, private singleton: SessionSingleton) {
+    this.ws.subscribe("scm/translations", this.onLangManage.bind(this));
     this.retTranslates();
   }
 
@@ -27,7 +29,7 @@ export class CustomTranslatesService {
   defaultLangTranslate(key_id: string) {
     let translationIdx = this.translates.findIndex(x => x.lang_key.lang_key == "es" && x.key_id == key_id);
     if (translationIdx === -1) {
-      if(this.advisedNotFoundTranslates.findIndex(x => x == key_id) === -1) {
+      if(this.loadedTranslates && this.advisedNotFoundTranslates.findIndex(x => x == key_id) === -1) {
         console.error("CUSTOM TRANSLATION ERROR: " + key_id + " - {NOT_FOUND}");
         this.advisedNotFoundTranslates.push(key_id);
       }
@@ -60,12 +62,15 @@ export class CustomTranslatesService {
   }
 
   retTranslates() {
-    this.ws.subscribe("scm/translations", this.onLangManage.bind(this));
-    this.api.get('rest/sessiondata/translates')
+    this.api.get('rest/session/translates')
       .subscribe(
         (customTranslates: Array<CustomTranslate>) => {
           this.translates = customTranslates;
-          console.log(this.translates);
+          this.loadedTranslates = true;
+        },
+        (err) => {
+          console.error("COULD NOT LOAD CUSTOM TRANSLATES: ", err);
+          this.loadedTranslates = true;
         });
   }
 

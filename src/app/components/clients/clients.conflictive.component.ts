@@ -12,6 +12,7 @@ import {ConflictReason} from "../../kernel/model/conflict-reason";
 import {ClientEntrance} from "../../kernel/model/client-entrance";
 import {ConflictReasonManage} from "../../kernel/model/conflict-reason-manage";
 import {finalize} from "rxjs/operators";
+import {SessionSingleton} from "../../kernel/singletons/session.singleton";
 
 @Component({
   templateUrl: '../../templates/clients.conflictive.component.html',
@@ -26,6 +27,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   loading: boolean = false;
   conflictiveReasons: Array<ConflictReason>;
   private actualClient: Client = null;
+  userInfo: User;
 
   @ViewChild('editConflictivity') editConflictivity: MzModalComponent;
   public modalOptions: Materialize.ModalOptions = {
@@ -40,7 +42,11 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   ngOnInit(): void {
     this.loading = true;
     this.setPage({offset: 0});
-    this.api.get("rest/clients/conflictive_reasons")
+
+    this.singleton.getUser().then((user: User) => {
+      this.userInfo = user;
+    });
+    this.api.get("rest/conflictive/reasons")
       .pipe(finalize(() => {
         this.editConflictivity.closeModal();
       }))
@@ -105,7 +111,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
     }
   }
 
-  constructor(private serverResultsService: ClientsMock, private ws: WsService, private api: ApiService) {
+  constructor(private serverResultsService: ClientsMock, private ws: WsService, private api: ApiService, private singleton:SessionSingleton) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }
@@ -188,7 +194,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
     this.clearConflictivityBoxes();
     this.setPage({offset: 0});
     this.actualClient = client;
-    this.api.get("rest/clients/conflictive/" + client.dni)
+    this.api.get("rest/conflictive/client/" + client.dni)
       .pipe(finalize(() => {
         this.editConflictivity.openModal();
       }))
@@ -202,7 +208,7 @@ export class ClientsConflictiveComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setConflictive() {
-    this.api.post("rest/clients/conflictive/" + this.actualClient.dni, this.getConflictivity())
+    this.api.post("rest/conflictive/client/" + this.actualClient.dni, this.getConflictivity())
       .pipe(finalize(() => {
         this.editConflictivity.closeModal();
       }))

@@ -32,22 +32,23 @@ export abstract class CustomLanguageCrud<T, N> extends CommonCrud<T, N> {
   }
 
   hookAfterAddRestCall() {
+    //TODO: adaptar esto para que funcione
     for (let lang in this.modalSetLangs) {
-      this.api.post("rest/sessiondata/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
+      this.api.post("rest/sessiondata1/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
         this.manageModal.closeModal();
       })).subscribe();
     }
   }
   hookAfterEditRestCall() {
     for (let lang in this.modalSetLangs) {
-      this.api.post("rest/sessiondata/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
+      this.api.post("rest/sessiondata2/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
         this.manageModal.closeModal();
       })).subscribe();
     }
   }
   hookAfterDelRestCall() {
     for (let lang in this.modalSetLangs) {
-      this.api.del("rest/sessiondata/translates/").pipe(finalize(() => {
+      this.api.del("rest/sessiondata3/translates/").pipe(finalize(() => {
         this.manageModal.closeModal();
       })).subscribe();
     }

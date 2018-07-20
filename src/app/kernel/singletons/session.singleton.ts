@@ -32,7 +32,7 @@ export class SessionSingleton {
         if (this.apiLoadingCustomLanguages === null) {
           this.apiLoadingCustomLanguages = new Promise((resolveInternal, rejectInternal) => {
             this.getUser().then(user => {
-              this.api.get('rest/sessiondata/translatesavailable')
+              this.api.get('rest/session/translates/available')
                 .subscribe(
                   (customAvailableLangs: Array<CustomLang>) => {
                     this.apiLoadingCustomLanguages = null;
@@ -60,9 +60,9 @@ export class SessionSingleton {
     });
   }
 
-  getUser(): Promise<User> {
+  getUser(forceReload = false): Promise<User> {
     return new Promise((resolveGeneral, rejectGeneral) => {
-      if (this.user === null) {
+      if (this.user === null || forceReload) {
         if (this.apiLoadingUser === null) {
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/info')
@@ -97,7 +97,7 @@ export class SessionSingleton {
       if (this.discoInfo === null) {
         if (this.apiLoadingDiscoInfo === null) {
           this.apiLoadingDiscoInfo = new Promise((resolveInternal, rejectInternal) => {
-            this.api.get('rest/sessiondata/discoinfo')
+            this.api.get('rest/session/discoinfo')
               .subscribe(
                 (discoInfo: DiscoInfo) => {
                   this.apiLoadingDiscoInfo = null;

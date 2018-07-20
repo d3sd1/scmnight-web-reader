@@ -84,7 +84,7 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
   }
 
   editLangRest() {
-    this.api.post("rest/sessiondata/translates", this.modalLang).pipe(finalize(() => {
+    this.api.post("rest/session/translate", this.modalLang).pipe(finalize(() => {
       this.conflictReasonEditModal.closeModal();
     })).subscribe();
   }

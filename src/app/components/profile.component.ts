@@ -65,9 +65,7 @@ export class ProfileComponent implements OnInit {
         );
         return;
       }
-      //si las contraseñas nuevas se han indicado y no son nuilas ni "" y son iguales, y el checkbox esta activo como "nueva contraseña"
     }
-    console.log(this.user);
     this.api.post("rest/user/info", this.user)
       .pipe(finalize(() => {
         this.loadingBar.complete();
@@ -76,6 +74,7 @@ export class ProfileComponent implements OnInit {
         this.newPass1 = null;
         this.newPass2 = null;
         this.showPasswordChanger = false;
+        this.sessionInfo.getUser(true).then(() => {});
       }))
       .subscribe(
         (authToken: AuthToken) => {

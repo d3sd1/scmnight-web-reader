@@ -76,7 +76,7 @@
   <mz-modal-content>
     <mz-checkbox-container *ngFor="let conflictiveReason of conflictiveReasons">
       <input mz-checkbox
-             [label]="conflictiveReason.trans_es"
+             [label]="'CONFLICT.' + conflictiveReason.name | cTranslate:userInfo.lang_code"
              [id]="'conflictive-' + conflictiveReason.id"
              [filledIn]="true"
              [checked]="conflictiveReason.checked"

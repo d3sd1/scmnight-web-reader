@@ -17,11 +17,11 @@ export class ClientsMock {
   }
 
   public getTotalResults(page: TablePage): Observable<TablePagedData<ClientEntrance>> {
-    return this.api.post("rest/clients/crud/all", page).pipe(map(resp => this.getPagedData(resp, page)));
+    return this.api.post("rest/clients/table", page).pipe(map(resp => this.getPagedData(resp, page)));
   }
 
   public getConflictiveResults(page: TablePage): Observable<TablePagedData<Client>> {
-    return this.api.post("rest/clients/crud/conflictive", page).pipe(map(resp => this.getPagedConflictives(resp, page)));
+    return this.api.post("rest/conflictive/clients/table", page).pipe(map(resp => this.getPagedConflictives(resp, page)));
   }
 
   public getRoomResults(page: TablePage): Observable<TablePagedData<ClientEntrance>> {
