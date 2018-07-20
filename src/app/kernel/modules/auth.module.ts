@@ -10,7 +10,6 @@ import {ApiOptions} from '../config/api.config';
                 headerName: ApiOptions.headerName,
                 authScheme: ApiOptions.authScheme,
                 throwNoTokenError: false,
-                tokenGetter: getToken,
                 whitelistedDomains: [environment.baseUrl]
             },
 
@@ -19,7 +18,3 @@ import {ApiOptions} from '../config/api.config';
 })
 
 export class AuthModule {}
-
-export function getToken() {
-    return localStorage.getItem(ApiOptions.tokenParameter);
-}

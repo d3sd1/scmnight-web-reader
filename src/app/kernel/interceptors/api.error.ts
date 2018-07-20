@@ -9,16 +9,24 @@ import {
 import {Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent} from 'rxjs';
 import {map, filter, catchError, mergeMap} from 'rxjs/operators';
 import {throwError} from "rxjs/internal/observable/throwError";
+import {SessionService} from "../services/session.service";
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router,
               private notify: NotificationsService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private sessMan: SessionService) {
 
   }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request
+              :
+              HttpRequest<any>, next
+              :
+              HttpHandler
+  ):
+    Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(catchError((err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -31,7 +39,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
           else if (err.status === 401 && this.router.url != "/dashboard/logout" && this.router.url != "/login") {
             this.translate.get('notifications.SESSION_EXPIRED').subscribe((res: string) => {
               this.router.navigate(['error/401']);
-              localStorage.clear();
+              this.sessMan.delToken();
               this.notify.info(
                 "",
                 res
@@ -39,7 +47,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             });
           }
           else if (err.status === 406 && this.router.url != "/error/406") {
-            localStorage.clear();
+            this.sessMan.delToken();
             this.router.navigate(['error/406']);
             this.notify.warn(
               "",
@@ -47,7 +55,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             );
           }
           else if (err.status === 500 && this.router.url != "/error/500") {
-            localStorage.clear();
+            this.sessMan.delToken();
             this.router.navigate(['error/500']);
             this.notify.warn(
               "",

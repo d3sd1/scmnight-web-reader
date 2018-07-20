@@ -30,57 +30,62 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ApiErrorInterceptor} from './interceptors/api.error';
 import {ApiNotifierInterceptor} from './interceptors/api.notifier';
 import {ErrorComponent} from '../components/error.component';
+import {SessionService} from "./services/session.service";
 
 
 @NgModule({
-    imports: [
-        RoutingModule,
-        HttpClientModule,
-        LoadingBarRouterModule,
-        LoggedOutModule,
-        LoggedInModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        SimpleNotificationsModule.forRoot(),
-        LanguageModule,
-        AuthModule
-    ],
-    declarations: [
-        BoostrapComponent,
-        ErrorComponent
-    ],
-    providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ApiErrorInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ApiNotifierInterceptor,
-            multi: true,
-        },
-        AuthService,
-        LoggedInService,
-        LoggedOutService,
-        ApiService,
-        PreloaderService,
-        wsInitializerProvider,
-        WsService,
-        WS,
-        RanksService,
-        WsAuthService
-    ],
-    bootstrap: [
-        BoostrapComponent
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [
+    RoutingModule,
+    HttpClientModule,
+    LoadingBarRouterModule,
+    LoggedOutModule,
+    LoggedInModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot(),
+    LanguageModule,
+    AuthModule
+  ],
+  declarations: [
+    BoostrapComponent,
+    ErrorComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiNotifierInterceptor,
+      multi: true,
+    },
+    AuthService,
+    LoggedInService,
+    LoggedOutService,
+    ApiService,
+    PreloaderService,
+    wsInitializerProvider,
+    WsService,
+    WS,
+    RanksService,
+    WsAuthService
+  ],
+  bootstrap: [
+    BoostrapComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class Bootstrap implements OnInit {
-    ngOnInit() {
-        if (environment.production) {
-            localStorage.clear();
-        }
+  constructor(private sessMan: SessionService) {
+
+  }
+
+  ngOnInit() {
+    if (environment.production) {
+      this.sessMan.delToken();
     }
+  }
 }

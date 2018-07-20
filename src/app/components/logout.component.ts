@@ -7,6 +7,7 @@ import {ApiService} from '../kernel/services/api.service';
 import {ApiOptions} from '../kernel/config/api.config';
 import {AuthService} from '../kernel/services/auth.service';
 import {finalize} from "rxjs/operators";
+import {SessionService} from "../kernel/services/session.service";
 
 @Component({
     selector: 'main-content',
@@ -16,18 +17,17 @@ import {finalize} from "rxjs/operators";
 export class LogoutComponent implements OnInit {
 
     constructor(private router: Router,
-        private translate: TranslateService,
-        private notify: NotificationsService,
         private api: ApiService,
         private authService: AuthService,
-        private loadingBar: LoadingBarService) {}
+        private loadingBar: LoadingBarService,
+                private sessMan:SessionService) {}
 
     ngOnInit(): void {
         if (this.authService.loggedIn()) {
             this.loadingBar.start();
-            this.api.del("rest/auth/logout" + '/' + localStorage.getItem(ApiOptions.idParameter))
+            this.api.del("rest/auth/logout" + '/' + this.sessMan.getTokenId())
                 .pipe(finalize(() => {
-                    localStorage.clear();
+                    this.sessMan.delToken();
                     this.router.navigate(['login']);
                     this.loadingBar.complete();
                 }))

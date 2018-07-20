@@ -52,6 +52,7 @@ import {PermissionsManageComponent} from "../../components/users/permissions.man
 import {CustomTranslatesService} from "../services/custom-translates.service";
 import {CustomTranslateManageComponent} from "../../components/custom-translate.manage.component";
 import {CustomTranslatePipe} from "../pipes/custom-translate.pipe";
+import {SessionService} from "../services/session.service";
 
 @NgModule({
   imports: [
@@ -111,7 +112,8 @@ import {CustomTranslatePipe} from "../pipes/custom-translate.pipe";
   ],
   providers: [
     SessionSingleton,
-    CustomTranslatesService
+    CustomTranslatesService,
+    SessionService
   ]
 })
 
