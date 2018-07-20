@@ -26,9 +26,9 @@ export class SessionSingleton {
   private apiLoadingDiscoInfo: Promise<DiscoInfo> = null;
   private apiLoadingCustomLanguages: Promise<Array<CustomLang>> = null;
 
-  getCustomTranslatesAvailable(): Promise<Array<CustomLang>> {
+  getCustomTranslatesAvailable(forceReload = false): Promise<Array<CustomLang>> {
     return new Promise((resolveGeneral, rejectGeneral) => {
-      if (this.customTranslates === null) {
+      if (this.customTranslates === null || forceReload) {
         if (this.apiLoadingCustomLanguages === null) {
           this.apiLoadingCustomLanguages = new Promise((resolveInternal, rejectInternal) => {
             this.getUser().then(user => {

@@ -25,9 +25,10 @@ export class ApiService {
             headers: new HttpHeaders().set(ApiOptions.headerName, ApiOptions.authScheme + this.jwtHelperService.tokenGetter())
         });
     }
-    del(url: string): Observable<any> {
-        return this.http.delete<any>(environment.baseUrl + url, {
-            headers: new HttpHeaders().set(ApiOptions.headerName, ApiOptions.authScheme + this.jwtHelperService.tokenGetter())
-        });
+    del(url: string, data: any = null): Observable<any> {
+      return this.http.request<any>('delete', environment.baseUrl + url, {
+        headers: new HttpHeaders().set(ApiOptions.headerName, ApiOptions.authScheme + this.jwtHelperService.tokenGetter()),
+        body: data
+      });
     }
 }

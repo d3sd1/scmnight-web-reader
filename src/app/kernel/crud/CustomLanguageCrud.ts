@@ -1,4 +1,3 @@
-
 import {CustomTranslate} from "../model/custom-translate";
 import {User} from "../model/user";
 import {CustomLang} from "../model/custom-lang";
@@ -25,33 +24,45 @@ export abstract class CustomLanguageCrud<T, N> extends CommonCrud<T, N> {
     this.customLangs.forEach((lang) => {
       const newLang = new CustomTranslate();
       newLang.lang_key.lang_key = lang.lang_key;
-      newLang.value = this.cTranslate.getTranslate(this.PAGE_NAME + this.modalData[this.TRANSLATE_FIELD], lang.lang_key);
-      newLang.key_id = this.PAGE_NAME + this.modalData[this.TRANSLATE_FIELD];
+      newLang.value = null !== this.modalData[this.TRANSLATE_FIELD] && !this.editTypeAdd ? this.cTranslate.getTranslate(this.PAGE_NAME + "." + this.modalData[this.TRANSLATE_FIELD], lang.lang_key) : "";
+      newLang.key_id = this.PAGE_NAME + "." + this.modalData[this.TRANSLATE_FIELD];
       this.modalSetLangs[lang.lang_key] = newLang;
     });
   }
 
   hookAfterAddRestCall() {
-    //TODO: adaptar esto para que funcione
-    for (let lang in this.modalSetLangs) {
-      this.api.post("rest/sessiondata1/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
-        this.manageModal.closeModal();
-      })).subscribe();
+    let translations: Array<CustomTranslate> = new Array<CustomTranslate>();
+    for (let translation in this.modalSetLangs) {
+      this.modalSetLangs[translation].key_id = this.PAGE_NAME + "." + this.modalData[this.TRANSLATE_FIELD];
+      translations.push(this.modalSetLangs[translation]);
     }
+    this.api.post("rest/session/translates", translations).pipe(finalize(() => {
+      this.manageModal.closeModal();
+    })).subscribe();
+    this.reloadLanguages();
+  }
+
+  private reloadLanguages () {
+    this.cTranslate.reloadTranslations();
   }
   hookAfterEditRestCall() {
-    for (let lang in this.modalSetLangs) {
-      this.api.post("rest/sessiondata2/translates", this.modalSetLangs[lang]).pipe(finalize(() => {
-        this.manageModal.closeModal();
-      })).subscribe();
+    let translations: Array<CustomTranslate> = new Array<CustomTranslate>();
+    for (let translation in this.modalSetLangs) {
+      translations.push(this.modalSetLangs[translation]);
     }
+    this.api.post("rest/session/translates", translations).pipe(finalize(() => {
+      this.manageModal.closeModal();
+    })).subscribe();
   }
+
   hookAfterDelRestCall() {
-    for (let lang in this.modalSetLangs) {
-      this.api.del("rest/sessiondata3/translates/").pipe(finalize(() => {
-        this.manageModal.closeModal();
-      })).subscribe();
+    let translations: Array<CustomTranslate> = new Array<CustomTranslate>();
+    for (let translation in this.modalSetLangs) {
+      translations.push(this.modalSetLangs[translation]);
     }
+    this.api.del("rest/session/translates", translations).pipe(finalize(() => {
+      this.manageModal.closeModal();
+    })).subscribe();
   }
 
   hookOpenAddModal() {
@@ -59,6 +70,10 @@ export abstract class CustomLanguageCrud<T, N> extends CommonCrud<T, N> {
   }
 
   hookOpenEditModal() {
+    this.initLanguages();
+  }
+
+  hookOpenDeleteModal() {
     this.initLanguages();
   }
 

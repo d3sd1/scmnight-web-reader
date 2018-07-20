@@ -73,5 +73,8 @@ export class CustomTranslatesService {
           this.loadedTranslates = true;
         });
   }
+  reloadTranslations() {
+    this.retTranslates();
+  }
 
 }

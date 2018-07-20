@@ -1,8 +1,6 @@
 import {TablePage} from "../model/table-page";
-import {ConflictReason} from "../model/conflict-reason";
 import {deserialize} from "json-typescript-mapper";
 import {finalize, map} from "rxjs/operators";
-import {ConflictReasonManage} from "../model/conflict-reason-manage";
 import {ViewChild} from "@angular/core";
 import {MzModalComponent} from "ngx-materialize";
 import {User} from "../model/user";
@@ -42,7 +40,7 @@ export abstract class CommonCrud<T, N> implements Crud {
 
   /* Modales y CRUD */
   protected userInfo: User = new User();
-  protected editTypeAdd: boolean = false;
+  public editTypeAdd: boolean = false;
   public modalData: T;
   @ViewChild('manageModal') manageModal: MzModalComponent;
   @ViewChild('delModal') delModal: MzModalComponent;
@@ -66,7 +64,7 @@ export abstract class CommonCrud<T, N> implements Crud {
     this.typeTokenManageClass = typeTokenManageClass;
     this.page.pageNumber = 0;
     this.page.size = 10;
-    this.modalData = this.typeTokenBaseClass;
+    this.modalData = new this.typeTokenBaseClass;
   }
 
   /*
@@ -140,12 +138,13 @@ export abstract class CommonCrud<T, N> implements Crud {
 
   /* Modal actions */
   abstract hookOpenAddModal();
+  abstract hookOpenDeleteModal();
   abstract hookAfterAddRestCall();
   abstract hookAfterEditRestCall();
   abstract hookAfterDelRestCall();
 
   openAddModal() {
-    this.modalData = this.typeTokenBaseClass;
+    this.modalData = new this.typeTokenBaseClass;
     this.editTypeAdd = true;
     this.hookOpenAddModal();
     this.manageModal.openModal();
@@ -172,8 +171,9 @@ export abstract class CommonCrud<T, N> implements Crud {
     }
   }
 
-  openDelModal(conflictReason: T) {
-    this.modalData = conflictReason;
+  openDelModal(data: T) {
+    this.modalData = data;
+    this.hookOpenDeleteModal();
     this.delModal.openModal();
   }
 
@@ -206,18 +206,18 @@ export abstract class CommonCrud<T, N> implements Crud {
 
   private onWsUpdate(uri: any, data: any) {
     let action: N = deserialize(this.typeTokenManageClass, JSON.parse(data)),
-      conflictReasonIndex: number = this.rows.findIndex(x => x[this.DATA_PK] === action[this.MANAGE_FIELD][this.DATA_PK]);
+      dataIndex: number = this.rows.findIndex(x => x[this.DATA_PK] === action[this.MANAGE_FIELD][this.DATA_PK]);
     switch (action['type'].name) {
       case "ADD":
-        this.rows.push(action['conflict_reason']);
+        this.rows.push(action[this.MANAGE_FIELD]);
         this.page.totalElements++;
         break;
       case "DELETE":
-        this.rows.splice(conflictReasonIndex, 1);
+        this.rows.splice(dataIndex, 1);
         this.page.totalElements--;
         break;
       case "EDIT":
-        this.rows[conflictReasonIndex] = action[this.MANAGE_FIELD];
+        this.rows[dataIndex] = action[this.MANAGE_FIELD];
         break;
     }
   }

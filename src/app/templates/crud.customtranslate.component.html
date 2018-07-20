@@ -48,7 +48,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Descripción">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{"CONFLICT." + row.name | cTranslate:userInfo.lang_code}}
+            {{PAGE_NAME + "." + row.name | cTranslate:userInfo.lang_code}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column>
@@ -73,8 +73,8 @@
   <mz-modal-header>
     <h4>Eliminar usuario</h4>
   </mz-modal-header>
-  <mz-modal-content>
-    ¿Estás segur@ que deseas eliminar el conflicto {{modalData?.name}} ? Esta acción no se puede revertir.
+  <mz-modal-content *ngIf="null !== modalData?.name && !editTypeAdd">
+    ¿Estás segur@ que deseas eliminar el conflicto {{PAGE_NAME + "." + modalData?.name | cTranslate:userInfo.lang_code}}? Esta acción no se puede revertir.
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
