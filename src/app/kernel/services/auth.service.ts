@@ -3,20 +3,22 @@ import {JwtHelperService} from '@auth0/angular-jwt'
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtHelperService: JwtHelperService) {}
-    loggedIn() {
-        const token: string = this.jwtHelperService.tokenGetter()
+  constructor(private jwtHelperService: JwtHelperService) {
+  }
 
-        if (!token) {
-            return false
-        }
+  loggedIn() {
+    const token: string = this.jwtHelperService.tokenGetter()
 
-        const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token)
-        
-        return !tokenExpired
+    if (!token) {
+      return false
     }
-    tokenExpireMsLeft()
-    {
-        return this.jwtHelperService.getTokenExpirationDate().getTime() - new Date().getTime() + 1000;
-    }
+
+    const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token)
+
+    return !tokenExpired
+  }
+
+  tokenExpireMsLeft() {
+    return this.jwtHelperService.getTokenExpirationDate().getTime() - new Date().getTime() + 1000;
+  }
 }
