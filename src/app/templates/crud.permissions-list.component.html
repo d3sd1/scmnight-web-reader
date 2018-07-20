@@ -1,0 +1,156 @@
+<div class="main-content section">
+  <div class="row">
+    <div class="col s12 theme-table">
+      <div class="row">
+        <mz-select-container class="col s5">
+          <select mz-select
+                  [placeholder]="'Motivos por página'"
+                  (change)="setRows($event)">
+            <option value="10" selected>10 Motivos por página</option>
+            <option value="25">25 Motivos por página</option>
+            <option value="50">50 Motivos por página</option>
+          </select>
+        </mz-select-container>
+        <div class="input-field col s5">
+          <input type="text" class="validate" (keyup)='onSearch($event)'>
+          <label>Buscar</label>
+        </div>
+        <div class="input-field col s2">
+          <button mz-button class="col s12" (click)="openAddModal()">Añadir</button>
+        </div>
+      </div>
+
+      <ngx-datatable
+        class="material"
+        [messages]="{
+                emptyMessage: 'table.noData' | translate,
+                totalMessage: 'table.total' | translate
+        }"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)='setPage($event)'
+        [externalSorting]="true"
+        [loadingIndicator]="loading"
+        [trackByProp]="'updated'"
+        (sort)="onSort($event)">
+
+        <ngx-datatable-column name="Código" prop="{{ TRANSLATE_FIELD }}">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Descripción">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{PAGE_NAME + "." + row[TRANSLATE_FIELD] | cTranslate:userInfo.lang_code}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button mz-button [float]="true" (click)="openEditModal(row)">
+              <i mz-icon-mdi [icon]="'translate'"></i>
+            </button>
+            <button mz-button [float]="true" (click)="openPermissionsModal(row)">
+              <i mz-icon-mdi [icon]="'pencil'"></i>
+            </button>
+            <button mz-button [float]="true" (click)="openDelModal(row)">
+              <i mz-icon-mdi [icon]="'delete'"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+<mz-modal #delModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="false"
+          [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Eliminar usuario</h4>
+  </mz-modal-header>
+  <mz-modal-content *ngIf="null !== modalData[TRANSLATE_FIELD] && !editTypeAdd">
+    ¿Estás segur@ que deseas eliminar el conflicto {{PAGE_NAME + "." + modalData[TRANSLATE_FIELD] | cTranslate:userInfo.lang_code}}? Esta acción no se puede revertir.
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="delUserRest()">Eliminar</button>
+  </mz-modal-footer>
+</mz-modal>
+
+
+<mz-modal #managePermissionsModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
+          [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Gestionar permisos para grupo: {{PAGE_NAME + "." + activeModalList[TRANSLATE_FIELD] | cTranslate:userInfo.lang_code}}</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <form class="col s12">
+      <div class="row" *ngIf="activeModalPermissions.length > 0">
+        <mz-checkbox-container class="col s12 m6" *ngFor="let permission of activeModalPermissions">
+          <input mz-checkbox
+                 [label]="PAGE_NAME + '.IND.' + permission.action | cTranslate:userInfo.lang_code"
+                 [(ngModel)]="permission.checked"
+                 [checked]="permission.checked"
+                 [name]="'permission-' + permission.id"
+                 [id]="'permission-' + permission.id"
+                 type="checkbox">
+        </mz-checkbox-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="editPermissionListRest()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>
+
+
+<mz-modal #manageModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
+          [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Gestionar usuario</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <form materialize class="col s12" usersCrud *ngIf="modalSetLangs['es'] != undefined">
+      <div class="row">
+        <mz-input-container class="col s12 m6">
+          <i mz-icon-mdi mz-input-prefix
+             [icon]="'email'">
+          </i>
+          <input mz-input
+                 name="conflictKey"
+                 [(ngModel)]="modalData[TRANSLATE_FIELD]"
+                 [label]="'Clave de conflicto'"
+                 autocomplete="off"
+                 [disabled]="!editTypeAdd"
+                 type="text">
+        </mz-input-container>
+        <mz-textarea-container class="col s12" *ngFor="let customLang of customLangs" >
+          <i mz-icon-mdi mz-textarea-prefix
+             [icon]="'message-reply-text'">
+          </i>
+          <textarea mz-textarea
+                    [(ngModel)]="modalSetLangs[customLang.lang_key].value"
+                    [label]="'Traducción al ' + ('langs.' + customLang.lang_key | translate)"
+                    [name]="'conflictLang' + customLang.lang_key"
+                    [placeholder]="'Introduce aquí el texto descriptivo del conflicto, en ' + ('langs.' + customLang.lang_key | translate) + '.'"
+                    length="150"></textarea>
+        </mz-textarea-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="editUserRest()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>

@@ -130,7 +130,7 @@ export const MenuRoutes: Routes = [
         path: 'image',
         component: UsersManageComponent,
         data: {
-          requiredPermission: "MANAGE_ROOM_IMAGE"
+          requiredPermission: "MANAGE_ROOM_THEME"
         }
       },
     ]

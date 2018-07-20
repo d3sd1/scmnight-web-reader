@@ -26,7 +26,7 @@ export abstract class CommonCrud<T, N> implements Crud {
   protected abstract REST_URL: string;
   protected abstract DATA_PK: any;
   protected abstract MANAGE_FIELD: any;
-  protected abstract TRANSLATE_FIELD: any;
+  public abstract TRANSLATE_FIELD: any;
 
   /* Parámetros de la tabla */
   public loading: boolean = false;
@@ -208,6 +208,9 @@ export abstract class CommonCrud<T, N> implements Crud {
   private onWsUpdate(uri: any, data: any) {
     let action: N = deserialize(this.typeTokenManageClass, JSON.parse(data)),
       dataIndex: number = this.rows.findIndex(x => x[this.DATA_PK] === action[this.MANAGE_FIELD][this.DATA_PK]);
+
+    console.log(this.typeTokenManageClass);
+    console.log(action);
     switch (action['type'].name) {
       case "ADD":
         this.rows.push(action[this.MANAGE_FIELD]);

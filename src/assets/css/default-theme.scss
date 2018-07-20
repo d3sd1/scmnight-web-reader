@@ -1,7 +1,6 @@
 /*
 0. Variables
  */
-/* Box card */
 $preloader-bg-color: #424242;
 $preloader-text-color: #eceff1;
 $preloader-circle-color: #eceff1;
@@ -66,6 +65,8 @@ $theme-modal-content-input-label-color: #212121 !default;
 $theme-modal-content-input-underline-unselected-color: #757575 !default;
 $theme-modal-content-input-underline-selected-color: #bdbdbd !default;
 $theme-modal-upload-spinner-color: #212121;
+$theme-text-selection-bg: #212121;
+$theme-text-selection-color: #FFFFFF;
 /*
 1. Estilo del preloader
  */
@@ -83,7 +84,14 @@ $theme-modal-upload-spinner-color: #212121;
 body {
   background-color: $main-background-color
 }
-
+::selection {
+  background: $theme-text-selection-bg;
+  color: $theme-text-selection-color;
+}
+::-moz-selection {
+  background: $theme-text-selection-bg;
+  color: $theme-text-selection-color;
+}
 /*
 3. Estilo de las cajas.
  */

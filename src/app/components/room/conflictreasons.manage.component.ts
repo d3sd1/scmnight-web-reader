@@ -29,7 +29,7 @@ export class ConflictreasonsManageComponent extends CustomLanguageCrud<ConflictR
   protected REST_URL = "conflictive/reasons";
   protected DATA_PK = "id";
   protected MANAGE_FIELD = "conflict_reason";
-  protected TRANSLATE_FIELD = "name";
+  public TRANSLATE_FIELD = "name";
 
 
   constructor(ws: WsService, api: ApiService, singleton: SessionSingleton, cTranslate: CustomTranslatesService) {
