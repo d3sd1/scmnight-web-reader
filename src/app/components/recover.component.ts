@@ -39,10 +39,12 @@ export class RecoverComponent {
           });
     }
     else {
-      this.notify.error(
-        "",
-        this.translate.get("recover.error_propietary")["value"]
-      );
+      this.translate.get("recover.error_propietary").subscribe((res: string) => {
+        this.notify.error(
+          "",
+          res
+        );
+      });
     }
   }
 }

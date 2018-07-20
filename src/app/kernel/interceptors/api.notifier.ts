@@ -6,10 +6,10 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
+import {Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent} from 'rxjs';
 import {deserialize} from 'json-typescript-mapper';
 import {ResponseMessage} from '../model/response-message';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+import {map, filter, catchError, mergeMap} from 'rxjs/operators';
 import {throwError} from "rxjs/internal/observable/throwError";
 
 @Injectable()
@@ -22,44 +22,44 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
 
   private sendNotification(response: ResponseMessage) {
     if (response.message !== null && typeof response.message != "undefined" && response.message !== "") {
-
-      let translation = this.translate.get("api_notifications." + response.message)["value"];
-      if (response.code > 0 && response.code <= 100) {
-        this.notify.alert(
-          "",
-          translation
-        );
-      }
-      else if (response.code >= 100 && response.code < 200) {
-        this.notify.info(
-          "",
-          translation
-        );
-      }
-      else if (response.code >= 200 && response.code < 300) {
-        this.notify.success(
-          "",
-          translation
-        );
-      }
-      else if (response.code > 300 && response.code < 400) {
-        this.notify.alert(
-          "",
-          translation
-        );
-      }
-      else if (response.code >= 400 && response.code < 500 && response.code != 401 && response.code != 406) {
-        this.notify.warn(
-          "",
-          translation
-        );
-      }
-      else if (response.code > 500 && response.code != 500) {
-        this.notify.error(
-          "",
-          translation
-        );
-      }
+      this.translate.get("api_notifications." + response.message).subscribe((translation: string) => {
+        if (response.code > 0 && response.code <= 100) {
+          this.notify.alert(
+            "",
+            translation
+          );
+        }
+        else if (response.code >= 100 && response.code < 200) {
+          this.notify.info(
+            "",
+            translation
+          );
+        }
+        else if (response.code >= 200 && response.code < 300) {
+          this.notify.success(
+            "",
+            translation
+          );
+        }
+        else if (response.code > 300 && response.code < 400) {
+          this.notify.alert(
+            "",
+            translation
+          );
+        }
+        else if (response.code >= 400 && response.code < 500 && response.code != 401 && response.code != 406) {
+          this.notify.warn(
+            "",
+            translation
+          );
+        }
+        else if (response.code > 500 && response.code != 500) {
+          this.notify.error(
+            "",
+            translation
+          );
+        }
+      });
     }
   }
 

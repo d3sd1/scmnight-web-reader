@@ -26,7 +26,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
   loading = true;
   roomUsers: any[] = [
     {
-      name: this.translate.get("dashboard.userschart.users")["value"],
+      name: "",
       loading: true,
       realUsers: 0,
       series: [{
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
   ];
   roomClients: any[] = [
     {
-      name: this.translate.get("dashboard.clientschart.users")["value"],
+      name: "",
       loading: true,
       realClients: 0,
       series: [{
@@ -48,6 +48,12 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
   ];
 
   constructor(private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService) {
+    this.translate.get("dashboard.clientschart.users").subscribe((res: string) => {
+      this.roomClients[0].name = res;
+    });
+    this.translate.get("dashboard.userschart.users").subscribe((res: string) => {
+      this.roomUsers[0].name = res;
+    });
   }
 
   ngOnDestroy(): void {

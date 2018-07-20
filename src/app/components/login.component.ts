@@ -58,10 +58,12 @@ export class LoginComponent implements OnInit {
         timeout: 27000
       });
     } else {
-      this.notify.warn(
-        "",
-        this.translate.get("notifications.GEOLOCATION_UNSUPPORTED")["value"]
-      );
+      this.translate.get("notifications.GEOLOCATION_UNSUPPORTED").subscribe((res: string) => {
+        this.notify.warn(
+          "",
+          res
+        );
+      });
     }
   }
 
@@ -71,9 +73,11 @@ export class LoginComponent implements OnInit {
   }
 
   private errorPosition() {
-    this.notify.warn(
-      "",
-      this.translate.get("notifications.GEOLOCATION_DENIED")["value"]
-    );
+    this.translate.get("notifications.GEOLOCATION_DENIED").subscribe((res: string) => {
+      this.notify.warn(
+        "",
+        res
+      );
+    });
   }
 }

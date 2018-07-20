@@ -49,18 +49,23 @@ export class ApiErrorInterceptor implements HttpInterceptor {
           else if (err.status === 406 && this.router.url != "/error/406") {
             this.sessMan.delToken();
             this.router.navigate(['error/406']);
-            this.notify.warn(
-              "",
-              this.translate.get("notifications.CONNECTED_OTHERWHERE")["value"]
-            );
+            this.translate.get("notifications.CONNECTED_OTHERWHERE").subscribe((res: string) => {
+              this.notify.warn(
+                "",
+                res
+              );
+            });
           }
           else if (err.status === 500 && this.router.url != "/error/500") {
             this.sessMan.delToken();
             this.router.navigate(['error/500']);
-            this.notify.warn(
-              "",
-              this.translate.get("notifications.SERVER_ERROR")["value"]
-            );
+            this.translate.get("notifications.SERVER_ERROR").subscribe((res: string) => {
+              this.notify.warn(
+                "",
+                res
+              );
+            });
+
           }
         }
         return throwError(err);

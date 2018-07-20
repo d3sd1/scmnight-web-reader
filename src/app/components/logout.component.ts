@@ -10,31 +10,32 @@ import {finalize} from "rxjs/operators";
 import {SessionService} from "../kernel/services/session.service";
 
 @Component({
-    selector: 'main-content',
-    template: ''
+  selector: 'main-content',
+  template: ''
 })
 
 export class LogoutComponent implements OnInit {
 
-    constructor(private router: Router,
-        private api: ApiService,
-        private authService: AuthService,
-        private loadingBar: LoadingBarService,
-                private sessMan:SessionService) {}
+  constructor(private router: Router,
+              private api: ApiService,
+              private authService: AuthService,
+              private loadingBar: LoadingBarService,
+              private sessMan: SessionService) {
+  }
 
-    ngOnInit(): void {
-        if (this.authService.loggedIn()) {
-            this.loadingBar.start();
-            this.api.del("rest/auth/logout" + '/' + this.sessMan.getTokenId())
-                .pipe(finalize(() => {
-                    this.sessMan.delToken();
-                    this.router.navigate(['login']);
-                    this.loadingBar.complete();
-                }))
-                .subscribe();
-        }
-        else {
-            this.router.navigate(['login']);
-        }
+  ngOnInit(): void {
+    if (this.authService.loggedIn()) {
+      this.loadingBar.start();
+      this.api.del("rest/auth/logout" + '/' + this.sessMan.getTokenId())
+        .pipe(finalize(() => {
+          this.sessMan.delToken();
+          this.router.navigate(['login']);
+          this.loadingBar.complete();
+        }))
+        .subscribe();
     }
+    else {
+      this.router.navigate(['login']);
+    }
+  }
 }

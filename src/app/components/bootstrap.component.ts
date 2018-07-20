@@ -16,7 +16,7 @@ export class BoostrapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.translate.get('preloader.loading', {value: 'world'}).subscribe((res: string) => {
+    this.translate.get('preloader.loading').subscribe((res: string) => {
       this.preloader.changeText(res);
     });
   }
@@ -26,12 +26,12 @@ export class BoostrapComponent implements AfterViewInit, OnInit {
       let loadedUser = false,
         loadedPermissions = false;
 
-      this.translate.get('preloader.loadinguser', {value: 'world'}).subscribe((res: string) => {
+      this.translate.get('preloader.loadinguser').subscribe((res: string) => {
         this.preloader.changeText(res);
       });
       this.sessionInfo.getUser().then(res => {
 
-        this.translate.get('preloader.userloaded', {value: 'world'}).subscribe((res: string) => {
+        this.translate.get('preloader.userloaded').subscribe((res: string) => {
           this.preloader.changeText(res);
         });
         loadedUser = true;
@@ -40,7 +40,7 @@ export class BoostrapComponent implements AfterViewInit, OnInit {
         }
       });
       this.sessionInfo.getPermissions().then(res => {
-        this.translate.get('preloader.userloaded', {value: 'world'}).subscribe((res: string) => {
+        this.translate.get('preloader.userloaded').subscribe((res: string) => {
           this.preloader.changeText(res);
         });
         loadedPermissions = true;

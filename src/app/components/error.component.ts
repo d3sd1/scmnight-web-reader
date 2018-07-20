@@ -13,12 +13,20 @@ export class ErrorComponent {
           translate.get('errorPages').subscribe((codes: Array<string>) => {
             console.log(codes);
             if (!isNaN(params["code"]) && params["code"] in codes) {
-              this.errorTitle = this.translate.get("errorPages")["value"][params["code"]]["title"];
-              this.errorDesc = this.translate.get("errorPages")["value"][params["code"]]["desc"];
+              this.translate.get('errorPages.' + params["code"] + '.title').subscribe((res: string) => {
+                this.errorTitle = res;
+              });
+              this.translate.get('errorPages.' + params["code"] + '.desc').subscribe((res: string) => {
+                this.errorDesc = res;
+              });
             }
             else {
-              this.errorTitle = this.translate.get("errorPages")["value"]["generic"]["title"];
-              this.errorDesc = this.translate.get("errorPages")["value"]["generic"]["desc"];
+              this.translate.get('errorPages.generic.title').subscribe((res: string) => {
+                this.errorTitle = res;
+              });
+              this.translate.get('errorPages.generic.desc').subscribe((res: string) => {
+                this.errorDesc = res;
+              });
             }
           });
         });

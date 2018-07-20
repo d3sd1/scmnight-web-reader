@@ -37,28 +37,6 @@ export class RecoverCodeComponent {
       .pipe(finalize(() => {
         this.loadingBar.complete();
       }))
-      .subscribe(
-        (response: HttpResponse<AuthToken>) => {
-          this.notify.success(
-            this.translate.get("notifications")["value"]["recover_code"]["success"]["title"],
-            this.translate.get("notifications")["value"]["recover_code"]["success"]["desc"]
-          );
-          this.router.navigate(['login']);
-        },
-        (error: HttpErrorResponse) => {
-          if (error.status === 408) {
-            this.notify.info(
-              this.translate.get("notifications")["value"]["recover"]["error_expired"]["title"],
-              this.translate.get("notifications")["value"]["recover"]["error_expired"]["desc"]
-            );
-            this.router.navigate(['recover']);
-          }
-          else {
-            this.notify.error(
-              this.translate.get("notifications")["value"]["recover"]["error"]["title"],
-              this.translate.get("notifications")["value"]["recover"]["error"]["desc"]
-            );
-          }
-        });
+      .subscribe();
   }
 }

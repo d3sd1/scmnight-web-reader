@@ -38,10 +38,17 @@ export class AgePipe implements PipeTransform, OnDestroy {
       return null;
     })
     let age = this.getAge(d);
+    let translate = "";
     if (age === 1) {
-      return this.translate.get("age")["value"]["a_year"];
+      this.translate.get("age.a_year").subscribe((res: string) => {
+        translate = res;
+      });
+      return translate;
     } else {
-      return this.translate.get("age")["value"]["x_years"].replace("{{years}}", age);
+      this.translate.get("age.x_years").subscribe((res: string) => {
+        translate = res.replace("{{years}}", String(age));
+      });
+      return translate;
     }
   }
 

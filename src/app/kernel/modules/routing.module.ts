@@ -17,35 +17,42 @@ import {FullRoutes} from '../config/routes.config';
 
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        LoadingBarRouterModule,
-        RouterModule.forRoot(FullRoutes),
-        TranslateModule.forRoot(),
-        FormsModule
-    ],
-    exports: [
-        RouterModule
-    ]
+  imports: [
+    BrowserModule,
+    LoadingBarRouterModule,
+    RouterModule.forRoot(FullRoutes),
+    TranslateModule.forRoot(),
+    FormsModule
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class RoutingModule {
-    constructor(private titleService: Title, router: Router, private translate: TranslateService) {
-        router.events.subscribe(event => {
-            if (event instanceof NavigationError) {
-                router.navigate(['error']);
+  constructor(private titleService: Title, router: Router, private translate: TranslateService) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationError) {
+        router.navigate(['error']);
+      }
+      if (event instanceof NavigationEnd) {
+        let pageTitle = "";
+        this.translate.get("page_titles." + router.url).subscribe(getPageTitle => {
+            if (getPageTitle.indexOf("page_titles.") !== -1) {
+              this.translate.get("page_titles._notitle").subscribe(noTitle => {
+                pageTitle = noTitle;
+              });
             }
-            if (event instanceof NavigationEnd) {
-                this.translate.get("page_titles").subscribe(
-                    langLoaded => {
-                        var pageTitle = this.translate.get("page_titles")["value"][router.url];
-                        if(typeof pageTitle === "undefined")
-                        {
-                            pageTitle = this.translate.get("page_titles")["value"]["_notitle"];
-                        }
-                        this.titleService.setTitle(this.translate.get("page_titles")["value"]["_prefix"] + " " + pageTitle)
-                    }
-                );
+            else {
+              pageTitle = getPageTitle;
             }
-        });
-    }
+            this.translate.get("page_titles._prefix").subscribe(prefix => {
+              this.titleService.setTitle(prefix + " " + pageTitle)
+            });
+          }, (err) => {
+            console.log(err);
+          }
+        );
+      }
+    });
+  }
 }

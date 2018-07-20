@@ -49,11 +49,12 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   isValidLogo(str) {
     var image = new Image();
     image.src = str;
-    image.onerror = function(err){
+    image.onerror = function (err) {
       return false;
     }
     return str != "";
   }
+
   setLogo(logo) {
     if (typeof logo !== "undefined" && this.isValidLogo(logo)) {
       this.logo = this._sanitizer.bypassSecurityTrustStyle("url(" + logo + ")");
@@ -77,10 +78,13 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       this.changeLogoModal.closeModal();
     }
     else {
-      this.notify.error(
-        "",
-        this.translate.get("logo_upload.error_uploading")["value"]
-      );
+
+      this.translate.get("logo_upload.error_uploading").subscribe((res: string) => {
+        this.notify.error(
+          "",
+          res
+        )
+      });
     }
     this.uploadingLogo = false;
   }
@@ -102,10 +106,12 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
           });
     };
     reader.onerror = (error) => {
-      this.notify.error(
-        "",
-        this.translate.get("logo_upload.error_onupload")["value"]
-      );
+      this.translate.get("logo_upload.error_onupload").subscribe((res: string) => {
+        this.notify.error(
+          "",
+          res
+        );
+      });
       this.uploadingLogo = false;
     };
   }
@@ -204,7 +210,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
             const subData = subRoute.data as MenuOptionData;
             if (!subData.hidden && this.userPermission.find(x => x.action === subData.requiredPermission)) {
               const subLink = link + "/" + subRoute.path;
-              submenus.push(new MenuOption(data.icon, (subData.isProfileText ? this.user.firstname + " " + this.user.lastname : this.translate.get("nav")["value"][subLink]), subLink));
+              this.translate.get("nav." + subLink).subscribe((res: string) => {
+                submenus.push(new MenuOption(data.icon, (subData.isProfileText ? this.user.firstname + " " + this.user.lastname : res), subLink));
+              });
               submenusHasPermissions = true;
             }
           });
@@ -214,7 +222,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
           linkHref = link;
         }
         if (this.userPermission.find(x => x.action === data.requiredPermission) && typeof route.children === "undefined" || submenusHasPermissions) {
-          this.filteredMenuOptions.push(new MenuOption(data.icon, (data.isProfileText ? this.user.firstname + " " + this.user.lastname : this.translate.get("nav")["value"][link]), linkHref, submenus));
+          this.translate.get("nav." + link).subscribe((res: string) => {
+            this.filteredMenuOptions.push(new MenuOption(data.icon, (data.isProfileText ? this.user.firstname + " " + this.user.lastname : res), linkHref, submenus));
+          });
         }
       }
     });

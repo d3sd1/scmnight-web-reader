@@ -27,10 +27,12 @@ export class WsAuthService {
       if (logoutToken["token"] === myToken) {
         this.sessMan.delToken();
         this.router.navigate(['error/406']);
-        this.notify.warn(
-          "",
-          this.translate.get("notifications.CONNECTED_OTHERWHERE")["value"]
-        );
+        this.translate.get("notifications.CONNECTED_OTHERWHERE").subscribe((res: string) => {
+          this.notify.warn(
+            "",
+            res
+          );
+        });
       }
     });
   }

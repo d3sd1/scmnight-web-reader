@@ -59,10 +59,14 @@ export class ProfileComponent implements OnInit {
         this.user.newpass = this.newPass1;
       }
       else {
-        this.notify.error(
-          "",
-          this.translate.get("api_notifications.NEW_PASSWORDS_DOESNT_MATCH")["value"]
-        );
+
+        this.translate.get('api_notifications.NEW_PASSWORDS_DOESNT_MATCH').subscribe((res: string) => {
+          this.notify.error(
+            "",
+            res
+          );
+        });
+
         return;
       }
     }
@@ -74,7 +78,8 @@ export class ProfileComponent implements OnInit {
         this.newPass1 = null;
         this.newPass2 = null;
         this.showPasswordChanger = false;
-        this.sessionInfo.getUser(true).then(() => {});
+        this.sessionInfo.getUser(true).then(() => {
+        });
       }))
       .subscribe(
         (authToken: AuthToken) => {
