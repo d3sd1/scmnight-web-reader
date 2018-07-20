@@ -1,237 +1,240 @@
 {
-    "ranks": {
-        "1": "RRPP",
-        "2": "Camarero",
-        "3": "Seguridad",
-        "4": "Staff & Directivos",
-        "5": "Jefe"
-    },
+  "profile": {
+    "cardtitle": "Profile configuration"
+  },
+  "ranks": {
+    "1": "RRPP",
+    "2": "Camarero",
+    "3": "Seguridad",
+    "4": "Staff & Directivos",
+    "5": "Jefe"
+  },
+  "config": {
+    "api_rate_limit_interval_s": "Intervalo (en segundos) para el máximo de llamadas al servidor",
+    "api_rate_limit_rate": "Máximo de llamadas al servidor durante el intervalo",
+    "disco_name": "Nombre de la discoteca",
+    "maxPersonsInRoom": "Aforo máximo"
+  },
+  "time_ago": {
+    "few_seconds_ago": "Hace unos segundos",
+    "a_minute_ago": "Hace un minuto",
+    "x_minutes_ago": "Hace {{minutes}} minutos",
+    "an_hour_ago": "Hace una hora",
+    "x_hours_ago": "Hace {{hours}} horas",
+    "a_day_ago": "Hace un día",
+    "x_days_ago": "Hace {{days}} días",
+    "a_month_ago": "Hace un mes",
+    "x_months_ago": "Hace {{months}} meses",
+    "a_year_ago": "Hace un año",
+    "x_years_ago": "Hace {{years}} años"
+  },
+  "notifications": {
     "config": {
-        "api_rate_limit_interval_s": "Intervalo (en segundos) para el máximo de llamadas al servidor",
-        "api_rate_limit_rate": "Máximo de llamadas al servidor durante el intervalo",
-        "disco_name": "Nombre de la discoteca",
-        "maxPersonsInRoom": "Aforo máximo"
-    },
-    "time_ago": {
-        "few_seconds_ago": "Hace unos segundos",
-        "a_minute_ago": "Hace un minuto",
-        "x_minutes_ago": "Hace {{minutes}} minutos",
-        "an_hour_ago": "Hace una hora",
-        "x_hours_ago": "Hace {{hours}} horas",
-        "a_day_ago": "Hace un día",
-        "x_days_ago": "Hace {{days}} días",
-        "a_month_ago": "Hace un mes",
-        "x_months_ago": "Hace {{months}} meses",
-        "a_year_ago": "Hace un año",
-        "x_years_ago": "Hace {{years}} años"
-    },
-    "notifications": {
-        "config": {
-            "edit": {
-                "success": {
-                    "title": "Configuración modificada",
-                    "desc": "Ya puedes visualizar los cambios globalmente."
-                },
-                "400": {
-                    "title": "Error al actualizar",
-                    "desc": "La configuración introducida no existe."
-                },
-                "error": {
-                    "title": "Error al actualizar",
-                    "desc": "Ha ocurrido un error al actualizar."
-                }
-            }
+      "edit": {
+        "success": {
+          "title": "Configuración modificada",
+          "desc": "Ya puedes visualizar los cambios globalmente."
         },
-        "users": {
-            "delete": {
-                "error": {
-                    "title": "Error al eliminar el usuario",
-                    "desc": "El usuario seleccionado no se pudo eliminar."
-                },
-                "416": {
-                    "title": "Error al eliminar Jefe",
-                    "desc": "Para eliminar usuarios Jefes, debes contactar con SCM."
-                },
-                "405": {
-                    "title": "Error al eliminar usuario",
-                    "desc": "No posees privilegios suficientes para eliminar el usuario."
-                },
-                "success": {
-                    "title": "Usuario eliminado correctamente",
-                    "desc": "El usuario seleccionado fue eliminado."
-                }
-            },
-            "add": {
-                "error": {
-                    "title": "Error al añadir el usuario",
-                    "desc": "El usuario introducido no se pudo añadir."
-                },
-                "417": {
-                    "title": "Error al añadir el usuario",
-                    "desc": "El usuario introducido ya está en la base de datos."
-                },
-                "success": {
-                    "title": "Usuario añadido correctamente",
-                    "desc": "El usuario fue añadido correctamente."
-                }
-            },
-            "edit": {
-                "error": {
-                    "title": "Error al editar usuario",
-                    "desc": "El usuario introducido no se pudo editar."
-                },
-                "405": {
-                    "title": "Error al editar el usuario",
-                    "desc": "No posees privilegios suficientes."
-                },
-                "416": {
-                    "title": "Error al editar Jefe",
-                    "desc": "Para editar usuarios Jefes, debes contactar con SCM."
-                },
-                "success": {
-                    "title": "Usuario modificado correctamente",
-                    "desc": "El usuario fue modificado correctamente."
-                }
-            }
+        "400": {
+          "title": "Error al actualizar",
+          "desc": "La configuración introducida no existe."
         },
-        "login": {
-            "success": {
-                "title": "¡Conexión satisfactoria!",
-                "desc": "Te has conectado correctamente."
-            },
-            "error_password": {
-                "title": "¡Error al conectar!",
-                "desc": "El email y la contraseña introducidos no son válidos."
-            }
-        },
-        "recover": {
-            "success": {
-                "title": "Recuperación procesada",
-                "desc": "Para continuar la recuperación, revisa tu email."
-            },
-            "info_boss": {
-                "title": "Recuperación denegada",
-                "desc": "Para recuperar tu conseña, contacta con SCM."
-            },
-            "error": {
-                "title": "¡Error al conectar!",
-                "desc": "El email y la contraseña introducidos no son válidos."
-            }
-        },
-        "logout": {
-            "success": {
-                "title": "¡Desconexión satisfactoria!",
-                "desc": "Te has desconectado correctamente."
-            },
-            "error_logged_otherwhere": {
-                "title": "¡Desconexión por seguridad!",
-                "desc": "Te has conectado desde otro dispositivo y se ha cerrado tu sesión actual."
-            },
-            "error_session_expired": {
-                "title": "¡Desconexión por inactividad!",
-                "desc": "Tu sesión ha caducado."
-            }
-        },
-        "lang_changed": {
-            "success": {
-                "title": "Language change success!",
-                "desc": "Now we talk english"
-            },
-            "error": {
-                "title": "¡Error al cambiar idioma!",
-                "desc": "Algo ha salido mal mientras se cambiaba tu idioma."
-            }
-        },
-        "navbar_control": {
-            "success": {
-                "title": "¡Menú actualizado!",
-                "desc": "Tus preferencias han sido almacenadas correctamente."
-            },
-            "error": {
-                "title": "¡Error al guardar menú!",
-                "desc": "Algo ha salido mal mientras se cambiaba tu menú."
-            }
-        },
-        "geolocation": {
-            "error_notsupported": {
-                "title": "Geolocalización no soportada",
-                "desc": "Tu navegador no permite la geolocalización. Por favor, instala uno más moderno."
-            },
-            "error_denied": {
-                "title": "Localización denegada",
-                "desc": "Para aumentar la seguridad, recomendamos que la actives."
-            }
+        "error": {
+          "title": "Error al actualizar",
+          "desc": "Ha ocurrido un error al actualizar."
         }
+      }
     },
-    "nav": {
-        "/dashboard/start": "Start",
-        "/dashboard/room": "Room control",
-        "/dashboard/room/bar": "Barras",
-        "/dashboard/room/stage": "Seguridad",
-        "/dashboard/room/reserved": "Reservados",
-        "/dashboard/users": "Control de personal",
-        "/dashboard/users/manage": "Modificar personal",
-        "/dashboard/users/room": "Actualmente en la sala",
-        "/dashboard/users/all": "Histórico de accesos",
-        "/dashboard/clients": "Clientes",
-        "/dashboard/clients/room": "Actualmente en la sala",
-        "/dashboard/clients/all": "Histórico de accesos",
-        "/dashboard/monetization": "Caja",
-        "/dashboard/stock": "Inventario",
-        "/dashboard/stats": "Estadísticas",
-        "/dashboard/marketing": "Marketing",
-        "/dashboard/marketing/promos": "Promociones",
-        "/dashboard/marketing/events": "Eventos",
-        "/dashboard/marketing/parties": "Fiestas",
-        "/dashboard/config": "Configuración",
-      "/dashboard/profile": "Mi perfil",
-        "/dashboard/user/logout": "Desconectar",
-        "/dashboard/user/profile": "Mi perfil"
-    },
-    "langs": {
-        "es": "Español",
-        "en": "Inglés"
-    },
-    "page_titles": {
-        "/dashboard/start": "Panel de control",
-        "/dashboard/users": "Usuarios del panel",
-        "/dashboard/users/total": "Histórico de trabajadores",
-        "/dashboard/users/room": "Trabajadores en sala",
-        "/dashboard/users/manage": "Editor de trabajadores",
-        "/dashboard/clients/room": "Clientes en sala",
-        "/dashboard/clients/all": "Histórico de clientes",
-        "/dashboard/profile": "Mi perfil",
-        "/dashboard/config": "Configuración",
-        "/login": "Conexión",
-        "/error/generic": "Ha ocurrido un error",
-        "/error/401": "Ha ocurrido un error",
-        "/error/404": "Página no encontrada",
-        "/recover/code": "Código de recuperación",
-        "/recover": "Recuperación de acceso",
-        "/dashboard/user/profile": "Perfil de usuario",
-        "/dashboard/user/logout": "Desconectando...",
-        "_prefix": "SCM -",
-        "_notitle": "Página sin título"
+    "users": {
+      "delete": {
+        "error": {
+          "title": "Error al eliminar el usuario",
+          "desc": "El usuario seleccionado no se pudo eliminar."
+        },
+        "416": {
+          "title": "Error al eliminar Jefe",
+          "desc": "Para eliminar usuarios Jefes, debes contactar con SCM."
+        },
+        "405": {
+          "title": "Error al eliminar usuario",
+          "desc": "No posees privilegios suficientes para eliminar el usuario."
+        },
+        "success": {
+          "title": "Usuario eliminado correctamente",
+          "desc": "El usuario seleccionado fue eliminado."
+        }
+      },
+      "add": {
+        "error": {
+          "title": "Error al añadir el usuario",
+          "desc": "El usuario introducido no se pudo añadir."
+        },
+        "417": {
+          "title": "Error al añadir el usuario",
+          "desc": "El usuario introducido ya está en la base de datos."
+        },
+        "success": {
+          "title": "Usuario añadido correctamente",
+          "desc": "El usuario fue añadido correctamente."
+        }
+      },
+      "edit": {
+        "error": {
+          "title": "Error al editar usuario",
+          "desc": "El usuario introducido no se pudo editar."
+        },
+        "405": {
+          "title": "Error al editar el usuario",
+          "desc": "No posees privilegios suficientes."
+        },
+        "416": {
+          "title": "Error al editar Jefe",
+          "desc": "Para editar usuarios Jefes, debes contactar con SCM."
+        },
+        "success": {
+          "title": "Usuario modificado correctamente",
+          "desc": "El usuario fue modificado correctamente."
+        }
+      }
     },
     "login": {
-        "email": "Email",
-        "password": "Contraseña",
-        "extsess": "Sesión de 60 minutos",
-        "passforgot": "¿Contraseña olviadada?",
-        "submit": "Conectar"
+      "success": {
+        "title": "¡Conexión satisfactoria!",
+        "desc": "Te has conectado correctamente."
+      },
+      "error_password": {
+        "title": "¡Error al conectar!",
+        "desc": "El email y la contraseña introducidos no son válidos."
+      }
     },
-    "clientsTable": {
-        "vip": {
-            "false": "No",
-            "true": "Sí"
-        },
-        "type": {
-            "NULL": "No definido",
-            "DENIED_CONFLICTIVE": "Denegada por conflictividad",
-            "DENIED_FULL": "Denegada por sala llena",
-            "FORCED_ACCESS": "Entrada forzada",
-            "JOIN": "Acceso correcto",
-            "LEAVE": "Salida correcta"
-        }
+    "recover": {
+      "success": {
+        "title": "Recuperación procesada",
+        "desc": "Para continuar la recuperación, revisa tu email."
+      },
+      "info_boss": {
+        "title": "Recuperación denegada",
+        "desc": "Para recuperar tu conseña, contacta con SCM."
+      },
+      "error": {
+        "title": "¡Error al conectar!",
+        "desc": "El email y la contraseña introducidos no son válidos."
+      }
+    },
+    "logout": {
+      "success": {
+        "title": "¡Desconexión satisfactoria!",
+        "desc": "Te has desconectado correctamente."
+      },
+      "error_logged_otherwhere": {
+        "title": "¡Desconexión por seguridad!",
+        "desc": "Te has conectado desde otro dispositivo y se ha cerrado tu sesión actual."
+      },
+      "error_session_expired": {
+        "title": "¡Desconexión por inactividad!",
+        "desc": "Tu sesión ha caducado."
+      }
+    },
+    "lang_changed": {
+      "success": {
+        "title": "Language change success!",
+        "desc": "Now we talk english"
+      },
+      "error": {
+        "title": "¡Error al cambiar idioma!",
+        "desc": "Algo ha salido mal mientras se cambiaba tu idioma."
+      }
+    },
+    "navbar_control": {
+      "success": {
+        "title": "¡Menú actualizado!",
+        "desc": "Tus preferencias han sido almacenadas correctamente."
+      },
+      "error": {
+        "title": "¡Error al guardar menú!",
+        "desc": "Algo ha salido mal mientras se cambiaba tu menú."
+      }
+    },
+    "geolocation": {
+      "error_notsupported": {
+        "title": "Geolocalización no soportada",
+        "desc": "Tu navegador no permite la geolocalización. Por favor, instala uno más moderno."
+      },
+      "error_denied": {
+        "title": "Localización denegada",
+        "desc": "Para aumentar la seguridad, recomendamos que la actives."
+      }
     }
+  },
+  "nav": {
+    "/dashboard/start": "Start",
+    "/dashboard/room": "Room control",
+    "/dashboard/room/bar": "Barras",
+    "/dashboard/room/stage": "Seguridad",
+    "/dashboard/room/reserved": "Reservados",
+    "/dashboard/users": "Control de personal",
+    "/dashboard/users/manage": "Modificar personal",
+    "/dashboard/users/room": "Actualmente en la sala",
+    "/dashboard/users/all": "Histórico de accesos",
+    "/dashboard/clients": "Clientes",
+    "/dashboard/clients/room": "Actualmente en la sala",
+    "/dashboard/clients/all": "Histórico de accesos",
+    "/dashboard/monetization": "Caja",
+    "/dashboard/stock": "Inventario",
+    "/dashboard/stats": "Estadísticas",
+    "/dashboard/marketing": "Marketing",
+    "/dashboard/marketing/promos": "Promociones",
+    "/dashboard/marketing/events": "Eventos",
+    "/dashboard/marketing/parties": "Fiestas",
+    "/dashboard/config": "Configuración",
+    "/dashboard/profile": "Mi perfil",
+    "/dashboard/user/logout": "Desconectar",
+    "/dashboard/user/profile": "Mi perfil"
+  },
+  "langs": {
+    "es": "Español",
+    "en": "Inglés"
+  },
+  "page_titles": {
+    "/dashboard/start": "Panel de control",
+    "/dashboard/users": "Usuarios del panel",
+    "/dashboard/users/total": "Histórico de trabajadores",
+    "/dashboard/users/room": "Trabajadores en sala",
+    "/dashboard/users/manage": "Editor de trabajadores",
+    "/dashboard/clients/room": "Clientes en sala",
+    "/dashboard/clients/all": "Histórico de clientes",
+    "/dashboard/profile": "Mi perfil",
+    "/dashboard/config": "Configuración",
+    "/login": "Conexión",
+    "/error/generic": "Ha ocurrido un error",
+    "/error/401": "Ha ocurrido un error",
+    "/error/404": "Página no encontrada",
+    "/recover/code": "Código de recuperación",
+    "/recover": "Recuperación de acceso",
+    "/dashboard/user/profile": "Perfil de usuario",
+    "/dashboard/user/logout": "Desconectando...",
+    "_prefix": "SCM -",
+    "_notitle": "Página sin título"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Contraseña",
+    "extsess": "Sesión de 60 minutos",
+    "passforgot": "¿Contraseña olviadada?",
+    "submit": "Conectar"
+  },
+  "clientsTable": {
+    "vip": {
+      "false": "No",
+      "true": "Sí"
+    },
+    "type": {
+      "NULL": "No definido",
+      "DENIED_CONFLICTIVE": "Denegada por conflictividad",
+      "DENIED_FULL": "Denegada por sala llena",
+      "FORCED_ACCESS": "Entrada forzada",
+      "JOIN": "Acceso correcto",
+      "LEAVE": "Salida correcta"
+    }
+  }
 }

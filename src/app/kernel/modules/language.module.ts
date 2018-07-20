@@ -3,6 +3,8 @@ import {environment} from '../../../environments/environment';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
 import {HttpClient} from '@angular/common/http';
+import {SessionSingleton} from "../singletons/session.singleton";
+import {User} from "../model/user";
 
 @NgModule({
   imports: [TranslateModule.forRoot({
@@ -18,14 +20,28 @@ import {HttpClient} from '@angular/common/http';
 })
 
 export class LanguageModule {
-  constructor(translate: TranslateService) {
-    translate.addLangs(environment.availableLangs);
-    if (translate.getBrowserLang() in environment.availableLangs) {
-      translate.setDefaultLang(translate.getBrowserLang());
-      translate.use(translate.getBrowserLang());
+  private setNavigatorLang() {
+    const navLang = this.translate.getBrowserLang();
+    if (-1 !== environment.availableLangs.findIndex(x => x == navLang)) {
+      this.translate.setDefaultLang(this.translate.getBrowserLang());
+      this.translate.use(this.translate.getBrowserLang());
     }
     else {
-      translate.setDefaultLang(environment.availableLangs[0]);
+      this.translate.setDefaultLang(environment.availableLangs[0]);
     }
+  }
+  constructor(private translate: TranslateService, private session: SessionSingleton) {
+    translate.addLangs(environment.availableLangs);
+    this.setNavigatorLang();
+    /* Si esta conectado, darle el lenguaje de su perfil primero. */
+    session.getUser().then((user: User) => {
+      if (null !== user && (-1 !== environment.availableLangs.findIndex(x => x == user.lang_code))) {
+        this.translate.setDefaultLang(user.lang_code);
+        this.translate.use(user.lang_code);
+      }
+      else {
+        this.setNavigatorLang();
+      }
+    });
   }
 }

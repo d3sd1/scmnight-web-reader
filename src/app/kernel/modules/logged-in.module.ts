@@ -12,7 +12,6 @@ import {ClientsRoomComponent} from '../../components/clients/clients.room.compon
 import {UsersTotalComponent} from '../../components/users/users.total.component';
 import {UsersRoomComponent} from '../../components/users/users.room.component';
 import {LanguageModule} from '../modules/language.module';
-import {ChangeLanguageDirective} from '../directives/changelanguage.directive';
 import {DefaultProfileImageDirective} from '../directives/defaultprofileimage.directive';
 import {RouterModule} from '@angular/router';
 import {TimeAgoPipe} from '../directives/time-ago.pipe';
@@ -99,7 +98,6 @@ import {CustomTranslatePipe} from "../pipes/custom-translate.pipe";
     RatesManageComponent,
     ServerStatusComponent,
     ConfigComponent,
-    ChangeLanguageDirective,
     DefaultProfileImageDirective,
     TimeAgoPipe,
     AgePipe,
@@ -109,7 +107,6 @@ import {CustomTranslatePipe} from "../pipes/custom-translate.pipe";
     CustomTranslateManageComponent
   ],
   exports: [
-    ChangeLanguageDirective,
     DefaultProfileImageDirective
   ],
   providers: [

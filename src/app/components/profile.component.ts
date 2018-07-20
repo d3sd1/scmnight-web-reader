@@ -42,6 +42,16 @@ export class ProfileComponent implements OnInit {
 
   public languages: Array<String> = environment.availableLangs;
 
+  changeLanguage(newLang: string) {
+    if (newLang in this.languages) {
+      this.translate.setDefaultLang(newLang);
+      this.translate.use(newLang);
+    }
+    else {
+      this.translate.setDefaultLang(environment.availableLangs[0]);
+    }
+  }
+
   submitProfile() {
     if (this.showPasswordChanger && ((this.newPass1 != "" && this.newPass1 != null) || (this.newPass2 != "" && this.newPass2 != null))) {
       if (this.newPass1 == this.newPass2) {

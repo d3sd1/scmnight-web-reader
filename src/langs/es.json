@@ -106,6 +106,8 @@
     "CONFLICTREASON_ALREADY_ONDB": "Motivo de conflictividad duplicado.",
     "CONFLICTREASON_CREATED": "Motivo de conflictividad creado.",
     "CONFLICTREASON_DELETED": "Motivo de conflictividad eliminado.",
+    "CLIENT_EXTRADATA_ADD_SUCCESS": "Datos extra de cliente añadidos.",
+    "CLIENT_NOT_FOUND": "Cliente no encontrado.",
     "RATE_NOT_FOUND": "Tarifa no encontrada.",
     "RATE_UPDATED": "Tarifa actualizada.",
     "RATE_ALREADY_ONDB": "Tarifa duplicada.",
