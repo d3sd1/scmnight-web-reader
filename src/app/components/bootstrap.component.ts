@@ -16,23 +16,33 @@ export class BoostrapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.preloader.changeText(this.translate.get("preloader.loading")["value"]);
+    this.translate.get('preloader.loading', {value: 'world'}).subscribe((res: string) => {
+      this.preloader.changeText(res);
+    });
   }
 
   ngAfterViewInit() {
     if (this.authService.loggedIn()) {
       let loadedUser = false,
         loadedPermissions = false;
-      this.preloader.changeText(this.translate.get("preloader.loadinguser")["value"]);
+
+      this.translate.get('preloader.loadinguser', {value: 'world'}).subscribe((res: string) => {
+        this.preloader.changeText(res);
+      });
       this.sessionInfo.getUser().then(res => {
-        this.preloader.changeText(this.translate.get("preloader.userloaded")["value"]);
+
+        this.translate.get('preloader.userloaded', {value: 'world'}).subscribe((res: string) => {
+          this.preloader.changeText(res);
+        });
         loadedUser = true;
         if (loadedUser && loadedPermissions) {
           this.preloader.stop();
         }
       });
       this.sessionInfo.getPermissions().then(res => {
-        this.preloader.changeText(this.translate.get("preloader.userloaded")["value"]);
+        this.translate.get('preloader.userloaded', {value: 'world'}).subscribe((res: string) => {
+          this.preloader.changeText(res);
+        });
         loadedPermissions = true;
         if (loadedUser && loadedPermissions) {
           this.preloader.stop();

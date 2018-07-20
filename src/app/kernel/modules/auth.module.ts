@@ -10,6 +10,9 @@ import {ApiOptions} from '../config/api.config';
                 headerName: ApiOptions.headerName,
                 authScheme: ApiOptions.authScheme,
                 throwNoTokenError: false,
+                tokenGetter: function getToken() {
+                  return null;
+                },
                 whitelistedDomains: [environment.baseUrl]
             },
 
