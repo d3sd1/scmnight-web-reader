@@ -73,6 +73,9 @@
         </ngx-datatable-column>
         <ngx-datatable-column>
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button mz-button [float]="true" (click)="openPermissionsModal(row)">
+              <i mz-icon-mdi [icon]="'clipboard-account'"></i>
+            </button>
             <button mz-button [float]="true" (click)="editUserModal(row)">
               <i mz-icon-mdi [icon]="'pencil'"></i>
             </button>
@@ -86,6 +89,44 @@
     </div>
   </div>
 </div>
+
+
+<mz-modal #managePermissionsModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="true"
+          [options]="modalOptions"
+          class="black-text">
+  <mz-modal-header>
+    <h4>Gestionar permisos de {{activeModalUser?.firstname}} {{activeModalUser?.lastname}}</h4>
+  </mz-modal-header>
+  <mz-modal-content>
+    <mz-select-container class="col s12 m6">
+      <select mz-select
+              id="basic-select"
+              [placeholder]="'Seleccionar lista de permisos predefinida'">
+        <option *ngFor="let permissionList of permissionLists" (select)="setPredefinedPermissions(permissionList)">{{"PERMISSION." + permissionList.list_key_name |
+          cTranslate:userInfo.lang_code}}
+        </option>
+      </select>
+    </mz-select-container>
+    <form class="col s12">
+      <div class="row" *ngIf="activeModalPermissions.length > 0">
+        <mz-checkbox-container class="col s12 m6" *ngFor="let permission of activeModalPermissions">
+          <input mz-checkbox
+                 [label]="'PERMISSION.IND.' + permission.action | cTranslate:userInfo.lang_code"
+                 [(ngModel)]="permission.checked"
+                 [checked]="permission.checked"
+                 [name]="'permission-' + permission.id"
+                 [id]="'permission-' + permission.id"
+                 type="checkbox">
+        </mz-checkbox-container>
+      </div>
+    </form>
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+    <button mz-button [flat]="true" (click)="editPermissionListRest()">Confirmar</button>
+  </mz-modal-footer>
+</mz-modal>
+
 
 <mz-modal #userDelModal [fixedFooter]="true" [bottomSheet]="true" [fullscreen]="false" [options]="modalOptions"
           class="black-text">

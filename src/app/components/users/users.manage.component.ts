@@ -11,7 +11,11 @@ import {NotificationsService} from 'angular2-notifications';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 import {MzModalComponent} from "ngx-materialize";
-import { map, filter, catchError, mergeMap, finalize } from 'rxjs/operators';
+import {map, filter, catchError, mergeMap, finalize} from 'rxjs/operators';
+import {PermissionsLists} from "../../kernel/model/permissions-lists";
+import {Permission} from "../../kernel/model/Permission";
+import {PermissionList} from "../../kernel/model/permission-list";
+import {SessionSingleton} from "../../kernel/singletons/session.singleton";
 
 @Component({
   templateUrl: '../../templates/users.manage.component.html',
@@ -24,6 +28,7 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
   page = new TablePage();
   rows = new Array<User>();
   loading: boolean = false;
+  public userInfo: User = new User();
   @ViewChild('userEditModal') userEditModal: MzModalComponent;
   @ViewChild('userDelModal') userDelModal: MzModalComponent;
 
@@ -36,7 +41,7 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     endingTop: '10%', // Ending top style attribute
   };
 
-  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService) {
+  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService, private singleton: SessionSingleton) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }
@@ -102,6 +107,14 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
     this.setPage({offset: 0});
+
+    this.singleton.getUser().then((user: User) => {
+      this.userInfo = user;
+    });
+
+    this.api.get("rest/crud/permission/lists").subscribe((permissionLists: Array<PermissionList>) => {
+      this.permissionLists = permissionLists;
+    });
   }
 
   ngOnDestroy(): void {
@@ -172,6 +185,56 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setPage({
       offset: 0,
       search: event.target.value.toLowerCase()
+    });
+  }
+
+
+  @ViewChild('managePermissionsModal') managePermissionsModal: MzModalComponent;
+
+  activeModalUser: User = new User();
+  activeModalPermissions: Array<Permission> = new Array<Permission>();
+  permissionLists: Array<PermissionList> = new Array<PermissionList>();
+
+  getPermissionIndex(permission: Permission) {
+    return this.activeModalPermissions.findIndex(x => x.id == permission.id);
+  }
+
+  openPermissionsModal(row: User) {
+    this.activeModalUser = row;
+
+    this.api.get("rest/crud/permission").subscribe((permissions: Array<Permission>) => {
+      this.activeModalPermissions = permissions;
+      this.api.get("rest/crud/permission/user/" + this.activeModalUser.id).subscribe((userPermissions: Array<Permission>) => {
+          if (userPermissions.length > 0) {
+          userPermissions.forEach((checkedPermission: Permission) => {
+            let status = this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked;
+            this.activeModalPermissions[this.getPermissionIndex(checkedPermission)].checked = !status;
+          });
+        }
+        this.managePermissionsModal.openModal();
+      });
+    });
+  }
+
+  setPredefinedPermissions(permissionList: PermissionList) {
+    console.log(permissionList);
+  }
+
+  editPermissionListRest() {
+    let checkedPermissionsLists = new Array<Permission>();
+    this.activeModalPermissions.forEach((permission: Permission) => {
+      if (permission.checked) {
+        checkedPermissionsLists.push(permission);
+      }
+    });
+
+    this.api.post("rest/crud/permission/user/relation/" + this.activeModalUser.id, checkedPermissionsLists).subscribe(() => {
+    }, () => {
+    }, () => {
+      /* Reset values */
+      this.managePermissionsModal.closeModal();
+      this.activeModalUser = new User();
+      this.activeModalPermissions = new Array<Permission>();
     });
   }
 

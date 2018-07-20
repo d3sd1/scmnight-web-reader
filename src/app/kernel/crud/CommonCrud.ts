@@ -39,7 +39,7 @@ export abstract class CommonCrud<T, N> implements Crud {
   private typeTokenManageClass;
 
   /* Modales y CRUD */
-  protected userInfo: User = new User();
+  public userInfo: User = new User();
   public editTypeAdd: boolean = false;
   public modalData: T;
   @ViewChild('manageModal') manageModal: MzModalComponent;
