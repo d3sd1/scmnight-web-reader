@@ -9,6 +9,7 @@ import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
 import {finalize} from "rxjs/operators";
 import {SessionService} from "../kernel/services/session.service";
+import {SessionSingleton} from "../kernel/singletons/session.singleton";
 
 @Component({
   selector: 'main-content',
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
               private loadingBar: LoadingBarService,
               private notify: NotificationsService,
               private translate: TranslateService,
-              private sessMan: SessionService) {
+              private sessMan: SessionService,
+              private session: SessionSingleton) {
   }
 
   submitSignInForm(): void {
@@ -39,10 +41,31 @@ export class LoginComponent implements OnInit {
         (authToken: AuthToken) => {
           this.sessMan.setToken(authToken);
           this.sessMan.setTokenId(authToken);
-          this.translate.setDefaultLang(authToken.user.lang_code);
-          this.translate.use(authToken.user.lang_code);
-          this.router.navigate(['dashboard']);
+          this.initUserSession();
         });
+  }
+
+  /* fix para error 401 al hacer login: forzar carga del usuario antes de continuar */
+  initUserSession() {
+    console.log("call func");
+    this.session.getUser(true).then((user: User) => {
+      console.log("user load", user);
+      try {
+        if (null === user) {
+          setTimeout(() => this.initUserSession(), 500);
+        }
+        else {
+          this.translate.setDefaultLang(user.lang_code);
+          this.translate.use(user.lang_code);
+          this.router.navigate(['dashboard']);
+        }
+      }
+      catch (e) {
+        setTimeout(() => this.initUserSession(), 500);
+      }
+    }, () => {
+      setTimeout(() => this.initUserSession(), 500);
+    });
   }
 
   ngOnInit() {

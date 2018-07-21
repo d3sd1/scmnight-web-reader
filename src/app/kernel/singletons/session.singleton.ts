@@ -63,7 +63,24 @@ export class SessionSingleton {
   getUser(forceReload = false): Promise<User> {
     return new Promise((resolveGeneral, rejectGeneral) => {
       if (this.user === null || forceReload) {
-        if (this.apiLoadingUser === null) {
+        if (this.apiLoadingUser === null && !forceReload) {
+          this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
+            this.api.get('rest/user/info')
+              .subscribe(
+                (user: User) => {
+                  this.apiLoadingUser = null;
+                  this.user = user;
+                  resolveInternal(this.user);
+                  resolveGeneral(this.user);
+                },
+                (err: HttpErrorResponse) => {
+                  /* Fix para prevenir bucle */
+                  resolveInternal(new User());
+                  resolveGeneral(new User());
+                });
+          });
+        }
+        else if (forceReload) {
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/info')
               .subscribe(

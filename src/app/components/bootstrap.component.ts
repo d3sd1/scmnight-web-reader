@@ -30,7 +30,6 @@ export class BoostrapComponent implements AfterViewInit, OnInit {
         this.preloader.changeText(res);
       });
       this.sessionInfo.getUser().then(res => {
-
         this.translate.get('preloader.userloaded').subscribe((res: string) => {
           this.preloader.changeText(res);
         });

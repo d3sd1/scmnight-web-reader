@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
 import {User} from '../kernel/model/user';
@@ -29,11 +29,13 @@ import {finalize} from "rxjs/operators";
   ],
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   user: User = new User();
   showPasswordChanger = false;
   newPass1: string = "";
   newPass2: string = "";
+  private changedLanguage = false;
+  private baseLang: string = "";
 
   constructor(public translate: TranslateService, private sessionInfo: SessionSingleton, private api: ApiService, private loadingBar: LoadingBarService,
               private notify: NotificationsService) {
@@ -42,7 +44,17 @@ export class ProfileComponent implements OnInit {
 
   public languages: Array<String> = environment.availableLangs;
 
+  ngOnDestroy() {
+    if (this.changedLanguage) {
+      console.log("set default lang");
+      this.translate.setDefaultLang(this.baseLang);
+      this.translate.use(this.baseLang);
+      this.changedLanguage = false;
+    }
+  }
+
   changeLanguage() {
+    this.changedLanguage = true;
     if (-1 !== this.languages.findIndex(x => x == this.user.lang_code)) {
       this.translate.setDefaultLang(this.user.lang_code);
       this.translate.use(this.user.lang_code);
@@ -78,6 +90,7 @@ export class ProfileComponent implements OnInit {
         this.newPass1 = null;
         this.newPass2 = null;
         this.showPasswordChanger = false;
+        this.changedLanguage = false;
         this.sessionInfo.getUser(true).then(() => {
         });
       }))
@@ -87,8 +100,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sessionInfo.getUser().then(res => {
+    this.sessionInfo.getUser(true).then(res => {
       this.user = res;
+      this.baseLang = res.lang_code;
     });
   }
 }

@@ -48,7 +48,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Descripción">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{PAGE_NAME + "." + row[TRANSLATE_FIELD] | cTranslate:userInfo.lang_code}}
+            {{PAGE_NAME + "." + row[TRANSLATE_FIELD] | cTranslate:userInfo?.lang_code}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column>
