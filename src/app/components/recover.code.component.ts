@@ -37,6 +37,8 @@ export class RecoverCodeComponent {
       .pipe(finalize(() => {
         this.loadingBar.complete();
       }))
-      .subscribe();
+      .subscribe(() => {
+        this.router.navigate(["login"]);
+      });
   }
 }
