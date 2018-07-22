@@ -49,9 +49,7 @@ export class LoginComponent implements OnInit {
 
   /* fix para error 401 al hacer login: forzar carga del usuario antes de continuar */
   initUserSession() {
-    console.log("call func");
     this.session.getUser(true).then((user: User) => {
-      console.log("user load", user);
       try {
         if (null === user) {
           setTimeout(() => this.initUserSession(), 500);

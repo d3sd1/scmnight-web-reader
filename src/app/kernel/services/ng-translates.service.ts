@@ -24,6 +24,8 @@ export class NgTranslatesService {
       this.translate.use(lang);
     }
     else {
+      this.translate.setDefaultLang(environment.availableLangs[0]);
+      this.translate.use(environment.availableLangs[0]);
       console.debug("Language not supported on ng: " + lang);
     }
   }
@@ -32,6 +34,7 @@ export class NgTranslatesService {
       this.translate.setDefaultLang(lang);
     }
     else {
+      this.translate.setDefaultLang(environment.availableLangs[0]);
       console.debug("Language not supported on ng: " + lang);
     }
   }
