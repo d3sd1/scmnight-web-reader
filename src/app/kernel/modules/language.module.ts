@@ -11,7 +11,14 @@ import {User} from "../model/user";
     loader: {
       provide: TranslateLoader,
       useFactory: function (http: HttpClient) {
-        return new TranslateHttpLoader(http, "./langs/", ".json");
+        let translation;
+        try {
+          translation = new TranslateHttpLoader(http, "./langs/", ".json");
+        }
+        catch(e) {
+          console.log("xdd", e);
+        }
+        return translation;
       },
       deps: [HttpClient]
     }

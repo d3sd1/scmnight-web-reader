@@ -9,11 +9,12 @@ import {DiscoInfo} from "../model/disco-info";
 import {CustomTranslate} from "../model/custom-translate";
 import {CustomLang} from "../model/custom-lang";
 import {SessionService} from "../services/session.service";
+import {Router} from "@angular/router";
 
 
 @Injectable()
 export class SessionSingleton {
-  constructor(private api: ApiService, private sessMan: SessionService) {
+  constructor(private api: ApiService, private sessMan: SessionService, private router:Router) {
   }
 
   private user: User = null;
@@ -83,7 +84,6 @@ export class SessionSingleton {
           });
         }
         else if (forceReload && token !== null && token != "") {
-          console.log("force rel");
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/info')
               .subscribe(
@@ -153,12 +153,15 @@ export class SessionSingleton {
               .subscribe(
                 (permissions: Array<Permission>) => {
                   this.apiLoadingPermissions = null;
-                  if (null == permissions || typeof permissions == "undefined" || permissions.length == 0) {
-                    this.userPermissions = [];
+                  const token = this.sessMan.getToken();
+                  if ((null == permissions || typeof permissions == "undefined" || permissions.length == 0) && token !== null && token != "") {
+                    this.sessMan.delToken();
+                    this.router.navigate(["error/600"]);
                   }
                   else {
                     this.userPermissions = permissions;
                   }
+
                   resolveInternal(this.userPermissions);
                   resolveGeneral(this.userPermissions);
                 },

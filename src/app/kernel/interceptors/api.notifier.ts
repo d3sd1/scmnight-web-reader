@@ -81,8 +81,10 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
       }), catchError((err: any, caught) => {
         if (err instanceof HttpErrorResponse) {
           let response: ResponseMessage = deserialize(ResponseMessage, err.error);
-          response.code = err.status;
-          this.sendNotification(response);
+          if("code" in response){
+            response.code = err.status;
+            this.sendNotification(response);
+          }
           return throwError(err);
         }
       }))
