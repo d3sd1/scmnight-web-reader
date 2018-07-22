@@ -8,7 +8,6 @@ export var chargingToken = false;
 @Injectable()
 export class SessionService {
 
-  //TOD: que si se esta enviando el token se espere el get token :)
   getToken() {
     return localStorage.getItem(ApiOptions.tokenParameter);
   }

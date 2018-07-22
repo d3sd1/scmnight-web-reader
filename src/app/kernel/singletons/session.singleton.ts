@@ -8,11 +8,12 @@ import {Config} from "../model/config";
 import {DiscoInfo} from "../model/disco-info";
 import {CustomTranslate} from "../model/custom-translate";
 import {CustomLang} from "../model/custom-lang";
+import {SessionService} from "../services/session.service";
 
 
 @Injectable()
 export class SessionSingleton {
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private sessMan: SessionService) {
   }
 
   private user: User = null;
@@ -62,7 +63,8 @@ export class SessionSingleton {
 
   getUser(forceReload = false): Promise<User> {
     return new Promise((resolveGeneral, rejectGeneral) => {
-      if (this.user === null || forceReload) {
+      const token = this.sessMan.getToken();
+      if ((this.user === null || forceReload) && token !== null && token != "") {
         if (this.apiLoadingUser === null && !forceReload) {
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/info')
@@ -80,7 +82,8 @@ export class SessionSingleton {
                 });
           });
         }
-        else if (forceReload) {
+        else if (forceReload && token !== null && token != "") {
+          console.log("force rel");
           this.apiLoadingUser = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/info')
               .subscribe(

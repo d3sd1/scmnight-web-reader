@@ -244,6 +244,10 @@
       "title": "Desconexión por seguridad",
       "desc": "Te has conectado desde otro dispositivo y se ha cerrado la sesión actual."
     },
+    "no_permissions": {
+      "title": "Permisos no configurados",
+      "desc": "Tu usuario no está configurado correctamente. Contacta con el responsable de tu local."
+    },
     "back": "Volver atrás"
   },
   "table": {
