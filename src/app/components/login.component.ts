@@ -10,6 +10,7 @@ import {ApiService} from '../kernel/services/api.service';
 import {finalize} from "rxjs/operators";
 import {SessionService} from "../kernel/services/session.service";
 import {SessionSingleton} from "../kernel/singletons/session.singleton";
+import {NgTranslatesService} from "../kernel/services/ng-translates.service";
 
 @Component({
   selector: 'main-content',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
               private notify: NotificationsService,
               private translate: TranslateService,
               private sessMan: SessionService,
-              private session: SessionSingleton) {
+              private session: SessionSingleton,
+              private ngTranslateWrapper: NgTranslatesService) {
   }
 
   submitSignInForm(): void {
@@ -55,8 +57,7 @@ export class LoginComponent implements OnInit {
           setTimeout(() => this.initUserSession(), 500);
         }
         else {
-          this.translate.setDefaultLang(user.lang_code);
-          this.translate.use(user.lang_code);
+          this.ngTranslateWrapper.setTranslate(user.lang_code);
           this.router.navigate(['dashboard']);
         }
       }

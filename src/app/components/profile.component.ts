@@ -10,6 +10,7 @@ import {ApiService} from "../kernel/services/api.service";
 import {LoadingBarService} from '@ngx-loading-bar/core';
 import {NotificationsService} from "angular2-notifications";
 import {finalize} from "rxjs/operators";
+import {NgTranslatesService} from "../kernel/services/ng-translates.service";
 
 @Component({
   templateUrl: '../templates/profile.component.html',
@@ -38,7 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private baseLang: string = "";
 
   constructor(public translate: TranslateService, private sessionInfo: SessionSingleton, private api: ApiService, private loadingBar: LoadingBarService,
-              private notify: NotificationsService) {
+              private notify: NotificationsService, private ngTranslateWrapper: NgTranslatesService) {
 
   }
 
@@ -46,9 +47,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.changedLanguage) {
-      console.log("set default lang");
-      this.translate.setDefaultLang(this.baseLang);
-      this.translate.use(this.baseLang);
+      this.ngTranslateWrapper.setTranslate(this.baseLang);
       this.changedLanguage = false;
     }
   }
@@ -56,12 +55,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   changeLanguage() {
     this.changedLanguage = true;
     if (-1 !== this.languages.findIndex(x => x == this.user.lang_code)) {
-      this.translate.setDefaultLang(this.user.lang_code);
-      this.translate.use(this.user.lang_code);
+      this.ngTranslateWrapper.setTranslate(this.user.lang_code);
     }
     else {
-      this.translate.setDefaultLang(environment.availableLangs[0]);
-      this.translate.use(environment.availableLangs[0]);
+      this.ngTranslateWrapper.setTranslate(environment.availableLangs[0]);
     }
   }
 

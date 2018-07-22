@@ -20,6 +20,7 @@ import {
   MzRadioButtonModule,
   MzSwitchModule
 } from 'ngx-materialize';
+import {NgTranslatesService} from "../services/ng-translates.service";
 
 
 @NgModule({
@@ -40,7 +41,10 @@ import {
         LoginComponent,
         RecoverComponent,
         RecoverCodeComponent
-    ]
+    ],
+  providers: [
+    NgTranslatesService
+  ]
 })
 
 export class LoggedOutModule {}
