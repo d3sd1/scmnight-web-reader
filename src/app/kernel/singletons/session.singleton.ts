@@ -144,10 +144,11 @@ export class SessionSingleton {
     });
   }
 
-  getPermissions(): Promise<Array<Permission>> {
+  getPermissions(forceReload = false): Promise<Array<Permission>> {
     return new Promise((resolveGeneral, rejectGeneral) => {
-      if (this.userPermissions === null) {
-        if (this.apiLoadingPermissions === null) {
+      const token = this.sessMan.getToken();
+      if ((this.userPermissions === null || forceReload) && token !== null && token != "") {
+        if (this.apiLoadingPermissions === null && !forceReload) {
           this.apiLoadingPermissions = new Promise((resolveInternal, rejectInternal) => {
             this.api.get('rest/user/permissions')
               .subscribe(
@@ -157,6 +158,7 @@ export class SessionSingleton {
                   if ((null == permissions || typeof permissions == "undefined" || permissions.length == 0) && token !== null && token != "") {
                     this.sessMan.delToken();
                     this.router.navigate(["error/600"]);
+                    this.userPermissions = [];
                   }
                   else {
                     this.userPermissions = permissions;
@@ -167,8 +169,34 @@ export class SessionSingleton {
                 },
                 (err: HttpErrorResponse) => {
                   /* Fix para prevenir bucle */
-                  resolveInternal([new Permission()]);
-                  resolveGeneral([new Permission()]);
+                  resolveInternal([]);
+                  resolveGeneral([]);
+                });
+          });
+        }
+        else if (forceReload && token !== null && token != "") {
+          this.apiLoadingPermissions = new Promise((resolveInternal, rejectInternal) => {
+            this.api.get('rest/user/permissions')
+              .subscribe(
+                (permissions: Array<Permission>) => {
+                  this.apiLoadingPermissions = null;
+                  const token = this.sessMan.getToken();
+                  if ((null == permissions || typeof permissions == "undefined" || permissions.length == 0) && token !== null && token != "") {
+                    this.sessMan.delToken();
+                    this.router.navigate(["error/600"]);
+                    this.userPermissions = [];
+                  }
+                  else {
+                    this.userPermissions = permissions;
+                  }
+
+                  resolveInternal(this.userPermissions);
+                  resolveGeneral(this.userPermissions);
+                },
+                (err: HttpErrorResponse) => {
+                  /* Fix para prevenir bucle */
+                  resolveInternal([]);
+                  resolveGeneral([]);
                 });
           });
         }

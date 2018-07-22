@@ -12,14 +12,7 @@ import {NgTranslatesService} from "../services/ng-translates.service";
     loader: {
       provide: TranslateLoader,
       useFactory: function (http: HttpClient) {
-        let translation;
-        try {
-          translation = new TranslateHttpLoader(http, "./langs/", ".json");
-        }
-        catch(e) {
-          console.log("xdd", e);
-        }
-        return translation;
+        return new TranslateHttpLoader(http, "./langs/", ".json");
       },
       deps: [HttpClient]
     }

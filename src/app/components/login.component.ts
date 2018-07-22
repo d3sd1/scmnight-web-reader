@@ -11,6 +11,7 @@ import {finalize} from "rxjs/operators";
 import {SessionService} from "../kernel/services/session.service";
 import {SessionSingleton} from "../kernel/singletons/session.singleton";
 import {NgTranslatesService} from "../kernel/services/ng-translates.service";
+import {Permission} from "../kernel/model/Permission";
 
 @Component({
   selector: 'main-content',
@@ -20,6 +21,7 @@ import {NgTranslatesService} from "../kernel/services/ng-translates.service";
 export class LoginComponent implements OnInit {
   public coords = {lat: 0, lng: 0};
   public user: User = new User();
+  public permissions: Array<Permission> = new Array<Permission>();
   public extendedSession: boolean = false;
 
   constructor(private router: Router,
@@ -56,7 +58,7 @@ export class LoginComponent implements OnInit {
         }
         else {
           this.ngTranslateWrapper.setTranslate(user.lang_code);
-          this.router.navigate(['dashboard']);
+          this.initUserPermissions();
         }
       }
       catch (e) {
@@ -65,6 +67,26 @@ export class LoginComponent implements OnInit {
     }, () => {
       setTimeout(() => this.initUserSession(), 500);
     });
+  }
+  /* fix para reconexiones y que no se mantengan los permisos de la sesión anterior */
+  initUserPermissions() {
+
+    this.session.getPermissions(true).then((permissions: Array<Permission>) => {
+      try {
+        if (null === permissions) {
+          setTimeout(() => this.initUserPermissions(), 500);
+        }
+        else if(permissions.length > 0) {
+          this.router.navigate(['dashboard']);
+        }
+      }
+      catch (e) {
+        setTimeout(() => this.initUserPermissions(), 500);
+      }
+    }, () => {
+      setTimeout(() => this.initUserPermissions(), 500);
+    });
+
   }
 
   ngOnInit() {

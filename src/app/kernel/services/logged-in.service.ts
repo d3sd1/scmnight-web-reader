@@ -5,15 +5,21 @@ import {AuthService} from './auth.service';
 import {WsAuthService} from '../services/ws-auth.service';
 import {NotificationsService} from "angular2-notifications";
 import {TranslateService} from "@ngx-translate/core";
+import {SessionService} from "./session.service";
 
 @Injectable()
 export class LoggedInService implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router, private wsAuth: WsAuthService, private notify: NotificationsService, private translate: TranslateService) {
+  constructor(private authService: AuthService, private router: Router, private wsAuth: WsAuthService, private notify: NotificationsService, private translate: TranslateService, private sessMan:SessionService) {
   }
 
   canActivate(): boolean {
-    if (!this.authService.loggedIn()) {
+    const token = this.sessMan.getToken();
+    if (!this.authService.loggedIn() && null !== token  && "" != token) {
+      this.router.navigate(['login']);
+      return false;
+    }
+    else if (!this.authService.loggedIn()) {
       this.translate.get('notifications.SESSION_EXPIRED').subscribe((res: string) => {
         this.notify.warn(
           "",
