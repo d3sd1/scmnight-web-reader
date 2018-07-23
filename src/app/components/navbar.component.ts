@@ -43,15 +43,17 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   canEditLogo = false;
   canUseChat = false;
   discoName: string = "";
-  chatUsers = [];
+  chatUsers = null;
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
 
-  getChatUsers() {
+  loadChat() {
+    console.log("load chat", this.ws.connected);
     if (!this.ws.connected) {
       console.log("wsoffline");
       this.chatUsers = null;
     }
     else {
+      this.chatUsers = [];
       console.log("cargar users!");
     }
   }
@@ -126,7 +128,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  constructor(public router: Router, private _sanitizer: DomSanitizer, private ws: WsService, private loadingBar: LoadingBarService, private api: ApiService, private translate: TranslateService, private sessionInfo: SessionSingleton, private toastr: ToastrService) {
+  constructor(public router: Router, private _sanitizer: DomSanitizer, public ws: WsService, private loadingBar: LoadingBarService, private api: ApiService, private translate: TranslateService, private sessionInfo: SessionSingleton, private toastr: ToastrService) {
 
     this.sessionInfo.getPermissions().then(res => {
       this.canEditLogo = res.findIndex(x => x.action === "CHANGE_LOGO") !== -1;
@@ -157,7 +159,13 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.getChatUsers();
+    /* Recargar estado del chat siempre que pase algo en los websockets */
+    this.ws.onConnect(() => {
+      this.loadChat();
+    });
+    this.ws.onDisconnect(() => {
+      this.loadChat();
+    });
     this.sessionInfo.getDiscoInfo().then(discoInfo => {
       this.sessionInfo.getUser().then(user => {
         this.sessionInfo.getPermissions().then(userPermission => {

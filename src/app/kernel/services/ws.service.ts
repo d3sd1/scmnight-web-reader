@@ -17,80 +17,115 @@ export class WsService {
   isConnecting = false;
   pendingOperations = [];
   currentOperations = {};
+  onConnectOperations = [];
+  onDisconnectOperations = [];
 
   constructor(private toastr: ToastrService, private translate: TranslateService) {
   }
 
-  addToQueue(opName) {
+  private addToQueue(opName) {
     this.pendingOperations.push(opName);
   }
 
-  removeFromQueue(opName) {
+  private removeFromQueue(opName) {
     const index = this.pendingOperations.findIndex((task) => task == opName);
-    if(index !== -1) {
+    if (index !== -1) {
       this.pendingOperations.splice(index, 1);
     }
   }
 
 
-  removeDuplicatesFromQueue() {
-    this.pendingOperations = this.pendingOperations.filter(function(elem, index, self) {
+  private removeDuplicatesFromQueue() {
+    this.pendingOperations = this.pendingOperations.filter(function (elem, index, self) {
       return index === self.indexOf(elem);
     })
   }
 
-  addToCurrentoperations(opName, callback) {
+  private addToCurrentoperations(opName, callback) {
     this.currentOperations[opName] = callback;
   }
-  removeDuplicatesFromCurrent() {
-    this.pendingOperations = this.pendingOperations.filter(function(elem, index, self) {
+
+  private removeDuplicatesFromCurrent() {
+    this.pendingOperations = this.pendingOperations.filter(function (elem, index, self) {
       return index === self.indexOf(elem);
     })
   }
-  reconnectOldStuff() {
+
+  private reconnectOldStuff() {
     for (var key in this.currentOperations) {
       this.currentOperations[key]();
     }
   }
 
+  public onConnect(callback) {
+    this.onConnectOperations[this.onConnectOperations.length] = callback;
+    if (this.connected) {
+      callback();
+    }
+  }
 
-  publish(channel, obj) {
+  private onConnectPush() {
+    for (let x = 0; x < this.onConnectOperations.length; x++) {
+      this.onConnectOperations[x]();
+    }
+  }
+
+  public onDisconnect(callback) {
+    this.onDisconnectOperations[this.onDisconnectOperations.length] = callback;
+    if (!this.connected) {
+      callback();
+    }
+  }
+
+  private onDisconnectPush() {
+    for (let x = 0; x < this.onDisconnectOperations.length; x++) {
+      this.onDisconnectOperations[x]();
+    }
+  }
+
+  public publish(channel, obj) {
     const opName = "publish_" + channel;
     this.addToQueue(opName);
     this.getConnection().then(() => {
       if (this.connected) {
         this.removeFromQueue(opName);
-        this.addToCurrentoperations(opName, () => { this.publish(channel, obj) });
+        this.addToCurrentoperations(opName, () => {
+          this.publish(channel, obj)
+        });
         this.session.publish(channel, obj);
       }
     });
   }
 
-  subscribe(channel, callback) {
+  public subscribe(channel, callback) {
     const opName = "subscribe_" + channel;
     this.addToQueue(opName);
     this.getConnection().then((e) => {
       if (this.connected) {
         this.removeFromQueue(opName);
-        this.addToCurrentoperations(opName, () => { this.subscribe(channel, callback) });
+        this.addToCurrentoperations(opName, () => {
+          this.subscribe(channel, callback)
+        });
         try {
           this.session.subscribe(channel, callback);
         }
-        catch(e) {
+        catch (e) {
           console.debug("WS tiny catch (subscribe): ", e);
         }
       }
     });
   }
 
-  unsubscribe(channel) {
+  public unsubscribe(channel) {
     const opName = "unsubscribe_" + channel;
     this.addToQueue(opName);
     this.getConnection().then(() => {
       try {
         if (this.connected) {
           this.removeFromQueue(opName);
-          this.addToCurrentoperations(opName, () => { this.unsubscribe(channel) });
+          this.addToCurrentoperations(opName, () => {
+            this.unsubscribe(channel)
+          });
           this.session.unsubscribe(channel);
         }
       }
@@ -123,6 +158,7 @@ export class WsService {
         this.session = sess;
         this.isConnecting = false;
         this.firstConnect = true;
+        this.onConnectPush();
         resolve(true);
       });
 
@@ -143,6 +179,10 @@ export class WsService {
         this.connected = false;
         this.session = null;
         this.isConnecting = false;
+        /* Prevent hyper-threading unnecessary */
+        if (this.firstConnect) {
+          this.onDisconnectPush();
+        }
         this.firstConnect = false;
         resolve(false);
       });
@@ -152,19 +192,20 @@ export class WsService {
 
   private getConnectionWrapper(resolveCon) {
     this.wsConnection().then((success) => {
-      if(success) {
+      if (success) {
         resolveCon();
       }
       else {
-        if(this.firstConnect) {
+        if (this.firstConnect) {
           this.getConnectionWrapper(resolveCon);
         }
         else {
-          setTimeout(() => this.getConnectionWrapper(resolveCon),1500);
+          setTimeout(() => this.getConnectionWrapper(resolveCon), 1500);
         }
       }
     });
   }
+
   private getConnection() {
     if (this.isConnecting === false && this.connected === false) {
       this.connecting = new Promise((resolveCon, reject) => {
