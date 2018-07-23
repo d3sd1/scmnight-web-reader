@@ -28,7 +28,6 @@ import {deserialize} from "json-typescript-mapper";
 import {ConflictReasonManage} from "../kernel/model/conflict-reason-manage";
 import {WsService} from "../kernel/services/ws.service";
 import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
-import {WS_ONLINE} from "../kernel/libs/ws.lib";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -48,7 +47,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
 
   getChatUsers() {
-    if (!WS_ONLINE) {
+    if (!this.ws.connected) {
       console.log("wsoffline");
       this.chatUsers = null;
     }

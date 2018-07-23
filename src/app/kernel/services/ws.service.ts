@@ -4,36 +4,35 @@ import {TranslateService} from '@ngx-translate/core';
 import {ToastrService} from 'ngx-toastr';
 import {WebsocketSession} from '../model/websocket-session';
 import {environment} from '../../../environments/environment';
+import {DiscoInfo} from "../model/disco-info";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable()
-export class WS {
+export class WsService {
+  private toastrSent = false;
   session: WebsocketSession = null;
+  sessionLoading: Promise<boolean> = null;
   connected: boolean = false;
   firstLoad: boolean = true;
   reconnectLoop;
   connecting: boolean = false;
   lastReconTime: Date = null;
-}
 
-@Injectable()
-export class WsService {
-  private toastrSent = false;
-
-  constructor(private toastr: ToastrService, private translate: TranslateService, private ws: WS) {
+  constructor(private toastr: ToastrService, private translate: TranslateService) {
   }
 
   publish(channel, obj) {
     this.connect().then(() => {
-      if (this.ws.connected) {
-        this.ws.session.publish(channel, obj)
+      if (this.connected) {
+        this.session.publish(channel, obj)
       }
     });
   }
 
   subscribe(channel, callback) {
     this.connect().then(() => {
-      if (this.ws.connected) {
-        this.ws.session.subscribe(channel, callback);
+      if (this.connected) {
+        this.session.subscribe(channel, callback);
       }
     });
   }
@@ -41,8 +40,8 @@ export class WsService {
   unsubscribe(channel) {
     this.connect().then(() => {
       try {
-        if (this.ws.connected) {
-          this.ws.session.unsubscribe(channel);
+        if (this.connected) {
+          this.session.unsubscribe(channel);
         }
       }
       catch (e) {
@@ -51,8 +50,42 @@ export class WsService {
     });
   }
 
+
   private connect(): Promise<boolean> {
     console.log("CONNECTING");
+    return new Promise((resolveGeneral, rejectGeneral) => {
+      if (this.session === null) {
+        if (this.sessionLoading === null) {
+          this.sessionLoading = new Promise((resolveInternal, rejectInternal) => {
+            this.api.get('rest/session/discoinfo')
+              .subscribe(
+                (discoInfo: DiscoInfo) => {
+                  this.apiLoadingDiscoInfo = null;
+                  this.session = discoInfo;
+                  resolveInternal(this.discoInfo);
+                  resolveGeneral(this.discoInfo);
+                },
+                (err: HttpErrorResponse) => {
+                  /* Fix para prevenir bucle */
+                  resolveInternal(new DiscoInfo());
+                  resolveGeneral(new DiscoInfo());
+                });
+          });
+        }
+        else {
+          this.sessionLoading.then(res => {
+            resolveGeneral(this.session)
+          });
+        }
+      }
+      else {
+        resolveGeneral(this.discoInfo);
+      }
+    });
+  }
+
+
+  private (): Promise<boolean> {
     var promise = new Promise<boolean>((resolve, reject) => {
       setTimeout(() => {
         clearInterval(this.ws.reconnectLoop);

@@ -20,7 +20,7 @@ import {LoggedInService} from './services/logged-in.service';
 import {LoggedOutService} from './services/logged-out.service';
 import {AuthService} from './services/auth.service';
 import {ApiService} from './services/api.service';
-import {WS, WsService} from './services/ws.service';
+import {WsService} from './services/ws.service';
 import {WsAuthService} from './services/ws-auth.service';
 import {RanksService} from './services/ranks.service';
 import {PreloaderService} from './services/preloader.service';
@@ -70,7 +70,6 @@ import {ToastrConfig} from "./config/toastr.config";
     PreloaderService,
     wsInitializerProvider,
     WsService,
-    WS,
     RanksService,
     WsAuthService
   ],
