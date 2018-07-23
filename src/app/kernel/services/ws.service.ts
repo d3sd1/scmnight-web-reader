@@ -51,74 +51,75 @@ export class WsService {
   }
 
 
-  private connect(): Promise<WebsocketSession> {
+  private connect(): Promise<void | {}> {
     console.log("CONNECTING");
     return new Promise((resolveGeneral, rejectGeneral) => {
       if (this.session === null) {
         if (this.sessionLoading === null) {
-          this.sessionLoading = new Promise((resolveInternal, rejectInternal) => {
 
-            var con = WS_CONNECT.connect();
-            console.log("con");
+          var con = WS_CONNECT.connect();
+          console.log("con");
 
-            con.on("socket/connect", (sess: any) => {
-              if (!this.firstLoad && this.connected == false) {
-                this.toastr.clear();
-                this.translate.get("ws.reconnect").subscribe((res: string) => {
-                  this.toastr.info(
-                    "",
-                    res
-                  );
-                });
-                this.toastrSent = false;
-              }
-              else {
-                this.firstLoad = false;
-              }
-
-              this.sessionLoading = null;
-
-              this.session = sess;
-              this.connected = true;
-              this.connecting = false;
-              resolveInternal(this.session);
-              resolveGeneral(this.session);
-            });
-
-
-            con.on("socket/disconnect", () => {
+          con.on("socket/connect", (sess: any) => {
+            if (!this.firstLoad && this.connected == false) {
+              this.toastr.clear();
+              this.translate.get("ws.reconnect").subscribe((res: string) => {
+                this.toastr.info(
+                  "",
+                  res
+                );
+              });
+              this.toastrSent = false;
+            }
+            else {
               this.firstLoad = false;
-              this.connecting = false;
+            }
 
-              if (!this.toastrSent) {
-                this.translate.get("ws.disconnected").subscribe((res: string) => {
-                  this.toastr.error(
-                    "",
-                    res, {
-                      progressBar: false,
-                      tapToDismiss: false,
-                      disableTimeOut: true
-                    }
-                  );
-                });
-                this.toastrSent = true;
-              }
+            this.sessionLoading = null;
 
-              resolveInternal(new WebsocketSession());
-              resolveGeneral(new WebsocketSession());
-            });
+            this.session = sess;
+            this.connected = true;
+            this.connecting = false;
+            resolveGeneral();
+          });
 
+
+          con.on("socket/disconnect", () => {
+            this.firstLoad = false;
+            this.connecting = false;
+
+            if (!this.toastrSent) {
+              this.translate.get("ws.disconnected").subscribe((res: string) => {
+                this.toastr.error(
+                  "",
+                  res, {
+                    progressBar: false,
+                    tapToDismiss: false,
+                    disableTimeOut: true
+                  }
+                );
+              });
+              this.toastrSent = true;
+              this.session = null;
+            }
+
+            rejectGeneral();
           });
         }
         else {
           this.sessionLoading.then(res => {
-            resolveGeneral(this.session)
+            resolveGeneral()
           });
         }
       }
       else {
-        resolveGeneral(this.session);
+        return this.sessionLoading;
       }
-    });
+    }).then(() => {
+      console.log("full filled");
+    }).catch(() => {
+        console.log("error :)")
+      }
+    );
   }
 }

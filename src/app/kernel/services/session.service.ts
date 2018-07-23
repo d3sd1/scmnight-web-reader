@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
-import * as $ from "jquery";
 import {ApiOptions} from "../config/api.config";
 import {AuthToken} from "../model/auth-token";
+import {ToastrService} from "ngx-toastr";
 
 export var chargingToken = false;
 
 @Injectable()
 export class SessionService {
 
+  constructor(private toastr: ToastrService) {
+
+  }
   getToken() {
     return localStorage.getItem(ApiOptions.tokenParameter);
   }

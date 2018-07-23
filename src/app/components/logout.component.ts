@@ -20,11 +20,14 @@ export class LogoutComponent implements OnInit {
               private api: ApiService,
               private authService: AuthService,
               private loadingBar: LoadingBarService,
-              private sessMan: SessionService) {
+              private sessMan: SessionService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
     if (this.authService.loggedIn()) {
+
+      this.toastr.clear();
       this.loadingBar.start();
       this.api.del("rest/auth/logout" + '/' + this.sessMan.getTokenId())
         .pipe(finalize(() => {
