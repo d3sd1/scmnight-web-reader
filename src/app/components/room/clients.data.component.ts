@@ -61,6 +61,7 @@ export class RoomClientDataComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/clients_extradata");
     this.ws.unsubscribe("scm/clients_entrances");
+    this.editExtraDataModal.closeModal();
   }
 
   ngAfterViewInit() {

@@ -202,6 +202,8 @@ export abstract class CommonCrud<T, N> implements Crud {
 
   hookOnDestroy() {
     this.ws.unsubscribe(this.WS_CHANNEL);
+    this.manageModal.closeModal();
+    this.delModal.closeModal();
   }
 
   private onWsUpdate(uri: any, data: any) {

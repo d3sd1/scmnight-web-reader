@@ -87,6 +87,8 @@ export class RatesManageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/rates_manage");
+    this.rateEditModal.closeModal();
+    this.rateDelModal.closeModal();
   }
 
   ngAfterViewInit() {

@@ -71,6 +71,7 @@ export class ConfigComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/config_manage");
+    this.modal.closeModal();
   }
 
   ngAfterViewInit() {

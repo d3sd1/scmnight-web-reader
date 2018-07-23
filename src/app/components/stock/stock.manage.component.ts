@@ -90,6 +90,8 @@ export class StockManageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/StockItems_manage");
+    this.StockItemEditModal.closeModal();
+    this.StockItemDelModal.closeModal();
   }
 
   ngAfterViewInit() {

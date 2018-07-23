@@ -126,6 +126,8 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/permissions_manage");
     this.ws.unsubscribe("scm/users_manage");
+    this.userEditModal.closeModal();
+    this.managePermissionsModal.closeModal();
   }
 
   ngAfterViewInit() {

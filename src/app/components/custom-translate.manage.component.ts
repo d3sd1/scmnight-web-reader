@@ -96,6 +96,7 @@ export class CustomTranslateManageComponent implements OnInit, AfterViewInit, On
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/translations");
+    this.conflictReasonEditModal.closeModal();
   }
 
   ngAfterViewInit() {

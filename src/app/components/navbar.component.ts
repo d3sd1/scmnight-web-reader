@@ -47,7 +47,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
 
   loadChat() {
-    console.log("load chat", this.ws.connected);
     if (!this.ws.connected) {
       console.log("wsoffline");
       this.chatUsers = null;
@@ -75,6 +74,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/config_logo");
+    this.changeLogoModal.closeModal();
   }
 
   ngAfterViewInit() {
