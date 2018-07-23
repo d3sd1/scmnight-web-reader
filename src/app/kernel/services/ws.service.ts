@@ -6,120 +6,172 @@ import {WebsocketSession} from '../model/websocket-session';
 import {environment} from '../../../environments/environment';
 import {DiscoInfo} from "../model/disco-info";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
 export class WsService {
-  private toastrSent = false;
   session: WebsocketSession = null;
-  sessionLoading: Promise<WebsocketSession> = null;
   connected: boolean = false;
-  firstLoad: boolean = true;
-  reconnectLoop;
-  connecting: boolean = false;
-  lastReconTime: Date = null;
+  connecting = null;
+  firstConnect = true;
+  isConnecting = false;
+  pendingOperations = [];
+  currentOperations = {};
 
   constructor(private toastr: ToastrService, private translate: TranslateService) {
   }
 
+  addToQueue(opName) {
+    this.pendingOperations.push(opName);
+  }
+
+  removeFromQueue(opName) {
+    const index = this.pendingOperations.findIndex((task) => task == opName);
+    if(index !== -1) {
+      this.pendingOperations.splice(index, 1);
+    }
+  }
+
+
+  removeDuplicatesFromQueue() {
+    this.pendingOperations = this.pendingOperations.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    })
+  }
+
+  addToCurrentoperations(opName, callback) {
+    this.currentOperations[opName] = callback;
+  }
+  removeDuplicatesFromCurrent() {
+    this.pendingOperations = this.pendingOperations.filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    })
+  }
+  reconnectOldStuff() {
+    for (var key in this.currentOperations) {
+      this.currentOperations[key]();
+    }
+  }
+
+
   publish(channel, obj) {
-    this.connect().then(() => {
+    const opName = "publish_" + channel;
+    this.addToQueue(opName);
+    this.getConnection().then(() => {
       if (this.connected) {
-        this.session.publish(channel, obj)
+        this.removeFromQueue(opName);
+        this.addToCurrentoperations(opName, () => { this.publish(channel, obj) });
+        this.session.publish(channel, obj);
       }
     });
   }
 
   subscribe(channel, callback) {
-    this.connect().then(() => {
+    const opName = "subscribe_" + channel;
+    this.addToQueue(opName);
+    this.getConnection().then((e) => {
       if (this.connected) {
-        this.session.subscribe(channel, callback);
+        this.removeFromQueue(opName);
+        this.addToCurrentoperations(opName, () => { this.subscribe(channel, callback) });
+        try {
+          this.session.subscribe(channel, callback);
+        }
+        catch(e) {
+          console.debug("WS tiny catch (subscribe): ", e);
+        }
       }
     });
   }
 
   unsubscribe(channel) {
-    this.connect().then(() => {
+    const opName = "unsubscribe_" + channel;
+    this.addToQueue(opName);
+    this.getConnection().then(() => {
       try {
         if (this.connected) {
+          this.removeFromQueue(opName);
+          this.addToCurrentoperations(opName, () => { this.unsubscribe(channel) });
           this.session.unsubscribe(channel);
         }
       }
       catch (e) {
+        console.debug("WS tiny catch (unsubscribe): ", e);
+      }
+    });
 
+  }
+
+  private wsConnection(): Promise<boolean> {
+    this.isConnecting = true;
+    let promise = new Promise<boolean>((resolve) => {
+      let con = WS_CONNECT.connect();
+
+      con.on("socket/connect", (sess: any) => {
+        if (this.firstConnect === false && this.connected == false) {
+          this.toastr.clear();
+          this.translate.get("ws.reconnect").subscribe((res: string) => {
+            this.toastr.info(
+              "",
+              res
+            );
+          });
+        }
+        this.removeDuplicatesFromQueue();
+        this.removeDuplicatesFromCurrent();
+        this.reconnectOldStuff();
+        this.connected = true;
+        this.session = sess;
+        this.isConnecting = false;
+        this.firstConnect = true;
+        resolve(true);
+      });
+
+
+      con.on("socket/disconnect", () => {
+        if (this.firstConnect) {
+          this.translate.get("ws.disconnected").subscribe((res: string) => {
+            this.toastr.error(
+              "",
+              res, {
+                progressBar: false,
+                tapToDismiss: false,
+                disableTimeOut: true
+              }
+            );
+          });
+        }
+        this.connected = false;
+        this.session = null;
+        this.isConnecting = false;
+        this.firstConnect = false;
+        resolve(false);
+      });
+    });
+    return promise;
+  }
+
+  private getConnectionWrapper(resolveCon) {
+    this.wsConnection().then((success) => {
+      if(success) {
+        resolveCon();
+      }
+      else {
+        if(this.firstConnect) {
+          this.getConnectionWrapper(resolveCon);
+        }
+        else {
+          setTimeout(() => this.getConnectionWrapper(resolveCon),1500);
+        }
       }
     });
   }
-
-
-  private connect(): Promise<void | {}> {
-    console.log("CONNECTING");
-    return new Promise((resolveGeneral, rejectGeneral) => {
-      if (this.session === null) {
-        if (this.sessionLoading === null) {
-
-          var con = WS_CONNECT.connect();
-          console.log("con");
-
-          con.on("socket/connect", (sess: any) => {
-            if (!this.firstLoad && this.connected == false) {
-              this.toastr.clear();
-              this.translate.get("ws.reconnect").subscribe((res: string) => {
-                this.toastr.info(
-                  "",
-                  res
-                );
-              });
-              this.toastrSent = false;
-            }
-            else {
-              this.firstLoad = false;
-            }
-
-            this.sessionLoading = null;
-
-            this.session = sess;
-            this.connected = true;
-            this.connecting = false;
-            resolveGeneral();
-          });
-
-
-          con.on("socket/disconnect", () => {
-            this.firstLoad = false;
-            this.connecting = false;
-
-            if (!this.toastrSent) {
-              this.translate.get("ws.disconnected").subscribe((res: string) => {
-                this.toastr.error(
-                  "",
-                  res, {
-                    progressBar: false,
-                    tapToDismiss: false,
-                    disableTimeOut: true
-                  }
-                );
-              });
-              this.toastrSent = true;
-              this.session = null;
-            }
-
-            rejectGeneral();
-          });
-        }
-        else {
-          this.sessionLoading.then(res => {
-            resolveGeneral()
-          });
-        }
-      }
-      else {
-        return this.sessionLoading;
-      }
-    }).then(() => {
-      console.log("full filled");
-    }).catch(() => {
-        console.log("error :)")
-      }
-    );
+  private getConnection() {
+    if (this.isConnecting === false && this.connected === false) {
+      this.connecting = new Promise((resolveCon, reject) => {
+        this.getConnectionWrapper(resolveCon);
+      });
+    }
+    return this.connecting;
   }
+
 }
