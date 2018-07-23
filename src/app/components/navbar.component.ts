@@ -31,6 +31,7 @@ import {deserialize} from "json-typescript-mapper";
 import {ConflictReasonManage} from "../kernel/model/conflict-reason-manage";
 import {WsService} from "../kernel/services/ws.service";
 import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
+import {WS_ONLINE} from "../kernel/libs/ws.lib";
 
 @Component({
   selector: 'main-content',
@@ -43,8 +44,20 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   uploadingLogo = false;
   logo: SafeStyle = "";
   canEditLogo = false;
+  canUseChat = false;
   discoName: string = "";
+  chatUsers = [];
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
+
+  getChatUsers() {
+    if (!WS_ONLINE) {
+      console.log("wsoffline");
+      this.chatUsers = null;
+    }
+    else {
+      console.log("cargar users!");
+    }
+  }
 
   isValidLogo(str) {
     var image = new Image();
@@ -120,6 +133,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.sessionInfo.getPermissions().then(res => {
       this.canEditLogo = res.findIndex(x => x.action === "CHANGE_LOGO") !== -1;
+      this.canUseChat = res.findIndex(x => x.action === "USE_CHAT") !== -1;
     });
     this.sessionInfo.getDiscoInfo().then(res => {
       this.setLogo(res.logo);
@@ -138,7 +152,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filteredMenuOptions: MenuOption[] = [];
   menuLoaded: boolean = false;
-  private user: User;
+  user: User;
   private userPermission: Array<Permission>;
 
   changeLogo() {
@@ -146,6 +160,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    this.getChatUsers();
     this.sessionInfo.getDiscoInfo().then(discoInfo => {
       this.sessionInfo.getUser().then(user => {
         this.sessionInfo.getPermissions().then(userPermission => {

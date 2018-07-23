@@ -11,9 +11,11 @@
                 class="hide-on-large-only">
       <mz-progress class="hide-on-large-only" *ngIf="filteredMenuOptions.length === 0"></mz-progress>
       <mz-sidenav-header>
-        <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
+        <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'"
+            (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
           <span class="logo" [style.background-image]="logo"></span>
-          <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
+          <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'"
+             icon="pencil"></i>
         </li>
       </mz-sidenav-header>
       <mz-sidenav-collapsible *ngFor="let menuOption of filteredMenuOptions">
@@ -42,9 +44,11 @@
       </mz-sidenav-collapsible>
     </mz-sidenav>
     <ul id="desktopMenu" class="col l3 xl2 hide-on-med-and-down own-sidenav menu">
-      <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'" (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
+      <li class="own-sidenav-user valign-wrapper" [ngClass]="'editable'"
+          (click)="canEditLogo ? changeLogo():router.navigate(['dashboard'])">
         <span class="logo" [style.background-image]="logo"></span>
-        <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'" icon="pencil"></i>
+        <i [ngClass]="!canEditLogo ? 'hidden':''" mz-icon-mdi class="material-icons edit" [align]="'right'"
+           icon="pencil"></i>
       </li>
       <li class="own-sidenav-links">
                 <span *ngIf="!menuLoaded">
@@ -97,7 +101,14 @@
     <section>
       <router-outlet></router-outlet>
     </section>
+    <section *ngIf="canUseChat">
+      <button class="open-chat-btn" mz-button [float]="true" id="chat-sidenav-trigger">
+        <i mz-icon-mdi [icon]="'message-text'"></i>
+      </button>
+    </section>
     <div class="clearfix"></div>
+
+
   </main>
 </div>
 
@@ -117,19 +128,19 @@
       <p [hidden]="uploadingLogo">Arrastra aquí tu logotipo o clicka en este cuadro para seleccionarlo. Aceptamos el
         formato svg, png, y jpg, con un tamaño máximo de 10 MB.</p>
       <div [hidden]="!uploadingLogo" class="uploading">
-      <div class="preloader-wrapper big active margin-top-40vh">
-        <div class="spinner-layer spinner-white-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
+        <div class="preloader-wrapper big active margin-top-40vh">
+          <div class="spinner-layer spinner-white-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </form>
   </mz-modal-content>
@@ -137,3 +148,38 @@
     <button [disabled]="uploadingLogo" mz-button [flat]="true" (click)="cancelUpload()" mz-modal-close>Cancelar</button>
   </mz-modal-footer>
 </mz-modal>
+
+<mz-sidenav *ngIf="canUseChat"
+            [id]="'chat-sidenav'"
+            [collapseButtonId]="'chat-sidenav-trigger'"
+            [draggable]="false"
+            edge="right">
+  <mz-sidenav-subheader *ngIf="null !== this.chatUsers"><span class="chat-status-dot online"></span> {{user?.firstname}}
+    {{user?.lastname}}
+    <button mz-button [float]="true">
+      <i mz-icon-mdi [icon]="'message-text'"></i>
+    </button>
+  </mz-sidenav-subheader>
+  <div *ngIf="null !== this.chatUsers">
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-link>
+      <a href="#" class="waves-effect"><span class="chat-status-dot online"></span> Second Link With Waves</a>
+    </mz-sidenav-link>
+    <mz-sidenav-link>
+      <a href="#" class="waves-effect"><span class="chat-status-dot offline"></span> Second Link With Waves</a>
+    </mz-sidenav-link>
+    <mz-sidenav-link>
+      <a href="#" class="waves-effect"><span class="chat-status-dot idle"></span> Second Link With Waves</a>
+    </mz-sidenav-link>
+  </div>
+  <div *ngIf="null !== this.chatUsers && this.chatUsers.length === 0">
+    <h4>No hay usuarios en el sistema.</h4>
+    <p>Aquí estarán todos los trabajadores, pero actualmente no hay nadie...</p>
+    <img class="no-users" draggable="false" src="assets/img/chat/no-users.jpg"/>
+  </div>
+  <div *ngIf="null === this.chatUsers">
+    <h4>Chat offline</h4>
+    <p>No se ha podido conectar con el servidor en tiempo real. Por favor, contacta con SCM o el técnico de tu local.</p>
+    <img class="no-users" draggable="false" src="assets/img/chat/no-users.jpg"/>
+  </div>
+</mz-sidenav>

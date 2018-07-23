@@ -4,6 +4,7 @@ import {APP_INITIALIZER, Provider, Injector} from '@angular/core';
 export var WS_CONNECT: any;
 declare const ab: any;
 
+export var WS_ONLINE = false;
 export function webSocketFactory(
     injector: Injector
 ): () => Promise<any> {
@@ -45,6 +46,7 @@ export function webSocketFactory(
                             //Function on connect
                             function (session) {
                                 that.fire({type: "socket/connect", data: session});
+                              WS_ONLINE = true;
                             },
 
                             //Function on disconnect / error
@@ -52,6 +54,7 @@ export function webSocketFactory(
                                 that._session = false;
 
                                 that.fire({type: "socket/disconnect", data: {code: code, reason: reason}});
+                              WS_ONLINE = false;
                             }
                         );
                     };

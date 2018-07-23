@@ -1780,21 +1780,26 @@ i.hidden {
   }
 }
 
-/* Responsive ngx-datatable */
-
-@media screen and (max-width: 800px) {
-  .desktop-hidden {
-    display: initial;
-  }
-  .mobile-hidden {
-    display: none;
-  }
+.open-chat-btn {
+  float: right;
+  bottom: 1em;
+  position: absolute;
+  right: 1em;
 }
-@media screen and (min-width: 800px) {
-  .desktop-hidden {
-    display: none;
+
+#chat-sidenav {
+  mz-sidenav-subheader > li > a > span, mz-sidenav-link > li > a > span {
+    margin-left: 1em
   }
-  .mobile-hidden {
-    display: initial;
+  img.no-users {
+    width: 100%;
+  }
+  h4 {
+    color: #000000;
+    padding: 1em
+  }
+  p {
+    color: #000000;
+    padding: 1em
   }
 }

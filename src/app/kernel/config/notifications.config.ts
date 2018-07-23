@@ -1,5 +1,5 @@
 export const NotificationOptions = {
-    position: ["bottom", "right"],
+    position: ["top", "right"],
     clickToClose: true,
     timeOut: 5000,
     lastOnBottom: true,

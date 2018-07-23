@@ -67,6 +67,12 @@ $theme-modal-content-input-underline-selected-color: #bdbdbd !default;
 $theme-modal-upload-spinner-color: #212121;
 $theme-text-selection-bg: #212121;
 $theme-text-selection-color: #FFFFFF;
+$theme-chat-trigger-bg-color: #fafafa;
+$theme-chat-trigger-text-color: #212121;
+$theme-chat-trigger-hover-bg-color: #e0e0e0;
+$theme-chat-trigger-hover-text-color: #616161;
+$theme-table-button-active-bg-color: #FFFFFF;
+$theme-chat-trigger-active-text-color: #000000;
 /*
 1. Estilo del preloader
  */
@@ -324,4 +330,42 @@ form.upload-logo div.uploading {
 nav {
   background-color: $theme-nav-mobile-bg-color;
   color: $theme-nav-mobile-text-color
+}
+
+/* 9. Chat */
+.open-chat-btn {
+  background-color: $theme-chat-trigger-bg-color;
+  color: $theme-chat-trigger-text-color;
+  &:hover {
+    background-color: $theme-chat-trigger-hover-bg-color;
+    color: $theme-chat-trigger-hover-text-color
+  }
+  &:active {
+    background-color: $theme-table-button-active-bg-color;
+    color: $theme-chat-trigger-active-text-color;
+  }
+  &:focus {
+    background-color: $theme-table-button-active-bg-color;
+    color: $theme-chat-trigger-active-text-color;
+  }
+  & > i {
+    color: $theme-chat-trigger-text-color
+  }
+}
+.chat-status-dot {
+  height: 1em;
+  width: 1em;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  &.online {
+    background-color: green
+  }
+  &.idle {
+    background-color: orange
+  }
+  &.offline {
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.02)
+  }
 }
