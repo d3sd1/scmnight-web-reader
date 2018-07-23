@@ -28,7 +28,8 @@
               "./node_modules/@swimlane/ngx-datatable/src/themes/material.scss",
               "./src/assets/css/main.scss",
               "./src/assets/css/tables.scss",
-              "./src/assets/css/default-theme.scss"
+              "./src/assets/css/default-theme.scss",
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",

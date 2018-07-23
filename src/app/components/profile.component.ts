@@ -8,9 +8,9 @@ import {AuthToken} from "../kernel/model/auth-token";
 import {ApiOptions} from "../kernel/config/api.config";
 import {ApiService} from "../kernel/services/api.service";
 import {LoadingBarService} from '@ngx-loading-bar/core';
-import {NotificationsService} from "angular2-notifications";
 import {finalize} from "rxjs/operators";
 import {NgTranslatesService} from "../kernel/services/ng-translates.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   templateUrl: '../templates/profile.component.html',
@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private baseLang: string = "";
 
   constructor(public translate: TranslateService, private sessionInfo: SessionSingleton, private api: ApiService, private loadingBar: LoadingBarService,
-              private notify: NotificationsService, private ngTranslateWrapper: NgTranslatesService) {
+              private toastr: ToastrService, private ngTranslateWrapper: NgTranslatesService) {
 
   }
 
@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       else {
 
         this.translate.get('api_notifications.NEW_PASSWORDS_DOESNT_MATCH').subscribe((res: string) => {
-          this.notify.error(
+          this.toastr.error(
             "",
             res
           );

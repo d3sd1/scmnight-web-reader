@@ -4,7 +4,7 @@ import {OnInit} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import {SimpleNotificationsModule} from 'angular2-notifications';
+import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
 
 /* Modules */
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
@@ -31,6 +31,7 @@ import {ApiErrorInterceptor} from './interceptors/api.error';
 import {ApiNotifierInterceptor} from './interceptors/api.notifier';
 import {ErrorComponent} from '../components/error.component';
 import {SessionService} from "./services/session.service";
+import {ToastrConfig} from "./config/toastr.config";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {SessionService} from "./services/session.service";
     LoggedInModule,
     BrowserModule,
     BrowserAnimationsModule,
-    SimpleNotificationsModule.forRoot(),
+    ToastrModule.forRoot(ToastrConfig),
+    ToastContainerModule,
     LanguageModule,
     AuthModule
   ],

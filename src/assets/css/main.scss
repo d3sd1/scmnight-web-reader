@@ -1803,3 +1803,9 @@ i.hidden {
     padding: 1em
   }
 }
+
+/* Notificaciones */
+#toast-container.toast-bottom-center {
+  bottom: 10%;
+  top: unset;
+}

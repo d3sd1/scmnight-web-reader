@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoadingBarService} from '@ngx-loading-bar/core';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {AuthToken} from '../kernel/model/auth-token';
 import {User} from '../kernel/model/user';
 import {TranslateService} from '@ngx-translate/core';
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private api: ApiService,
               private loadingBar: LoadingBarService,
-              private notify: NotificationsService,
+              private toastr: ToastrService,
               private translate: TranslateService,
               private sessMan: SessionService,
               private session: SessionSingleton,
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
       });
     } else {
       this.translate.get("notifications.GEOLOCATION_UNSUPPORTED").subscribe((res: string) => {
-        this.notify.warn(
+        this.toastr.warning(
           "",
           res
         );
@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
 
   private errorPosition() {
     this.translate.get("notifications.GEOLOCATION_DENIED").subscribe((res: string) => {
-      this.notify.warn(
+      this.toastr.warning(
         "",
         res
       );

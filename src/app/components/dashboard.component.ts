@@ -2,7 +2,6 @@ import {AfterContentInit, AfterViewInit, Component, OnDestroy} from '@angular/co
 import {UserEntrance} from "../kernel/model/user-entrance";
 import {deserialize} from "json-typescript-mapper";
 import {WsService} from "../kernel/services/ws.service";
-import {NotificationsService} from "angular2-notifications";
 import {UsersMock} from "../kernel/mock/users.mock";
 import {TranslateService} from "@ngx-translate/core";
 import {ApiService} from "../kernel/services/api.service";
@@ -12,6 +11,7 @@ import {User} from "../kernel/model/user";
 import {Config} from "../kernel/model/config";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ClientEntrance} from "../kernel/model/client-entrance";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   templateUrl: '../templates/dashboard.component.html',
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnDestroy, AfterViewInit {
     }
   ];
 
-  constructor(private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService) {
+  constructor(private ws: WsService, private api: ApiService, private toastr: ToastrService, private translate: TranslateService) {
     this.translate.get("dashboard.clientschart.users").subscribe((res: string) => {
       this.roomClients[0].name = res;
     });

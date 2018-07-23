@@ -21,9 +21,6 @@ import {Permission} from "../kernel/model/Permission";
 import {MzModalComponent} from "ngx-materialize";
 
 import {UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions} from 'ngx-uploader';
-import {NotificationsService} from "angular2-notifications";
-import {ApiOptions} from "../kernel/config/api.config";
-import {AuthToken} from "../kernel/model/auth-token";
 import {finalize} from "rxjs/operators";
 import {ApiService} from "../kernel/services/api.service";
 import {LoadingBarService} from '@ngx-loading-bar/core';
@@ -32,6 +29,7 @@ import {ConflictReasonManage} from "../kernel/model/conflict-reason-manage";
 import {WsService} from "../kernel/services/ws.service";
 import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
 import {WS_ONLINE} from "../kernel/libs/ws.lib";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'main-content',
@@ -93,7 +91,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     else {
 
       this.translate.get("logo_upload.error_uploading").subscribe((res: string) => {
-        this.notify.error(
+        this.toastr.error(
           "",
           res
         )
@@ -120,7 +118,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     reader.onerror = (error) => {
       this.translate.get("logo_upload.error_onupload").subscribe((res: string) => {
-        this.notify.error(
+        this.toastr.error(
           "",
           res
         );
@@ -129,7 +127,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  constructor(public router: Router, private _sanitizer: DomSanitizer, private ws: WsService, private loadingBar: LoadingBarService, private api: ApiService, private translate: TranslateService, private sessionInfo: SessionSingleton, private notify: NotificationsService) {
+  constructor(public router: Router, private _sanitizer: DomSanitizer, private ws: WsService, private loadingBar: LoadingBarService, private api: ApiService, private translate: TranslateService, private sessionInfo: SessionSingleton, private toastr: ToastrService) {
 
     this.sessionInfo.getPermissions().then(res => {
       this.canEditLogo = res.findIndex(x => x.action === "CHANGE_LOGO") !== -1;

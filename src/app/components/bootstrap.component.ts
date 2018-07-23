@@ -1,24 +1,25 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
-import {NotificationOptions} from '../kernel/config/notifications.config';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {PreloaderService} from '../kernel/services/preloader.service';
 import {SessionSingleton} from "../kernel/singletons/session.singleton";
 import {TranslateService} from "@ngx-translate/core";
 import {AuthService} from "../kernel/services/auth.service";
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
-  template: '<ngx-loading-bar></ngx-loading-bar><simple-notifications [options]="options"></simple-notifications><router-outlet></router-outlet>'
+  template: '<ngx-loading-bar></ngx-loading-bar><div toastContainer></div><router-outlet></router-outlet>'
 })
 export class BoostrapComponent implements AfterViewInit, OnInit {
-  public options = NotificationOptions;
+  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
-  constructor(private preloader: PreloaderService, private sessionInfo: SessionSingleton, private translate: TranslateService, private authService: AuthService) {
+  constructor(private toastrService: ToastrService, private preloader: PreloaderService, private sessionInfo: SessionSingleton, private translate: TranslateService, private authService: AuthService) {
   }
 
   ngOnInit() {
     this.translate.get('preloader.loading').subscribe((res: string) => {
       this.preloader.changeText(res);
     });
+    this.toastrService.overlayContainer = this.toastContainer;
   }
 
   ngAfterViewInit() {

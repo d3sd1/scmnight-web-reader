@@ -1,15 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoadingBarService} from '@ngx-loading-bar/core';
-import {NotificationsService} from 'angular2-notifications';
-import {AuthToken} from '../kernel/model/auth-token';
-import {TranslateService} from '@ngx-translate/core';
-import {ApiOptions} from '../kernel/config/api.config';
 import {ApiService} from '../kernel/services/api.service';
-import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
-  HttpErrorResponse
-} from '@angular/common/http';
 import {finalize} from "rxjs/operators";
 import {RecoverCode} from "../kernel/model/recover-code";
 
@@ -23,9 +15,7 @@ export class RecoverCodeComponent {
 
   constructor(private router: Router,
               private api: ApiService,
-              private loadingBar: LoadingBarService,
-              private notify: NotificationsService,
-              private translate: TranslateService) {
+              private loadingBar: LoadingBarService) {
   }
 
   finalRecoverAccount(): void {

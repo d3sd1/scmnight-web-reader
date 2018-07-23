@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
@@ -15,7 +15,7 @@ import {throwError} from "rxjs/internal/observable/throwError";
 @Injectable()
 export class ApiNotifierInterceptor implements HttpInterceptor {
   constructor(private router: Router,
-              private notify: NotificationsService,
+              private toastr: ToastrService,
               private translate: TranslateService) {
 
   }
@@ -24,37 +24,37 @@ export class ApiNotifierInterceptor implements HttpInterceptor {
     if (response.message !== null && typeof response.message != "undefined" && response.message !== "") {
       this.translate.get("api_notifications." + response.message).subscribe((translation: string) => {
         if (response.code > 0 && response.code <= 100) {
-          this.notify.alert(
+          this.toastr.show(
             "",
             translation
           );
         }
         else if (response.code >= 100 && response.code < 200) {
-          this.notify.info(
+          this.toastr.info(
             "",
             translation
           );
         }
         else if (response.code >= 200 && response.code < 300) {
-          this.notify.success(
+          this.toastr.success(
             "",
             translation
           );
         }
         else if (response.code > 300 && response.code < 400) {
-          this.notify.alert(
+          this.toastr.show(
             "",
             translation
           );
         }
         else if (response.code >= 400 && response.code < 500 && response.code != 401 && response.code != 406) {
-          this.notify.warn(
+          this.toastr.show(
             "",
             translation
           );
         }
         else if (response.code > 500 && response.code != 500) {
-          this.notify.error(
+          this.toastr.error(
             "",
             translation
           );

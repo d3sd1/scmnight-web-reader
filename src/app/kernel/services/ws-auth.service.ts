@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {WsService} from '../../kernel/services/ws.service';
 import {TranslateService} from '@ngx-translate/core';
-import {NotificationsService} from 'angular2-notifications';
-import {ApiOptions} from '../config/api.config';
+import { ToastrService } from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {SessionService} from "./session.service";
 
 @Injectable()
 export class WsAuthService {
-  constructor(private notify: NotificationsService, private translate: TranslateService, private ws: WsService, private router: Router, private sessMan: SessionService) {
+  constructor(private toastr: ToastrService, private translate: TranslateService, private ws: WsService, private router: Router, private sessMan: SessionService) {
   }
 
   loggedInGuard() {
@@ -28,7 +27,7 @@ export class WsAuthService {
         this.sessMan.delToken();
         this.router.navigate(['error/406']);
         this.translate.get("notifications.CONNECTED_OTHERWHERE").subscribe((res: string) => {
-          this.notify.warn(
+          this.toastr.warning(
             "",
             res
           );

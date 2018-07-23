@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoadingBarService} from '@ngx-loading-bar/core';
 import {TranslateService} from '@ngx-translate/core';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {ApiService} from '../kernel/services/api.service';
 import {ApiOptions} from '../kernel/config/api.config';
 import {AuthService} from '../kernel/services/auth.service';

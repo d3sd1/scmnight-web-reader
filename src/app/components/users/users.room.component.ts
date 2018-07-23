@@ -7,7 +7,7 @@ import {UserEntrance} from '../../kernel/model/user-entrance';
 import {UsersMock} from '../../kernel/mock/users.mock';
 import {deserialize} from 'json-typescript-mapper';
 import {ApiService} from '../../kernel/services/api.service';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 @Component({
     templateUrl: '../../templates/users.room.component.html',
@@ -23,7 +23,7 @@ export class UsersRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     delUser: User;
     ranks: number[] = ApiOptions.ranks;
 
-    constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService) {
+    constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private toastr: ToastrService, private translate: TranslateService) {
         this.page.pageNumber = 0;
         this.page.size = 10;
     }

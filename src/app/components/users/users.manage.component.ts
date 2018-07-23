@@ -7,7 +7,7 @@ import {UserManage} from '../../kernel/model/user-manage';
 import {UsersMock} from '../../kernel/mock/users.mock';
 import {deserialize} from 'json-typescript-mapper';
 import {ApiService} from '../../kernel/services/api.service';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 import {MzModalComponent} from "ngx-materialize";
@@ -44,7 +44,7 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     endingTop: '10%', // Ending top style attribute
   };
 
-  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService, private singleton: SessionSingleton, public cTranslate: CustomTranslatesService) {
+  constructor(private serverResultsService: UsersMock, private ws: WsService, private api: ApiService, private toastr: ToastrService, private translate: TranslateService, private singleton: SessionSingleton, public cTranslate: CustomTranslatesService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }

@@ -6,7 +6,7 @@ import {Config} from '../kernel/model/config';
 import {ConfigManage} from '../kernel/model/config-manage';
 import {ConfigMock} from '../kernel/mock/config.mock';
 import {ApiService} from '../kernel/services/api.service';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 import {deserialize} from 'json-typescript-mapper';
@@ -36,7 +36,7 @@ export class ConfigComponent implements OnInit, AfterViewInit, OnDestroy {
     endingTop: '10%', // Ending top style attribute
   };
 
-  constructor(private serverResultsService: ConfigMock, private ws: WsService, private api: ApiService, private notify: NotificationsService, private translate: TranslateService, private modalService: MzModalService) {
+  constructor(private serverResultsService: ConfigMock, private ws: WsService, private api: ApiService, private toastr: ToastrService, private translate: TranslateService, private modalService: MzModalService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
   }

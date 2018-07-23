@@ -123,7 +123,7 @@ export function webSocketFactory(
 
                 })();
                 function WS_MANAGER() {
-                    this.connect = function () {
+                    this.connect = () => {
                         return WS.connect((environment.socket.secure ? "wss://" : "ws://") + environment.socket.ip + ":" + environment.socket.port);
                     }
                 }

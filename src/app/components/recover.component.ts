@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoadingBarService} from '@ngx-loading-bar/core';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {AuthToken} from '../kernel/model/auth-token';
 import {TranslateService} from '@ngx-translate/core';
 import {ApiService} from '../kernel/services/api.service';
@@ -21,7 +21,7 @@ export class RecoverComponent {
   constructor(private router: Router,
               private api: ApiService,
               private loadingBar: LoadingBarService,
-              private notify: NotificationsService,
+              private toastr: ToastrService,
               private translate: TranslateService) {
   }
 
@@ -40,7 +40,7 @@ export class RecoverComponent {
     }
     else {
       this.translate.get("recover.error_propietary").subscribe((res: string) => {
-        this.notify.error(
+        this.toastr.error(
           "",
           res
         );

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {NotificationsService} from 'angular2-notifications';
+import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse,
@@ -14,7 +14,7 @@ import {SessionService} from "../services/session.service";
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router,
-              private notify: NotificationsService,
+              private toastr: ToastrService,
               private translate: TranslateService,
               private sessMan: SessionService) {
 
@@ -40,7 +40,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             this.translate.get('notifications.SESSION_EXPIRED').subscribe((res: string) => {
               this.router.navigate(['error/401']);
               this.sessMan.delToken();
-              this.notify.info(
+              this.toastr.info(
                 "",
                 res
               );
@@ -50,7 +50,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             this.sessMan.delToken();
             this.router.navigate(['error/406']);
             this.translate.get("notifications.CONNECTED_OTHERWHERE").subscribe((res: string) => {
-              this.notify.warn(
+              this.toastr.warning(
                 "",
                 res
               );
@@ -60,7 +60,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
             this.sessMan.delToken();
             this.router.navigate(['error/500']);
             this.translate.get("notifications.SERVER_ERROR").subscribe((res: string) => {
-              this.notify.warn(
+              this.toastr.warning(
                 "",
                 res
               );
