@@ -50,6 +50,7 @@ export class PermissionsManageComponent extends CustomLanguageCrud<PermissionLis
 
   ngOnDestroy(): void {
     this.hookOnDestroy();
+    this.managePermissionsModal.closeModal();
   }
 
   ngAfterViewInit() {

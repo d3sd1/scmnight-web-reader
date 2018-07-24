@@ -31,5 +31,6 @@ export class SessionService {
 
   delToken() {
     localStorage.clear();
+    /* fir for modal's when disconnecting, that keeped the overlay */
   }
 }

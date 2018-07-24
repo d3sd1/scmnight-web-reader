@@ -19,7 +19,7 @@ export class NgTranslatesService {
 
   }
   setTranslate(lang) {
-    if(lang in environment.availableLangs) {
+    if(environment.availableLangs.findIndex(x => x == lang) !== -1) {
       this.translate.setDefaultLang(lang);
       this.translate.use(lang);
     }
@@ -30,7 +30,7 @@ export class NgTranslatesService {
     }
   }
   setOnlyDefaultLang(lang) {
-    if(lang in environment.availableLangs) {
+    if(environment.availableLangs.findIndex(x => x == lang) !== -1) {
       this.translate.setDefaultLang(lang);
     }
     else {
