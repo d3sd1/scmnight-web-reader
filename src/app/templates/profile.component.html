@@ -7,7 +7,7 @@
         {{'profile.cardtitle' | translate}}
       </mz-card-title>
       <mz-card-content>
-        <div class="row">
+        <div class="row text-center">
           <mz-input-container class="col s12 m6 l4">
             <i mz-icon-mdi mz-input-prefix
                [icon]="'account-card-details'">
@@ -88,11 +88,23 @@
                     (change)="changeLanguage()"
                     [placeholder]="'Escoge tu idioma'"
             >
-              <option *ngFor="let lang of languages" [attr.data-icon]="'assets/img/langs/' + lang + '.png'" class="left circle"
+              <option *ngFor="let lang of languages" [attr.data-icon]="'assets/img/langs/' + lang + '.png'"
+                      class="left circle"
 
                       [value]="lang"
                       [attr.data-menulang]="lang">{{ 'langs.' + lang | translate }}
               </option>
+            </select>
+          </mz-select-container>
+          <mz-select-container class="col s12 m6 l4">
+            <select mz-select
+                    [name]="'prof-lang'"
+                    [label]="'Notificaciones de chat'"
+                    [(ngModel)]="user.chat_notifications"
+                    [placeholder]="'Ver notificaciones de estado del chat'"
+            >
+              <option [ngValue]="true">Si</option>
+              <option [ngValue]="false">No</option>
             </select>
           </mz-select-container>
           <mz-input-container class="col s12 m6 l4">
@@ -106,14 +118,15 @@
                    [validate]="true"
                    type="password">
           </mz-input-container>
-          <mz-switch-container class="col s12 m6 l4">
-            <input mz-switch
-                   [(ngModel)]="showPasswordChanger"
-                   [on]="'Cambiar contraseña'"
-                   [off]="'Mantener contraseña'"
-                   type="checkbox">
-          </mz-switch-container>
-
+          <div class="row">
+            <mz-switch-container class="col s12">
+              <input mz-switch
+                     [(ngModel)]="showPasswordChanger"
+                     [on]="'Cambiar contraseña'"
+                     [off]="'Mantener contraseña'"
+                     type="checkbox">
+            </mz-switch-container>
+          </div>
           <mz-input-container class="col s12 m6" *ngIf="showPasswordChanger" [@enterAnimation]>
             <i mz-icon-mdi mz-input-prefix
                [icon]="'lock'">

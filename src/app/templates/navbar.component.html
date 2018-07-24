@@ -154,22 +154,13 @@
             [collapseButtonId]="'chat-sidenav-trigger'"
             [draggable]="false"
             edge="right">
-  <mz-sidenav-subheader *ngIf="null !== this.chatUsers"><span class="chat-status-dot online"></span> {{user?.firstname}}
-    {{user?.lastname}}
-    <button mz-button [float]="true">
-      <i mz-icon-mdi [icon]="'message-text'"></i>
-    </button>
+  <mz-sidenav-subheader *ngIf="null !== this.chatUsers"><span class="chat-status-dot online"></span>
+    {{user?.firstname}} {{user?.lastname}}
   </mz-sidenav-subheader>
   <div *ngIf="null !== this.chatUsers">
     <mz-sidenav-divider></mz-sidenav-divider>
-    <mz-sidenav-link>
-      <a href="#" class="waves-effect"><span class="chat-status-dot online"></span> Second Link With Waves</a>
-    </mz-sidenav-link>
-    <mz-sidenav-link>
-      <a href="#" class="waves-effect"><span class="chat-status-dot offline"></span> Second Link With Waves</a>
-    </mz-sidenav-link>
-    <mz-sidenav-link>
-      <a href="#" class="waves-effect"><span class="chat-status-dot idle"></span> Second Link With Waves</a>
+    <mz-sidenav-link *ngFor="let chatUser of this.chatUsers">
+      <a href="#" class="waves-effect"><span class="chat-status-dot {{chatUser.chat_status?.chat_status.toLowerCase()}}"></span> {{chatUser.firstname}} {{chatUser.lastname}}</a>
     </mz-sidenav-link>
   </div>
   <div *ngIf="null !== this.chatUsers && this.chatUsers.length === 0">
@@ -177,9 +168,14 @@
     <p>Aquí estarán todos los trabajadores, pero actualmente no hay nadie...</p>
     <img class="no-users" draggable="false" src="assets/img/chat/no-users.jpg"/>
   </div>
-  <div *ngIf="null === this.chatUsers">
+  <div *ngIf="null === this.chatUsers && !firstChatLoad">
     <h4>Chat offline</h4>
     <p>No se ha podido conectar con el servidor en tiempo real. Por favor, contacta con SCM o el técnico de tu local.</p>
     <img class="no-users" draggable="false" src="assets/img/chat/chat-offline.jpg"/>
+  </div>
+  <div *ngIf="null === this.chatUsers && firstChatLoad">
+    <h4>Cargando chat...</h4>
+    <p>Estamos preparando todo...</p>
+    <img class="no-users" draggable="false" src="assets/img/chat/no-users.jpg"/>
   </div>
 </mz-sidenav>

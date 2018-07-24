@@ -34,7 +34,7 @@ import {ToastrService} from "ngx-toastr";
   selector: 'main-content',
   templateUrl: '../templates/navbar.component.html'
 })
-export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   options: UploaderOptions;
   uploadInput: EventEmitter<UploadInput>;
@@ -43,17 +43,31 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   canEditLogo = false;
   canUseChat = false;
   discoName: string = "";
-  chatUsers = null;
+  chatUsers: Array<User> = null;
+  firstChatLoad = true;
+
   @ViewChild('changeLogoModal') changeLogoModal: MzModalComponent;
 
   loadChat() {
     if (!this.ws.connected) {
-      console.log("wsoffline");
       this.chatUsers = null;
+      this.firstChatLoad = true;
     }
     else {
       this.chatUsers = [];
-      console.log("cargar users!");
+      /* Cargar usuarios del chat */
+      this.api.get("rest/chat/users").subscribe(
+        (users: Array<User>) => {
+          users.forEach((user: User, index: number) => {
+            this.onChatUpdate(() => {
+              if (index === users.length - 1) {
+                this.firstChatLoad = false;
+              }
+            }, user);
+          });
+        }, () => {
+          this.firstChatLoad = false;
+        });
     }
   }
 
@@ -74,11 +88,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.ws.unsubscribe("scm/config_logo");
+    this.ws.unsubscribe("scm/chat_users");
     this.changeLogoModal.closeModal();
-  }
-
-  ngAfterViewInit() {
-    this.ws.subscribe("scm/config_logo", this.onLogoChanged.bind(this));
   }
 
   private onLogoChanged(uri: any, img: any) {
@@ -158,7 +169,80 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changeLogoModal.openModal();
   }
 
+  onChatUpdate(uri: any, data: any) {
+    let user: User;
+    if (typeof data == "string") {
+      user = deserialize(User, JSON.parse(data));
+    }
+    else {
+      user = deserialize(User, data);
+    }
+
+    /* prevent actual session user to appear on chat */
+    if (user.dni == this.user.dni) {
+      return false;
+    }
+
+    /* check if user exists */
+    const actualUserIndex = this.chatUsers.findIndex(x => x.dni == user.dni);
+    if (actualUserIndex !== -1) {
+      this.chatUsers[actualUserIndex] = user;
+    }
+    else {
+      this.chatUsers.push(user);
+    }
+
+    /* alert actual user if needed */
+    this.sessionInfo.getUser().then(sessUser => {
+      if (!this.firstChatLoad && sessUser.chat_notifications) {
+        if (user.chat_status.chat_status == "ONLINE") {
+          this.toastr.info(user.firstname + " " + user.lastname + " se ha conectado al chat.", "", {
+            timeOut: 2000,
+            tapToDismiss: true
+          });
+        }
+        else if (user.chat_status.chat_status == "OFFLINE") {
+          this.toastr.info(user.firstname + " " + user.lastname + " se ha desconectado del chat.", "", {
+            timeOut: 2000,
+            tapToDismiss: true
+          });
+        }
+      }
+
+      /* execute uri if it's callback */
+      if (typeof uri == "function") {
+        uri();
+      }
+    });
+
+    /* Reorder array to see online first and that stuff */
+    this.chatUsers.sort((u1: User, u2: User) => {
+      switch (u1.chat_status.chat_status) {
+        case "ONLINE":
+          return -1;
+        case "OFFLINE":
+          return 1;
+        case "IDLE":
+          switch (u2.chat_status.chat_status) {
+            case "ONLINE":
+              return 1;
+            case "OFFLINE":
+              return -1;
+            case "IDLE":
+              return 0;
+            default:
+              return 1;
+          }
+        default:
+          return 1;
+      }
+    });
+  }
+
   ngOnInit() {
+    this.ws.subscribe("scm/config_logo", this.onLogoChanged.bind(this));
+    this.ws.subscribe("scm/chat_users", this.onChatUpdate.bind(this));
+
     /* Recargar estado del chat siempre que pase algo en los websockets */
     this.ws.onConnect(() => {
       this.loadChat();
