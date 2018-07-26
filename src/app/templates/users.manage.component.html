@@ -103,7 +103,8 @@
               id="basic-select"
               (change)="setPredefinedPermissions($event.target.value)"
               [placeholder]="'Seleccionar lista de permisos predefinida'">
-        <option *ngFor="let permissionList of permissionLists" value="{{permissionList.id}}">{{"PERMISSION." + permissionList.list_key_name |
+        <option *ngFor="let permissionList of permissionLists" value="{{permissionList.id}}">{{"PERMISSION." +
+          permissionList.list_key_name |
           cTranslate:userInfo.lang_code}}
         </option>
       </select>
@@ -151,26 +152,27 @@
     <h4>Gestionar usuario</h4>
   </mz-modal-header>
   <mz-modal-content>
-    <form materialize class="col s12" usersCrud>
-      <div class="row">
-        <mz-input-container class="col s12 m6">
+    <div class="row">
+      <form>
+        <mz-input-container>
           <i mz-icon-mdi mz-input-prefix
              [icon]="'email'">
           </i>
           <input mz-input
-                 name="email"
                  [(ngModel)]="modalUser.email"
                  [label]="'Email'"
                  [validate]="true"
-                 [dataError]="'El formato del email es inválido.'"
+                 [dataError]="'Email no aceptado.'"
                  [dataSuccess]="'¡Email válido!'"
-                 placeholder="Email"
+                 name="user-email"
+                 id="user-email"
                  length="150"
+                 autocomplete="off"
                  type="email">
         </mz-input-container>
-        <mz-input-container class="col s12 m6">
+        <mz-input-container>
           <i mz-icon-mdi mz-input-prefix
-             [icon]="'email'">
+             [icon]="'account-circle'">
           </i>
           <input mz-input
                  name="firstname"
@@ -179,13 +181,13 @@
                  [validate]="true"
                  [dataError]="'Nombre no aceptado.'"
                  [dataSuccess]="'¡Nombre válido!'"
-                 placeholder="Nombre"
+                 autocomplete="off"
                  length="150"
                  type="text">
         </mz-input-container>
-        <mz-input-container class="col s12 m6">
+        <mz-input-container>
           <i mz-icon-mdi mz-input-prefix
-             [icon]="'email'">
+             [icon]="'account-group'">
           </i>
           <input mz-input
                  name="lastname"
@@ -194,13 +196,13 @@
                  [validate]="true"
                  [dataError]="'Apellidos no aceptados.'"
                  [dataSuccess]="'¡Apellidos válidos!'"
-                 placeholder="Apellidos"
+                 autocomplete="off"
                  length="150"
                  type="text">
         </mz-input-container>
-        <mz-input-container class="col s12 m6">
+        <mz-input-container>
           <i mz-icon-mdi mz-input-prefix
-             [icon]="'email'">
+             [icon]="'account-card-details'">
           </i>
           <input mz-input
                  name="dni"
@@ -209,42 +211,12 @@
                  [validate]="true"
                  [dataError]="'Identificación no aceptada.'"
                  [dataSuccess]="'¡Identificación válida!'"
-                 placeholder="DNI, NIE o Pasaporte"
                  length="150"
+                 autocomplete="off"
                  type="text">
         </mz-input-container>
-        <mz-input-container class="col s12 m6">
-          <i mz-icon-mdi mz-input-prefix
-             [icon]="'email'">
-          </i>
-          <input mz-input
-                 name="telephone"
-                 [(ngModel)]="modalUser.telephone"
-                 [label]="'Teléfono'"
-                 [validate]="true"
-                 [dataError]="'Teléfono no aceptado.'"
-                 [dataSuccess]="'¡Teléfono válido!'"
-                 placeholder="Teléfono"
-                 length="150"
-                 type="tel">
-        </mz-input-container>
-        <mz-input-container class="col s12 m6">
-          <i mz-icon-mdi mz-input-prefix
-             [icon]="'email'">
-          </i>
-          <input mz-input
-                 name="address"
-                 [(ngModel)]="modalUser.address"
-                 [label]="'Dirección'"
-                 [validate]="true"
-                 [dataError]="'Dirección no aceptada.'"
-                 [dataSuccess]="'¡Dirección válida!'"
-                 placeholder="Dirección"
-                 length="150"
-                 type="text">
-        </mz-input-container>
-      </div>
-    </form>
+      </form>
+    </div>
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close>Cancelar</button>

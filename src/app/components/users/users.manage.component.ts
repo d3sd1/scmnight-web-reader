@@ -69,11 +69,9 @@ export class UsersManageComponent implements OnInit, AfterViewInit, OnDestroy {
     let call, typeName;
     if (this.editTypeAdd) {
       call = this.api.put("rest/users/add", this.modalUser);
-      typeName = "add";
     }
     else {
       call = this.api.post("rest/users/mod", this.modalUser);
-      typeName = "edit";
     }
 
     call.pipe(finalize(() => {

@@ -21,7 +21,10 @@ export class RanksService implements CanActivate {
           console.warn("permisos no configurados para ruta ", route.data);
           return true;
         }
-        return userPermissions !== null && typeof userPermissions.find(x => x.action === data.requiredPermission) !== "undefined";
+        const allowed = userPermissions !== null && typeof userPermissions.find(x => x.action === data.requiredPermission) !== "undefined";
+        //TODO: para cambiar la ruta de inicio hacerlo aqui. hay un problema y es que a veces peta por los loles ?
+        console.log("allowed on route: ", allowed, user);
+        return allowed;
       });
 
     });

@@ -1815,3 +1815,6 @@ i.hidden {
   width: 100%;
   height: 100%
 }
+.modal.modal-fixed-footer .modal-content {
+  overflow-y: unset;
+}

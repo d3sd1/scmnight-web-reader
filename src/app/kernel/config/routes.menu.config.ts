@@ -22,6 +22,7 @@ import {StockManageComponent} from "../../components/stock/stock.manage.componen
 import {PermissionsManageComponent} from "../../components/users/permissions.manage.component";
 import {CustomTranslateManageComponent} from "../../components/custom-translate.manage.component";
 
+
 export const MenuRoutes: Routes = [
   {
     path: '',

@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   discoName: string = "";
   chatUsers: Array<User> = null;
   firstChatLoad = true;
-  inactivityMS: number = 5000;
+  inactivityMS: number = 300000; //5 min
   userInactive: boolean = false;
   inactivityTimeout = null;
   settingInactive = false;
@@ -308,7 +308,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   /* Set user status when closing browser */
   @HostListener('window:beforeunload', ['$event'])
   public beforeunloadHandler($event) {
-    console.log("Ending chat..");
     let xhr = new XMLHttpRequest();
     xhr.open("POST",environment.baseUrl + "rest/chat/user/offline",false);
     xhr.setRequestHeader('Content-Type', 'application/json');

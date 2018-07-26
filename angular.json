@@ -38,7 +38,7 @@
             ]
           },
           "configurations": {
-            "prod": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -55,7 +55,7 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "dev": {
+            "development": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
@@ -74,11 +74,11 @@
             "browserTarget": "scm-disco:build"
           },
           "configurations": {
-            "dev": {
-              "browserTarget": "scm-disco:build:dev"
+            "development": {
+              "browserTarget": "scm-disco:build:development"
             },
-            "prod": {
-              "browserTarget": "scm-disco:build:prod"
+            "production": {
+              "browserTarget": "scm-disco:build:production"
             }
           }
         },
@@ -130,8 +130,8 @@
             "devServerTarget": "scm-disco:serve"
           },
           "configurations": {
-            "prod": {
-              "devServerTarget": "scm-disco:serve:prod"
+            "production": {
+              "devServerTarget": "scm-disco:serve:production"
             }
           }
         },
